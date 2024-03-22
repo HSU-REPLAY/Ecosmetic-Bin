@@ -1,2 +1,1 @@
-# Ecosmetic Bic
-# Cisco Innovation Challenge_Hackathon
+# Ecosmetic-Bin

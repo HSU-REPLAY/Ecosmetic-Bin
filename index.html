@@ -4,10 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecosmetic Bin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js" type="text/javascript"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
     <style>
+        .button {
+            min-width: 10px;
+            max-width: 250px;
+            height: 30px;
+            border: none;
+            background: none;
+            color: inherit;
+            position: relative;
+            z-index: 1;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .button:focus {
+            outline: none;
+        }
+        .button > span {
+            vertical-align: middle;
+        }
+        .button--border-medium {
+            border: 2px solid;
+        }
+        .button--round-s {
+            border-radius: 5px;
+        }
+        .button--text-thick {
+            font-weight: 600;
+        }
+        .button--ujarak {
+            -webkit-transition: border-color 0.4s, color 0.4s;
+            transition: border-color 0.4s, color 0.4s;
+        }
+        .button--ujarak::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #37474f;
+            z-index: -1;
+            opacity: 0;
+            -webkit-transform: scale3d(0.7, 1, 1);
+            transform: scale3d(0.7, 1, 1);
+            -webkit-transition: -webkit-transform 0.4s, opacity 0.4s;
+            transition: transform 0.4s, opacity 0.4s;
+            -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+            transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .button--ujarak.button--round-s::before {
+            border-radius: 2px;
+        }
+        .button--ujarak,
+        .button--ujarak::before {
+            -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+            transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .button--ujarak:hover {
+            color: #fff;
+            border-color: #1F891F;
+        }
+        .button--ujarak.button--inverted:hover {
+            color: #1F891F;
+            border-color: #fff;
+        }
+        .button--ujarak:hover::before {
+            opacity: 1;
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
         body {
             text-align: center;
             align-items: center;
+            background-color: #C1F1C1;
         }
         table { 
             border: 1px solid;
@@ -16,6 +89,12 @@
             margin: auto;
             display: none;
             margin: 20px;
+        }
+        body {
+            font-family: "Hahmlet";
+        }
+        #firstWord {
+            color: #1F891F;
         }
         caption {
             caption-side: bottom;
@@ -33,10 +112,9 @@
             display: none;
         }
     </style>
-    <script src="./mqttio.js" type="text/javascript"></script>
+    <script src="./mqttio.js"></script>
     <script>
         screen.orientation.lock("portrait-primary");
-
 
         let total = 0;
         let intervalId = null;
@@ -49,54 +127,23 @@
             total = 0;
         }
 
-        function userLogin() {
-            let userName = document.getElementById("getUserName").value.trim();
-            document.getElementById("userName").innerHTML += userName;
-            document.getElementById("getUserName").style.display = "none";
-            document.getElementById("loginButton").style.display = "none";
-            document.getElementById("operateButton").innerHTML = "start";
-            for (let i = 0; i < hiddenItems.length; i++) {
-                hiddenItems[i].style.display = "inline";
-            }
-            
-            for (let i = 0; i < tables.length; i++) {
-                tables[i].style.display = "inline-table";
-            }
-            document.getElementById("total").innerHTML = "배출량: " + total;
-        }
-
-        function userLogout() {
-            init();
-            document.getElementById("loginButton").style.display = "inline";
-            document.getElementById("userName").innerHTML = "사용자 이름: ";
-            document.getElementById("getUserName").style.display = "inline";
-            document.getElementById("getUserName").value = "";
-            let hiddenItems = document.getElementsByClassName("hidden");
-            for (let i = 0; i < hiddenItems.length; i++) {
-                hiddenItems[i].style.display = "none";
-            }
-            let tables = document.getElementsByClassName("trashbin");
-            for (let i = 0; i < tables.length; i++) {
-                tables[i].style.display = "none";
-            }
-        }
-
         function operate() {
             let operateButton =  document.getElementById("operateButton").innerHTML;
             if(operateButton == "start") {
+                publish("login", userName);
+                subscribe("data/topic");
                 count++;
                 if(count % 2 == 0) {
-                    intervalId = setInterval(function() { moveImageDown('glass', './2.png'); }, 300);
+                    //intervalId = setInterval(function() { moveImageDown('glass', './2.png'); }, 300);
                 }
                 else {
-                    intervalId = setInterval(function() { moveImageDown('plastic', './1.png'); }, 300);
+                    //intervalId = setInterval(function() { moveImageDown('plastic', './1.png'); }, 300);
                 }
                 document.getElementById("operateButton").innerHTML = "finish";
-                total++;
-                document.getElementById("total").innerHTML = "배출량: " + total;
                 
             } 
             else {
+                unsubscribe("data/topic");
                 clearInterval(intervalId);
                 document.getElementById("operateButton").innerHTML = "start";
             } 
@@ -122,24 +169,22 @@
             for(let i=0; i<tds.length; i++) {
                 tds[i].innerHTML = '';
             }
-            total = 0;
-            document.getElementById("total").innerHTML = "배출량: " + total;
         }
 
     </script>
 </head>
 <body>
-    <h1>Ecosmetic Bin</h1>
-    <hr>
+    <img src="./ecoIcon.png" width="100" height="100" alt=""> <h1><span id="firstWord">Eco</span>smetic Bin</h1>
     <div id="messages"></div>
     <label for="getUserName" id="userName" >사용자 이름: </label>
     <input type="text" id="getUserName">
-    <button onclick="userLogin()" id="loginButton">Login</button> 
-    <button onclick="userLogout()" id="logoutButton" class="hidden">Logout</button>
+    <button onclick="startConnect()" id="loginButton" class="button button--ujarak button--border-medium button--round-s button--text-thick">Login</button>
+    <button onclick="startDisconnect()" id="logoutButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">Logout</button>
     <br>
     <span id="total" class="hidden">배출량: </span><br>
-    <button onclick="operate()" id="operateButton" class="hidden">start</button>
-    <button onclick="cleanTrashcan()" id="operateButton" class="hidden">clean</button><br><br>
+    <button onclick="operate()" id="operateButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">start</button>
+    <button onclick="cleanTrashcan()" id="operateButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">clean</button><br><br>
+
     <table class="trashbin" id="glassTable">
         <caption>유리</caption>
         <tr><td></td></tr>
