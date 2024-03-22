@@ -17,6 +17,7 @@ def cam():
     camera.release()
 
 def perform_ocr(image_path):
+    global plastic_cnt, can_cnt, glass_cnt
     plastic_cnt = 0
     can_cnt = 0
     glass_cnt = 0
