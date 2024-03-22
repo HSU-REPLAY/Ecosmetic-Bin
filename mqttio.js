@@ -6,7 +6,7 @@ function startConnect() { // 브로커에 접속하는 함수
 	if(connectionFlag == true)
 		return; // 현재 연결 상태이므로 다시 연결하지 않음
 
-	let broker = "localhost";
+	let broker = "172.20.10.12";
 	let port = 9001;
 
 	userName = document.getElementById("getUserName").value.trim();
@@ -79,12 +79,12 @@ function onConnectionLost(responseObject) { // responseObject는 응답 패킷
 
 // 메시지가 도착할 때 호출되는 함수
 function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지를 담고 있는 객체
-	
-	let dataString = JSON.parse(msg.payloadString);
-	var plasticCount = dataString.plastic_count;
-    var canCount = dataString.can_count;
-    var glassCount = dataString.glass_count;
-	document.getElementById("messages").innerHTML = '<span>메세지 도착: ' + msg.destinationName  + '플라스틱 수: ' + plasticCount + ', 캔 수: ' + canCount + ', 유리 수: ' + glassCount + '</span><br/>';
+	document.getElementById("messages").innerHTML = '<span>메세지 도착: ' + msg.payloadString + '</span><br/>';
+	let msgString = msg.payloadString.split(",");
+	let plasticCount = parseInt(msgString[1]);
+	let canCount = parseInt(msgString[2]);
+	let glassCount = parseInt(msgString[3]);
+
 	total = plasticCount + canCount + glassCount;
 	if(plasticCount > 0) {
 		intervalId = setInterval(function() {moveImageDown('plastic', './1.png');}, 300);

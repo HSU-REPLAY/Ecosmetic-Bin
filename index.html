@@ -131,19 +131,12 @@
             let operateButton =  document.getElementById("operateButton").innerHTML;
             if(operateButton == "start") {
                 publish("login", userName);
-                subscribe("data/topic");
-                count++;
-                if(count % 2 == 0) {
-                    //intervalId = setInterval(function() { moveImageDown('glass', './2.png'); }, 300);
-                }
-                else {
-                    //intervalId = setInterval(function() { moveImageDown('plastic', './1.png'); }, 300);
-                }
+                subscribe("push");
                 document.getElementById("operateButton").innerHTML = "finish";
                 
             } 
             else {
-                unsubscribe("data/topic");
+                unsubscribe("push");
                 clearInterval(intervalId);
                 document.getElementById("operateButton").innerHTML = "start";
             } 
