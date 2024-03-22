@@ -6,7 +6,7 @@ function startConnect() { // 브로커에 접속하는 함수
 	if(connectionFlag == true)
 		return; // 현재 연결 상태이므로 다시 연결하지 않음
 
-	let broker = "172.20.10.12";
+	let broker = "localhost";
 	let port = 9001;
 
 	userName = document.getElementById("getUserName").value.trim();
