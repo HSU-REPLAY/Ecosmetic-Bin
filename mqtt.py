@@ -11,7 +11,7 @@ def on_connect(client, userdata, flag, rc):
 #"login" 토픽으로 메세지가 날라오면 cam()함수 호출
 def on_message(client, userdata, msg) :
     camocr.cam() # 함수 호출
-    new_payload = str(msg.payload) + ',' + camocr.getCnt()
+    new_payload = str(msg.payload.decode()) + ',' + camocr.getCnt()
     # 새로운 문자열을 새로운 토픽으로 발행
     client.publish("push", new_payload)
     print("publish(\"push\", ", new_payload, ")")
