@@ -18,7 +18,8 @@ def on_message(client, userdata, msg) :
 
 ip = "localhost" # 현재 브로커는 이 컴퓨터에 설치되어 있음
 
-client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
+client = mqtt.Client()
+#mqtt version 오류가 나온다면 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1) 로 수정
 client.on_connect = on_connect
 client.on_message = on_message
 
