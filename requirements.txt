@@ -1,0 +1,4 @@
+pytesseract==0.3.8
+opencv-python==4.9.0.80
+paho-mqtt==1.5.1
+
