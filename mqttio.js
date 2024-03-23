@@ -1,6 +1,9 @@
 let client = null; // MQTT 클라이언트의 역할을 하는 Client 객체를 가리키는 전역변수
 let connectionFlag = false; // 연결 상태이면 true
 let userName;
+let prevPlasticCount = 0;
+let prevCanCount = 0;
+let prevGlassCount = 0;
 
 function startConnect() { // 브로커에 접속하는 함수
 	if(connectionFlag == true)
@@ -10,7 +13,7 @@ function startConnect() { // 브로커에 접속하는 함수
 	let port = 9001;
 
 	userName = document.getElementById("getUserName").value.trim();
-	document.getElementById("userName").innerHTML += userName;
+	document.getElementById("userName").innerHTML += "<b>" + userName + "</b>";
 	document.getElementById("getUserName").style.display = "none";
 	document.getElementById("loginButton").style.display = "none";
 	document.getElementById("operateButton").innerHTML = "start";
@@ -84,19 +87,26 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 	let plasticCount = parseInt(msgString[1]);
 	let canCount = parseInt(msgString[2]);
 	let glassCount = parseInt(msgString[3]);
-
-	total = plasticCount + canCount + glassCount;
-	if(plasticCount > 0) {
-		intervalId = setInterval(function() {moveImageDown('plastic', './1.png');}, 300);
-		plasticCount--;
-	}
-	if(glassCount > 0) {
-		intervalId = setInterval(function() {moveImageDown('glass', './2.png');}, 300);
-		glassCount--;
-	}
-	if(canCount > 0) {
-		intervalId = setInterval(function() {moveImageDown('aluminium', './1.png');}, 300);
-		canCount--;
+	
+	// 변화된 값 확인 및 total 업데이트
+	if(plasticCount !== prevPlasticCount) {
+		total += (plasticCount - prevPlasticCount); // 변화된 양만큼 total 업데이트
+		prevPlasticCount = plasticCount; // 이전 값 업데이트
+		intervalId = setInterval(function() {
+			moveImageDown('plastic', './1.png');
+		}, 300);
+	} else if(canCount !== prevCanCount) {
+		total += (canCount - prevCanCount);
+		prevCanCount = canCount;
+		intervalId = setInterval(function() {
+			moveImageDown('can', './1.png');
+		}, 300);
+	} else if(glassCount !== prevGlassCount) {
+		total += (glassCount - prevGlassCount);
+		prevGlassCount = glassCount;
+		intervalId = setInterval(function() {
+			moveImageDown('glass', './2.png');
+		}, 300);
 	}
 	document.getElementById("total").innerHTML = "배출량: " + total;
 }
