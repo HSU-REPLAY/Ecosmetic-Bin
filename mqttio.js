@@ -11,7 +11,7 @@ function startConnect() { // 브로커에 접속하는 함수
 
 	let broker = "localhost";
 	let port = 9001;
-
+	
 	userName = document.getElementById("getUserName").value.trim();
 	document.getElementById("userName").innerHTML += "<b>" + userName + "</b>";
 	document.getElementById("getUserName").style.display = "none";
@@ -37,6 +37,12 @@ function startConnect() { // 브로커에 접속하는 함수
 	client.connect({
 		onSuccess:onConnect, // 브로커로부터 접속 응답 시 onConnect() 실행
 	});
+	
+	
+	// exist 토픽 구독
+	// 사용자 id가 서버 db에 존재하는지 확인
+	// subscribe("exist"); 
+	document.documentElement.style.top = "78%"; // 화면 비율 조정
 }
 
 // 브로커로의 접속이 성공할 때 호출되는 함수
@@ -82,31 +88,38 @@ function onConnectionLost(responseObject) { // responseObject는 응답 패킷
 
 // 메시지가 도착할 때 호출되는 함수
 function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지를 담고 있는 객체
-	document.getElementById("messages").innerHTML = '<span>메세지 도착: ' + msg.payloadString + '</span><br/>';
-	let msgString = msg.payloadString.split(",");
-	let plasticCount = parseInt(msgString[1]);
-	let canCount = parseInt(msgString[2]);
-	let glassCount = parseInt(msgString[3]);
-	
-	// 변화된 값 확인 및 total 업데이트
-	if(plasticCount !== prevPlasticCount) {
-		total += (plasticCount - prevPlasticCount); // 변화된 양만큼 total 업데이트
-		prevPlasticCount = plasticCount; // 이전 값 업데이트
-		intervalId = setInterval(function() {
-			moveImageDown('plastic', './1.png');
-		}, 300);
-	} else if(canCount !== prevCanCount) {
-		total += (canCount - prevCanCount);
-		prevCanCount = canCount;
-		intervalId = setInterval(function() {
-			moveImageDown('can', './1.png');
-		}, 300);
-	} else if(glassCount !== prevGlassCount) {
-		total += (glassCount - prevGlassCount);
-		prevGlassCount = glassCount;
-		intervalId = setInterval(function() {
-			moveImageDown('glass', './2.png');
-		}, 300);
+	document.getElementById("messages").innerHTML = '<span>메세지 도착: ' + msg.payloadString + '</span><br>';
+	if(msg.destinationName == "exist") {
+		if(msg.payloadString == "false") {
+			document.getElementById("messages").innerHTML = "<span>등록되지 않은 사용자입니다. 다시 입력해주세요. </span><br>"
+		}
+	}
+	else {
+		let msgString = msg.payloadString.split(",");
+		let plasticCount = parseInt(msgString[1]);
+		let canCount = parseInt(msgString[2]);
+		let glassCount = parseInt(msgString[3]);
+		
+		// 변화된 값 확인 및 total 업데이트
+		if(plasticCount !== prevPlasticCount) {
+			total += (plasticCount - prevPlasticCount); // 변화된 양만큼 total 업데이트
+			prevPlasticCount = plasticCount; // 이전 값 업데이트
+			intervalId = setInterval(function() {
+				moveImageDown('plastic', './1.png');
+			}, 300);
+		} else if(canCount !== prevCanCount) {
+			total += (canCount - prevCanCount);
+			prevCanCount = canCount;
+			intervalId = setInterval(function() {
+				moveImageDown('can', './1.png');
+			}, 300);
+		} else if(glassCount !== prevGlassCount) {
+			total += (glassCount - prevGlassCount);
+			prevGlassCount = glassCount;
+			intervalId = setInterval(function() {
+				moveImageDown('glass', './2.png');
+			}, 300);
+		}
 	}
 	document.getElementById("total").innerHTML = "배출량: " + total;
 }
@@ -115,8 +128,6 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 function startDisconnect() {
 	if(connectionFlag == false) 
 		return; // 연결 되지 않은 상태이면 그냥 리턴
-
-	init();
 	document.getElementById("loginButton").style.display = "inline";
 	document.getElementById("userName").innerHTML = "사용자 이름: ";
 	document.getElementById("getUserName").style.display = "inline";
@@ -129,8 +140,8 @@ function startDisconnect() {
 	for (let i = 0; i < tables.length; i++) {
 		tables[i].style.display = "none";
 	}
-
 	client.disconnect(); // 브로커와 접속 해제
 	document.getElementById("messages").innerHTML = '<span>연결종료</span><br/>';
 	connectionFlag = false; // 연결 되지 않은 상태로 설정
+	document.documentElement.style.top = "65%";
 }

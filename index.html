@@ -10,34 +10,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./button.css">
     <link rel="stylesheet" href="./style.css">
-    <style>
-        
-    </style>
     <script src="./mqttio.js"></script>
     <script>
-        screen.orientation.lock("portrait-primary");
-
         let total = 0;
         let intervalId = null;
         let hiddenItems = document.getElementsByClassName("hidden");
         let tables = document.getElementsByClassName("trashbin");
         let tdLoc = 0;
-
-        function init() {
-            total = 0;
-        }
-
+        
         function operate() {
             let operateButton =  document.getElementById("operateButton").innerHTML;
             if(operateButton == "start") {
                 publish("login", userName);
                 subscribe("push");
                 document.getElementById("operateButton").innerHTML = "finish";
-                
             } 
             else {
                 unsubscribe("push");
-                clearInterval(intervalId);
                 document.getElementById("operateButton").innerHTML = "start";
             } 
         }
