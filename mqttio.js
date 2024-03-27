@@ -1,9 +1,6 @@
 let client = null; // MQTT 클라이언트의 역할을 하는 Client 객체를 가리키는 전역변수
 let connectionFlag = false; // 연결 상태이면 true
 let userName;
-let prevPlasticCount = 0;
-let prevCanCount = 0;
-let prevGlassCount = 0;
 
 function startConnect() { // 브로커에 접속하는 함수
 	if(connectionFlag == true)
@@ -42,7 +39,7 @@ function startConnect() { // 브로커에 접속하는 함수
 	// exist 토픽 구독
 	// 사용자 id가 서버 db에 존재하는지 확인
 	// subscribe("exist"); 
-	document.documentElement.style.top = "78%"; // 화면 비율 조정
+	document.documentElement.style.top = "92%"; // 화면 비율 조정
 }
 
 // 브로커로의 접속이 성공할 때 호출되는 함수
@@ -101,21 +98,18 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 		let glassCount = parseInt(msgString[3]);
 		
 		// 변화된 값 확인 및 total 업데이트
-		if(plasticCount !== prevPlasticCount) {
-			total += (plasticCount - prevPlasticCount); // 변화된 양만큼 total 업데이트
-			prevPlasticCount = plasticCount; // 이전 값 업데이트
+		if(plasticCount == 1) {
+			total++;
 			intervalId = setInterval(function() {
 				moveImageDown('plastic', './1.png');
 			}, 300);
-		} else if(canCount !== prevCanCount) {
-			total += (canCount - prevCanCount);
-			prevCanCount = canCount;
+		} else if(canCount == 1) {
+			total++;
 			intervalId = setInterval(function() {
 				moveImageDown('can', './1.png');
 			}, 300);
-		} else if(glassCount !== prevGlassCount) {
-			total += (glassCount - prevGlassCount);
-			prevGlassCount = glassCount;
+		} else if(glassCount == 1) {
+			total++;
 			intervalId = setInterval(function() {
 				moveImageDown('glass', './2.png');
 			}, 300);
@@ -143,5 +137,5 @@ function startDisconnect() {
 	client.disconnect(); // 브로커와 접속 해제
 	document.getElementById("messages").innerHTML = '<span>연결종료</span><br/>';
 	connectionFlag = false; // 연결 되지 않은 상태로 설정
-	document.documentElement.style.top = "65%";
+	document.documentElement.style.top = "68%";
 }
