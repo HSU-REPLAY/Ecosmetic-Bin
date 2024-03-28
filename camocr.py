@@ -22,7 +22,7 @@ def perform_ocr(image_path):
     can_cnt = 0
     glass_cnt = 0
     image = Image.open(image_path)
-    my_config = "-l eng+kor --oem 3 --psm 6"  # 한글,영어 인식 가능
+    my_config = "-l eng --oem 3 --psm 6"  
 
     text = pytesseract.image_to_string(image, config=my_config)
     print(text)
