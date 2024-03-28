@@ -37,7 +37,7 @@
 1. 터미널1 (mqtt broker)
 
    ```bash
-   mosquitto -v -c- mos.conf
+   mosquitto -v -c mos.conf
    ```
 
    already in use 오류시 sudo systemctl stop mosquitto
