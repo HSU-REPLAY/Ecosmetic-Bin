@@ -10,6 +10,7 @@ function startConnect() { // 브로커에 접속하는 함수
 	let port = 9001;
 	
 	userName = document.getElementById("getUserName").value.trim();
+
 	document.getElementById("userName").innerHTML += "<b>" + userName + "</b>";
 	document.getElementById("getUserName").style.display = "none";
 	document.getElementById("loginButton").style.display = "none";
@@ -32,13 +33,18 @@ function startConnect() { // 브로커에 접속하는 함수
 
 	// client 객체에게 브로커에 접속 지시
 	client.connect({
-		onSuccess:onConnect, // 브로커로부터 접속 응답 시 onConnect() 실행
+		onSuccess: function () {
+			document.getElementById("messages").innerHTML = '<span>connected</span><br/>';
+			connectionFlag = true;
+			subscribe("exist"); // 'exist' 토픽 구독
+			publish("check", userName); // 'check' 토픽으로 사용자 ID 발행
+		},
+		onFailure: function (error) {
+			document.getElementById("messages").innerHTML = `<span>Connection failed: ${error.errorMessage}</span><br/>`;
+            		connectionFlag = false;
+		}
 	});
-	
-	
-	// exist 토픽 구독
-	// 사용자 id가 서버 db에 존재하는지 확인
-	// subscribe("exist"); 
+
 	document.documentElement.style.top = "92%"; // 화면 비율 조정
 }
 

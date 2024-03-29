@@ -17,19 +17,18 @@
         let hiddenItems = document.getElementsByClassName("hidden");
         let tables = document.getElementsByClassName("trashbin");
         let tdLoc = 0;
-        
-        function operate() {
-            let operateButton =  document.getElementById("operateButton").innerHTML;
-            if(operateButton == "start") {
-                publish("login", userName);
-                subscribe("push");
-                document.getElementById("operateButton").innerHTML = "finish";
-            } 
-            else {
-                unsubscribe("push");
-                document.getElementById("operateButton").innerHTML = "start";
-            } 
-        }
+	
+	function operate() {
+		let operateButton = document.getElementById("operateButton").innerHTML;
+		if (operateButton == "start") {
+			subscribe("push");
+			publish("start_camera", userName); // 'start_camera' 토픽으로 메시지 발행
+			document.getElementById("operateButton").innerHTML = "finish";
+		} else {
+			unsubscribe("push");
+			document.getElementById("operateButton").innerHTML = "start";
+		}
+	}
 
         function moveImageDown(tableId, imgPath) {
             let table = document.getElementById(tableId + "Table");
@@ -96,3 +95,5 @@
     </table>
 </body>
 </html>
+
+
