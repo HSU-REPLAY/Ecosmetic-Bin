@@ -1,14 +1,14 @@
 .button {
     min-width: 10px;
     max-width: 250px;
-    height: 30px;
+    height: 60px;
     border: none;
     background: none;
     color: inherit;
     position: relative;
     z-index: 1;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 70%;
+    font-size: 80%;
 }
 .button:focus {
     outline: none;

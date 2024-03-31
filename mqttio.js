@@ -85,7 +85,7 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 			unsubscribe("exist");
 			userName = "";
 			document.getElementById("messages").innerHTML = "<span>등록되지 않은 사용자입니다. 다시 입력해주세요. </span><br>"
-			document.documentElement.style.top = "73%";
+			document.documentElement.style.top = "79%";
 		}
 		else if(msg.payloadString == "true") {
 			document.getElementById("userName").innerHTML += "<b>" + userName + "</b>";
@@ -149,5 +149,5 @@ function startDisconnect() {
 	client.disconnect(); // 브로커와 접속 해제
 	document.getElementById("messages").innerHTML = '<span>연결종료</span><br/>';
 	connectionFlag = false; // 연결 되지 않은 상태로 설정
-	document.documentElement.style.top = "68%";
+	document.documentElement.style.top = "71%";
 }

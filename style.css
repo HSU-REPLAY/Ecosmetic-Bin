@@ -2,9 +2,9 @@ html {
     transform: rotate(-90deg);
     transform-origin: top left;
     position: absolute;
-    top: 68%;
+    top: 71%;
     left: 0;
-    font-size: 160%;
+    font-size: 200%;
 }
 body {
     text-align: center;
@@ -12,15 +12,20 @@ body {
     background-color: #C1F1C1;
     font-family: "Hahmlet";
 }
+#firstWord {
+    color: #1F891F;
+}
+#getUserName {
+    width: 200px;
+    height: 30px;
+    font-size: 25px;
+}
 table { 
     border: 3px solid;
     border-collapse: collapse;
     border-top: none;
     margin: 30px;
     display: none;
-}
-#firstWord {
-    color: #1F891F;
 }
 caption {
     caption-side: bottom;
