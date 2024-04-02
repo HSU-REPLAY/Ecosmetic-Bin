@@ -5,7 +5,7 @@ let userName;
 function startConnect() { // 브로커에 접속하는 함수
 	// 재로그인 시도 시
 	if(connectionFlag == true) {
-		subscribe("exist"); // 'exist' 토픽 구독
+		subscribe("presence"); // 'presence' 토픽 구독
 		publish("check", userName); // 'check' 토픽으로 사용자 ID 발행
 	}
 
@@ -26,7 +26,7 @@ function startConnect() { // 브로커에 접속하는 함수
 		onSuccess: function () {
 			document.getElementById("messages").innerHTML = '<span>connected</span><br/>';
 			connectionFlag = true;
-			subscribe("exist"); // 'exist' 토픽 구독
+			subscribe("presence"); // 'presence' 토픽 구독
 			publish("check", userName); // 'check' 토픽으로 사용자 ID 발행
 		},
 		onFailure: function (error) {
@@ -79,10 +79,10 @@ function onConnectionLost(responseObject) { // responseObject는 응답 패킷
 
 // 메시지가 도착할 때 호출되는 함수
 function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지를 담고 있는 객체
-	document.getElementById("messages").innerHTML = '<span>메세지 도착: ' + msg.payloadString + '</span><br>';
-	if(msg.destinationName == "exist") {
+	//document.getElementById("messages").innerHTML = '<span>메세지 도착: ' + msg.payloadString + '</span><br>';
+	if(msg.destinationName == "presence") {
 		if(msg.payloadString == "false") {
-			unsubscribe("exist");
+			unsubscribe("presence");
 			userName = "";
 			document.getElementById("messages").innerHTML = "<span>등록되지 않은 사용자입니다. 다시 입력해주세요. </span><br>"
 			document.documentElement.style.top = "79%";
@@ -101,13 +101,21 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 			}
 			document.getElementById("total").innerHTML = "배출량: " + total;
 			document.documentElement.style.top = "92%"; // 화면 비율 조정
+
+			// 로그인 성공 시 스트리밍 시작, 캔버스 영역 나타나게
+			startStreaming();
 		}
 	}
-	else {
+	// 토픽 image 가 도착하면 payload 에 담긴 파일 이름의 이미지 그리기
+	else if(msg.destinationName == "image") {
+		//console.log(“received”)
+		drawImage(msg.payloadString); // 메시지에 담긴 파일 이름으로 drawImage() 호출. drawImage()는 웹 페이지에 있음
+    }
+	else if(msg.destinationName == "result") {
 		let msgString = msg.payloadString.split(",");
-		let plasticCount = parseInt(msgString[1]);
-		let canCount = parseInt(msgString[2]);
-		let glassCount = parseInt(msgString[3]);
+		let plasticCount = parseInt(msgString[0]);
+		let canCount = parseInt(msgString[1]);
+		let glassCount = parseInt(msgString[2]);
 		
 		// 변화된 값 확인 및 total 업데이트
 		if(plasticCount == 1) {
@@ -134,6 +142,7 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 function startDisconnect() {
 	if(connectionFlag == false) 
 		return; // 연결 되지 않은 상태이면 그냥 리턴
+	stopStreaming();
 	document.getElementById("loginButton").style.display = "inline";
 	document.getElementById("userName").innerHTML = "사용자 이름: ";
 	document.getElementById("getUserName").style.display = "inline";

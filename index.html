@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./button.css">
     <link rel="stylesheet" href="./style.css">
     <script src="./mqttio.js"></script>
+    <script src="./streaming.js"></script>
     <script>
         let total = 0;
         let intervalId = null;
@@ -18,14 +19,17 @@
         let tables = document.getElementsByClassName("trashbin");
         let tdLoc = 0;
 	
-        function operate() {
+        function operate() {  
             let operateButton = document.getElementById("operateButton").innerHTML;
-            if (operateButton == "start") {
-                subscribe("push");
-                publish("start_camera", userName); // 'start_camera' 토픽으로 메시지 발행
+            if (operateButton == "start") { // start버튼을 누르면 
+                subscribe("result"); // 분석된 결과값을 받기 위해 'result' 토픽으로 구독신청.
+                publish("streaming", "stop"); // 실시간 스트리밍을 멈추기 위해 'streaming' 토픽으로 'stop' 메시지 발행
+                publish("capture", "true"); // 캡처하기 위해 'capture' 토픽으로 메시지 발행. 메시지는 의미 없음
                 document.getElementById("operateButton").innerHTML = "finish";
-            } else {
-                unsubscribe("push");
+            } 
+            else { // finish 버튼을 누르면 
+                unsubscribe("result");
+                publish("streaming", "start"); // 실시간 스트리밍을 재개하기 위해 'streaming' 토픽으로 'start' 메시지 발행
                 document.getElementById("operateButton").innerHTML = "start";
             }
         }
@@ -56,7 +60,9 @@
     </script>
 </head>
 <body>
-    <img src="./icon_recycling.svg" width="150" height="150" alt=""> <h1><span id="firstWord">Eco</span>smetic Bin</h1>
+    <img src="./icon_recycling.svg" width="150" height="150" alt=""> 
+    <canvas id="myCanvas" width="320" height="240"></canvas> <!-- 스트리밍 화면의 위치와 크기 조정해야함, 수정필요 -->
+    <h1><span id="firstWord">Eco</span>smetic Bin</h1>
     <div id="messages"></div>
     <label for="getUserName" id="userName" >사용자 이름: </label>
     <input type="text" id="getUserName">
