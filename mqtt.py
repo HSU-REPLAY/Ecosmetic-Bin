@@ -8,23 +8,16 @@ import cv2
 import camera
 import base64
 import json
-from database import check_user_exists
 
 isStart  = False
 
 def on_connect(client, userdata, flag, rc):
-    client.subscribe("check") # 통신 서버 모듈에서 실행하도록 수정 해야함
     client.subscribe("streaming")  # "streaming" 토픽으로 구독 신청
     client.subscribe("capture")  # "capture" 토픽으로 구독 신청
       
 def on_message(client, userdata, msg):
-    if msg.topic == "check": # 통신 서버 모듈에서 실행하도록 수정 해야함
-        # 사용자 ID 확인 로직
-        user_id = msg.payload.decode()
-        user_exists = check_user_exists(user_id)
-        client.publish("presence", "true" if user_exists else "false")
 
-    elif msg.topic == "streaming":
+    if msg.topic == "streaming":
         global isStart
         if msg.payload.decode() == 'start':
             print("Start Stream")
