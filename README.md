@@ -29,11 +29,6 @@
    ```bash
    bash setup.sh
    ```
-7. python requests 웹 서버 모튤 설치
-
-   ```bash
-   pip install requests
-   ```
 
 실행 방법
 
