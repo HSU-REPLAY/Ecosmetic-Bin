@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./button.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./homeScreen.css" id="screenStyleSheet">
     <script src="./mqttio.js"></script>
     <script src="./streaming.js"></script>
     <script>
@@ -19,15 +20,14 @@
         let tables = document.getElementsByClassName("trashbin");
         let tdLoc = 0;
 	
-        function operate() {  
+        function operate() {
             let operateButton = document.getElementById("operateButton").innerHTML;
-            if (operateButton == "start") { // start버튼을 누르면 
-                subscribe("result"); // 분석된 결과값을 받기 위해 'result' 토픽으로 구독신청.
-                publish("streaming", "stop"); // 실시간 스트리밍을 멈추기 위해 'streaming' 토픽으로 'stop' 메시지 발행
+            if (operateButton == "start") {
+                subscribe("result");
+                publish("streaming", "stop"); // 'start_camera' 토픽으로 메시지 발행
                 publish("capture", "true"); // 캡처하기 위해 'capture' 토픽으로 메시지 발행. 메시지는 의미 없음
                 document.getElementById("operateButton").innerHTML = "finish";
-            } 
-            else { // finish 버튼을 누르면 
+            } else {
                 unsubscribe("result");
                 publish("streaming", "start"); // 실시간 스트리밍을 재개하기 위해 'streaming' 토픽으로 'start' 메시지 발행
                 document.getElementById("operateButton").innerHTML = "start";
@@ -60,39 +60,46 @@
     </script>
 </head>
 <body>
-    <img src="./icon_recycling.svg" width="150" height="150" alt=""> 
-    <canvas id="myCanvas" width="320" height="240"></canvas> <!-- 스트리밍 화면의 위치와 크기 조정해야함, 수정필요 -->
-    <h1><span id="firstWord">Eco</span>smetic Bin</h1>
+    <div id="highlight1"></div>
+    <div id="highlight2"></div>
+    <div id="highlight3"></div>
+    <div id="loginForm"></div>
+    <img id="ecoIcon" src="./earth.png" />
+    <canvas id="myCanvas"></canvas> <!-- 스트리밍 화면의 위치와 크기 조정해야함, 수정필요 -->
+
+    <div class="EcosmeticBin"><span id="ecoWord">Eco</span>smetic Bin</div>
     <div id="messages"></div>
-    <label for="getUserName" id="userName" >사용자 이름: </label>
-    <input type="text" id="getUserName">
+
+    <label for="inputName" class="hidden" id="userName">사용자 ID </label>
+    <input id="inputName" type="text" placeholder="사용자 ID">
 
     <button onclick="startConnect()" id="loginButton" class="button button--ujarak button--border-medium button--round-s button--text-thick">Login</button>
-    <button onclick="startDisconnect()" id="logoutButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">Logout</button>
+    <button id="logoutButton" class="hidden" onclick="startDisconnect()">
+        <img src="./logoutIcon.svg" style="width: 100%; height: 100%; object-fit: cover;"/>
+    </button>
     <br>
-
-    <span id="total" class="hidden">배출량: </span><br>
+    <span id="total" class="hidden menu">배출량: </span><br>
     <button onclick="operate()" id="operateButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">start</button>
-    <button onclick="cleanTrashcan()" id="operateButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">clean</button><br><br>
+    <button onclick="cleanTrashcan()" id="clearButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">clean</button><br><br>
 
-    <table class="trashbin" id="glassTable">
-        <caption>유리</caption>
+    <table class="hidden trashbin" id="glassTable">
+        <caption class="tableCaption">유리</caption>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
     </table> 
-    <table class="trashbin" id="plasticTable">
-        <caption>플라스틱</caption>
+    <table class="hidden trashbin" id="plasticTable">
+        <caption class="tableCaption">플라스틱</caption>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
     </table> 
-    <table class="trashbin" id="canTable">
-        <caption>금속</caption>
+    <table class="hidden trashbin" id="canTable">
+        <caption class="tableCaption">금속</caption>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>

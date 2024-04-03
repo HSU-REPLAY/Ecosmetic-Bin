@@ -12,7 +12,7 @@ function startConnect() { // 브로커에 접속하는 함수
 	let broker = "localhost";
 	let port = 9001;
 	
-	userName = document.getElementById("getUserName").value.trim();
+	userName = document.getElementById("inputName").value.trim();
 
 	// MQTT 메시지 전송 기능을 모두 가징 Paho client 객체 생성
 	client = new Paho.MQTT.Client(broker, Number(port), userName);
@@ -26,6 +26,8 @@ function startConnect() { // 브로커에 접속하는 함수
 		onSuccess: function () {
 			document.getElementById("messages").innerHTML = '<span>connected</span><br/>';
 			connectionFlag = true;
+			document.getElementById("ecoIcon").src = "./recycleIcon.svg";
+			document.getElementById("screenStyleSheet").setAttribute('href', 'mainScreen.css');
 			subscribe("presence"); // 'presence' 토픽 구독
 			publish("check", userName); // 'check' 토픽으로 사용자 ID 발행
 		},
@@ -85,28 +87,22 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 			unsubscribe("presence");
 			userName = "";
 			document.getElementById("messages").innerHTML = "<span>등록되지 않은 사용자입니다. 다시 입력해주세요. </span><br>"
-			document.documentElement.style.top = "79%";
 		}
 		else if(msg.payloadString == "true") {
 			document.getElementById("userName").innerHTML += "<b>" + userName + "</b>";
-			document.getElementById("getUserName").style.display = "none";
+			document.getElementById("inputName").style.display = "none";
 			document.getElementById("loginButton").style.display = "none";
 			document.getElementById("operateButton").innerHTML = "start";
 			for (let i = 0; i < hiddenItems.length; i++) {
 				hiddenItems[i].style.display = "inline";
 			}
-			
 			for (let i = 0; i < tables.length; i++) {
 				tables[i].style.display = "inline-table";
 			}
 			document.getElementById("total").innerHTML = "배출량: " + total;
-			document.documentElement.style.top = "92%"; // 화면 비율 조정
-
-			// 로그인 성공 시 스트리밍 시작, 캔버스 영역 나타나게
 			startStreaming();
 		}
 	}
-	// 토픽 image 가 도착하면 payload 에 담긴 파일 이름의 이미지 그리기
 	else if(msg.destinationName == "image") {
 		//console.log(“received”)
 		drawImage(msg.payloadString); // 메시지에 담긴 파일 이름으로 drawImage() 호출. drawImage()는 웹 페이지에 있음
@@ -143,20 +139,17 @@ function startDisconnect() {
 	if(connectionFlag == false) 
 		return; // 연결 되지 않은 상태이면 그냥 리턴
 	stopStreaming();
+	document.getElementById("ecoIcon").src = "./earth.png";
+	document.getElementById("screenStyleSheet").setAttribute('href', 'homeScreen.css');
 	document.getElementById("loginButton").style.display = "inline";
-	document.getElementById("userName").innerHTML = "사용자 이름: ";
-	document.getElementById("getUserName").style.display = "inline";
-	document.getElementById("getUserName").value = "";
+	document.getElementById("userName").innerHTML = "사용자 ID ";
+	document.getElementById("inputName").style.display = "inline";
+	document.getElementById("inputName").value = "";
 	let hiddenItems = document.getElementsByClassName("hidden");
 	for (let i = 0; i < hiddenItems.length; i++) {
 		hiddenItems[i].style.display = "none";
 	}
-	let tables = document.getElementsByClassName("trashbin");
-	for (let i = 0; i < tables.length; i++) {
-		tables[i].style.display = "none";
-	}
 	client.disconnect(); // 브로커와 접속 해제
 	document.getElementById("messages").innerHTML = '<span>연결종료</span><br/>';
 	connectionFlag = false; // 연결 되지 않은 상태로 설정
-	document.documentElement.style.top = "71%";
 }

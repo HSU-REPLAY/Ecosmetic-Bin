@@ -1,24 +1,18 @@
 html {
     transform: rotate(-90deg);
     transform-origin: top left;
-    position: absolute;
-    top: 71%;
-    left: 0;
-    font-size: 200%;
+    position: relative;
+    top: 100%;
+    left: -3%;
+    overflow: hidden;
+    
 }
 body {
     text-align: center;
     align-items: center;
-    background-color: #C1F1C1;
-    font-family: "Hahmlet";
-}
-#firstWord {
-    color: #1F891F;
-}
-#getUserName {
-    width: 200px;
-    height: 30px;
-    font-size: 25px;
+    background-color: #000000;
+    color: white;
+    font-family: "Hahmlet", serif;
 }
 table { 
     border: 3px solid;

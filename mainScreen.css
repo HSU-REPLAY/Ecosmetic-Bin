@@ -1,0 +1,127 @@
+.EcosmeticBin {
+    left: 229px; 
+    top: 359px; 
+    position: absolute;
+    color: white; 
+    font-size: 90px; 
+    font-weight: 700; 
+    line-height: 117px; 
+    word-wrap: break-word;
+}
+#highlight1 {
+    width: 679px; 
+    height: 63px; 
+    left: 200px; 
+    top: 408px; 
+    position: absolute; 
+    background: #005E26;
+}
+#highlight2 {
+    width: 237px; 
+    height: 47px; 
+    left: 340px; 
+    top: 545px; 
+    position: absolute; 
+    background: #005E26;
+}
+#highlight3 {
+    width: 142px; 
+    height: 42px; 
+    left: 406px; 
+    top: 628px; 
+    position: absolute; 
+    background: #005E26;
+}
+#ecoIcon {
+    width: 308.42px; 
+    height: 300px; 
+    left: 375px; 
+    top: 52px; 
+    position: absolute;
+}
+#ecoWord {
+    color: #C1F1C1; 
+    font-size: 90px;
+    font-weight: 700; 
+    line-height: 117px; 
+    word-wrap: break-word;
+}
+#userName {
+    left: 358px; 
+    top: 517px; 
+    position: absolute;
+    color: white; 
+    font-size: 50px;
+    font-weight: 700; 
+    line-height: 65px; 
+    word-wrap: break-word;
+}
+#total {
+    left: 406px; 
+    top: 605px; 
+    position: absolute; 
+    color: white; 
+    font-size: 50px; 
+    font-weight: 600; 
+    line-height: 65px; 
+    word-wrap: break-word;
+}
+#cameraButton {
+    background: none; 
+    border: none; 
+    padding: 0; 
+    cursor: pointer; 
+    width: 213px; 
+    height: 209px; 
+    position: absolute; 
+    left: 779px; 
+    top: 98px;
+}
+#operateButton {
+    width: 341px; 
+    height: 111px; 
+    left: 370px; 
+    top: 706px; 
+    position: absolute; 
+    font-size: 50px; 
+    font-weight: 600; 
+    line-height: 65px;
+}
+#logoutButton {
+    background: none; 
+    border: none; 
+    padding: 0;
+    cursor: pointer;
+    width: 110px; 
+    height: 113px; 
+    left: 731px; 
+    top:493px; 
+    position: absolute;
+}
+
+#glassTable {
+    width: 277px; height: 814px; left: 81px; top: 853px; position: absolute;
+}
+
+#plasticTable {
+    width: 277px; height: 814px; left: 402px; top: 853px; position: absolute; 
+}
+
+#canTable {
+    width: 277px; height: 814px; left: 723px; top: 853px; position: absolute; 
+}
+
+#myCanvas {
+    left: 750px;
+    top: 100px;
+    width: 320px;
+    height: 240px;
+    position: absolute;
+}
+
+.tableCaption {
+    font-size: 50px; 
+    font-weight: 600; 
+    line-height: 65px; 
+    word-wrap: break-word";
+}
