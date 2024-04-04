@@ -2,8 +2,8 @@ import paho.mqtt.client as mqtt
 import json
 import requests
 from requests.exceptions import RequestException
-#import mysql.connector
-#from mysql.connector import Error
+import mysql.connector
+from mysql.connector import Error
 
 MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
@@ -16,7 +16,7 @@ current_user_id = None
 
 # 데이터 전송 함수
 def send_data(user_id, plastic_count, can_count, glass_count):
-    server_url = '노트북 ip:8080/프로젝트이름/data'
+    server_url = 'http://172.20.10.4:8080/ecobin/data'
     params = {
         'userId': user_id,
         'plasticCount': plastic_count,
@@ -33,17 +33,34 @@ def send_data(user_id, plastic_count, can_count, glass_count):
     except RequestException as e:
         print("Server connection failed:", e)
 
-# 사용자 ID 존재 확인 함수(가상)
+# 사용자 ID 존재 확인 함수
 def check_user_exists(user_id):
-    return user_id in ["user1", "user2", "user3"]
+    try:
+        connection = mysql.connector.connect(
+            host='172.20.10',
+            database='ecosmeticbin',
+            user='root', 
+            password='1234'
+        )
+        cursor = connection.cursor()
+        cursor.execute("SELECT EXISTS(SELECT 1 FROM user WHERE id = %s)", (user_id,))
+        (exists,) = cursor.fetchone()
+        return exists == 1
+    except Error as e:
+        print(f"Error: {e}")
+        return False
+    finally:
+        if connection and connection.is_connected():
+            cursor.close()
+            connection.close()
 
 def on_message(client, userdata, msg):
     global current_user_id  # 전역 변수 사용
-    
+
     if msg.topic == CHECK_TOPIC:
         user_id = msg.payload.decode()
         user_exists = check_user_exists(user_id)
-        
+
         # 사용자가 존재하면 전역 변수에 ID 저장
         if user_exists:
             current_user_id = user_id  # 사용자 ID 저장
@@ -63,9 +80,10 @@ def on_message(client, userdata, msg):
         except IndexError:
             print("RESULT_TOPIC message format error")
 
+
 def on_connect(client, userdata, flags, rc):
     client.subscribe(CHECK_TOPIC)
-    client.subscribe(RESULT_TOPIC) 
+    client.subscribe(RESULT_TOPIC)
 
 client = mqtt.Client()
 client.on_connect = on_connect
