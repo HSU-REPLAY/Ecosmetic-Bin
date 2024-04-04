@@ -10,9 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./button.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="keyboard.css" />
     <link rel="stylesheet" href="./homeScreen.css" id="screenStyleSheet">
     <script src="./mqttio.js"></script>
     <script src="./streaming.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="./en.js"></script>
     <script>
         let total = 0;
         let intervalId = null;
@@ -57,26 +60,110 @@
             }
         }
 
+        function keyboardInput() {
+            var keys = document.getElementsByClassName("key");
+            for(let i=0; i<keys.length; i++) {
+                keys[i].addEventListener("click", function () {
+                    // 버튼 입력 값
+                    var key = this.value;
+
+                    // input란에 있는 값
+                    var text = document.getElementById('inputName').value;
+                    if (key == " space ") {
+                        key = " ";
+                        document.getElementById('inputName').value = text + key;
+                        document.getElementById('inputName').focus();
+                    } else if (key == "◀-") {
+                        text = text.substring(0, text.length - 1);
+                        document.getElementById('inputName').value = text;
+                        document.getElementById('inputName').focus();
+                    } else {
+                        document.getElementById('inputName').value += this.value;
+                    }
+                });
+            }
+        }
+        
     </script>
 </head>
 <body>
-    <div id="highlight1"></div>
-    <div id="highlight2"></div>
-    <div id="highlight3"></div>
-    <div id="loginForm"></div>
-    <img id="ecoIcon" src="./earth.png" />
-    <canvas id="myCanvas"></canvas> <!-- 스트리밍 화면의 위치와 크기 조정해야함, 수정필요 -->
-
+    <!--<img id="ecoIcon" src="./earth.png" />-->
+    <!--<canvas id="myCanvas"></canvas>  스트리밍 화면의 위치와 크기 조정해야함, 수정필요 -->
+    <img id="merakiCam" src=""></img>
     <div class="EcosmeticBin"><span id="ecoWord">Eco</span>smetic Bin</div>
     <div id="messages"></div>
+    <div id="loginError">아이디를 잘못 입력했습니다.</div>
 
-    <label for="inputName" class="hidden" id="userName">사용자 ID </label>
+    <div class="idContainer">
+        <label for="inputName" class="hidden" id="userName">사용자 ID </label>
+        <button id="logoutButton" class="hidden" onclick="startDisconnect()">
+            <img src="./logoutIcon.svg" style="width: 100%; height: 100%; object-fit: cover;"/>
+        </button>
+    </div>
     <input id="inputName" type="text" placeholder="사용자 ID">
 
+    
+
+    <!--가상 키보드
+    <div class = 'keyboard-container'> 
+        <div class = 'line' id="line1">
+            <input type ='button' class="key" value="1">
+            <input type ='button' class="key" value="2">
+            <input type ='button' class="key" value="3">
+            <input type ='button' class="key" value="4">
+            <input type ='button' class="key" value="5">
+            <input type ='button' class="key" value="6">
+            <input type ='button' class="key" value="7">
+            <input type ='button' class="key" value="8">
+            <input type ='button' class="key" value="9">
+            <input type ='button' class="key" value="◀-">
+        </div>
+        <div class = 'line' id="line2">
+            <input type ='button' class="key" value="q">
+            <input type ='button' class="key" value="w">
+            <input type ='button' class="key" value="e">
+            <input type ='button' class="key" value="r">
+            <input type ='button' class="key" value="t">
+            <input type ='button' class="key" value="y">
+            <input type ='button' class="key" value="u">
+            <input type ='button' class="key" value="i">
+            <input type ='button' class="key" value="o">
+            <input type ='button' class="key" value="p">
+        </div>
+        <div class = 'line' id="line3">
+            <input type ='button' class="key" value="a">
+            <input type ='button' class="key" value="s">
+            <input type ='button' class="key" value="d">
+            <input type ='button' class="key" value="f">
+            <input type ='button' class="key" value="g">
+            <input type ='button' class="key" value="h">
+            <input type ='button' class="key" value="j">
+            <input type ='button' class="key" value="k">
+            <input type ='button' class="key" value="l">
+        </div>
+        <div  class = 'line' id="line4">
+            <input type ='button' class="key" value="z">
+            <input type ='button' class="key" value="x">
+            <input type ='button' class="key" value="c">
+            <input type ='button' class="key" value="v">
+            <input type ='button' class="key" value="b">
+            <input type ='button' class="key" value="n">
+            <input type ='button' class="key" value="m">
+            <input type ='button' class="key" value=",">
+            <input type ='button' class="key" value=".">
+            <input type ='button' class="key" value="/">
+        </div>
+        <div  id="line5">
+            <input type ='button' class="key" value=" space "> 
+            <input type ='button' class="key" value="한/영" onClick = "location1()">
+        </div>
+    </div>-->
+    <!--로고 이미지 -->
+    <img id="logo" src="https://via.placeholder.com/654x181" />
+    
+
     <button onclick="startConnect()" id="loginButton" class="button button--ujarak button--border-medium button--round-s button--text-thick">Login</button>
-    <button id="logoutButton" class="hidden" onclick="startDisconnect()">
-        <img src="./logoutIcon.svg" style="width: 100%; height: 100%; object-fit: cover;"/>
-    </button>
+    
     <br>
     <span id="total" class="hidden menu">배출량: </span><br>
     <button onclick="operate()" id="operateButton" class="hidden button button--ujarak button--border-medium button--round-s button--text-thick">start</button>
