@@ -86,12 +86,15 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 		if(msg.payloadString == "false") {
 			unsubscribe("presence");
 			userName = "";
-			document.getElementById("messages").innerHTML = "<span>등록되지 않은 사용자입니다. 다시 입력해주세요. </span><br>"
+			document.getElementById("loginError").style.visibility = "visible";
+			document.getElementById("userName").style.color = "red";
+			document.getElementById("loginButton").style.color = "red";
 		}
 		else if(msg.payloadString == "true") {
 			document.getElementById("userName").innerHTML += "<b>" + userName + "</b>";
 			document.getElementById("inputName").style.display = "none";
 			document.getElementById("loginButton").style.display = "none";
+			document.getElementById("loginError").style.visibility = "hidden";
 			document.getElementById("operateButton").innerHTML = "start";
 			for (let i = 0; i < hiddenItems.length; i++) {
 				hiddenItems[i].style.display = "inline";
@@ -105,31 +108,16 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 	}
 	else if(msg.destinationName == "image") {
 		//console.log(“received”)
-		drawImage(msg.payloadString); // 메시지에 담긴 파일 이름으로 drawImage() 호출. drawImage()는 웹 페이지에 있음
+		// drawImage(msg.payloadString); // 메시지에 담긴 파일 이름으로 drawImage() 호출. drawImage()는 웹 페이지에 있음
+		document.getElementById("merakiCam").src = msg.payloadString;
     }
 	else if(msg.destinationName == "result") {
 		let msgString = msg.payloadString.split(",");
 		let plasticCount = parseInt(msgString[0]);
 		let canCount = parseInt(msgString[1]);
 		let glassCount = parseInt(msgString[2]);
-		
-		// 변화된 값 확인 및 total 업데이트
-		if(plasticCount == 1) {
-			total++;
-			intervalId = setInterval(function() {
-				moveImageDown('plastic', './1.png');
-			}, 300);
-		} else if(canCount == 1) {
-			total++;
-			intervalId = setInterval(function() {
-				moveImageDown('can', './1.png');
-			}, 300);
-		} else if(glassCount == 1) {
-			total++;
-			intervalId = setInterval(function() {
-				moveImageDown('glass', './2.png');
-			}, 300);
-		}
+
+		showResultDialog(plasticCount, canCount, glassCount);
 	}
 	document.getElementById("total").innerHTML = "배출량: " + total;
 }
@@ -152,4 +140,60 @@ function startDisconnect() {
 	client.disconnect(); // 브로커와 접속 해제
 	document.getElementById("messages").innerHTML = '<span>연결종료</span><br/>';
 	connectionFlag = false; // 연결 되지 않은 상태로 설정
+}
+
+function showResultDialog(plasticCount, canCount, glassCount) {
+	let dialog = document.createElement('div');
+    dialog.classList.add('dialog');
+    
+    // 다이얼로그 내용을 구성합니다.
+    let content = `
+        <p>플라스틱 개수: ${plasticCount}</p>
+        <p>캔 개수: ${canCount}</p>
+        <p>유리 개수: ${glassCount}</p>
+        <button onclick="checkOcrResult(true)">OK</button>
+        <button onclick="checkOcrResult()">재촬영</button>
+    `;
+    dialog.innerHTML = content;
+    
+    // 다이얼로그를 화면에 표시합니다.
+    document.body.appendChild(dialog);
+}
+
+function showMileageDialog(mileage) {
+	let dialog = document.createElement('div');
+	dialog.classList.add('dialog');
+
+	let content = `
+		<p>${mileage} 마일리지 적립!</p>
+	`;
+	dialog.innerHTML = content;
+
+	document.body.appendChild(dialog);
+}
+
+function checkOcrResult(okPressed = false) {
+	if(okPressed === true) {
+		// OK 버튼을 눌렀을 경우에만 변화된 값 확인 및 total 업데이트
+		if(plasticCount == 1) {
+			total++;
+			intervalId = setInterval(function() {
+				moveImageDown('plastic', './plastic.png');
+			}, 300);
+		} else if(canCount == 1) {
+			total++;
+			intervalId = setInterval(function() {
+				moveImageDown('can', './can.png');
+			}, 300);
+		} else if(glassCount == 1) {
+			total++;
+			intervalId = setInterval(function() {
+				moveImageDown('glass', './glass.png');
+			}, 300);
+		}
+	}
+	// 재촬영 버튼을 눌렀을 경우
+	else if(okPressed === false){
+		publish("capture", "true"); // 캡처하기 위해 'capture' 토픽으로 메시지 발행
+	}
 }

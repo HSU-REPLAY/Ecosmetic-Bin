@@ -87,6 +87,9 @@
     font-weight: 600; 
     line-height: 65px;
 }
+.idContainer {
+    position: relative;
+}
 #logoutButton {
     background: none; 
     border: none; 
@@ -94,24 +97,24 @@
     cursor: pointer;
     width: 110px; 
     height: 113px; 
-    left: 731px; 
-    top:493px; 
     position: absolute;
+    left: calc(100% + 10px);
+    top:0;
 }
 
 #glassTable {
-    width: 277px; height: 814px; left: 81px; top: 853px; position: absolute;
+    width: 277px; height: 814px; left: 61px; top: 853px; position: absolute;
 }
 
 #plasticTable {
-    width: 277px; height: 814px; left: 402px; top: 853px; position: absolute; 
+    width: 277px; height: 814px; left: 382px; top: 853px; position: absolute; 
 }
 
 #canTable {
-    width: 277px; height: 814px; left: 723px; top: 853px; position: absolute; 
+    width: 277px; height: 814px; left: 703px; top: 853px; position: absolute; 
 }
 
-#myCanvas {
+#merakiCam {
     left: 750px;
     top: 100px;
     width: 320px;
@@ -123,5 +126,5 @@
     font-size: 50px; 
     font-weight: 600; 
     line-height: 65px; 
-    word-wrap: break-word";
+    word-wrap: break-word;
 }

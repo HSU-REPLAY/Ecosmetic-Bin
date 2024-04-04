@@ -1,105 +1,46 @@
-#highlight1 {
-    width: 880px; 
-    height: 58px; 
-    left: 110px; 
-    top: 266px; 
-    position: absolute;
-    background: #005E26;
-    z-index: 0;
-}
-.EcosmeticBin {
-    left: 110px; 
-    top: 190px; 
-    position: absolute;
-    font-size: 120px; 
-    font-weight: 700; 
-    line-height: 156px; 
-    word-wrap: break-word;
-}
-.menu {
-    font-weight: 600; 
-    line-height: 84.50px;
-}
-#ecoIcon {
-    width: 800px; 
-    height: 800px; 
-    left: 143px; 
-    top: 300px; 
-    position: absolute;
-}
-#ecoWord {
-    color: #C1F1C1; 
-    font-size: 120px; 
-    font-weight: 700; 
-    line-height: 156px; 
-    word-wrap: break-word
-}
 #inputName::placeholder {
-    color: #DCDCDC;
-    opacity: 1; /* 필요한 경우 투명도 조정 */
+    color: #A0A0A0; 
+}
+#logo {
+    width: 654px; 
+    height: 181px; 
+    left: 213px; 
+    top: 492px; 
+    position: absolute;
 }
 #inputName {
-    width: 676px; 
+    width: 660px; 
     height: 138px; 
-    left: 197px; 
-    top: 1258px; 
-    position: absolute;
-    font-size: 65px;
-    font-weight: 600;
-    line-height: 84.50px;
-    background-color: #A8A8A8;
-    color: white; /* 입력 텍스트 색상 */
-    border: none; /* 필요에 따라 테두리 제거 */
-    outline: none; /* 포커스 시 테두리 제거 */
-}
-#loginForm {
-    width: 917px; 
-    height: 678px; 
-    left: 81px; 
-    top: 1103px; 
+    left: 210px; 
+    top: 726px; 
+    font-size: 40px; 
+    font-weight: 700; 
+    background: none;
+    color: white;
+    word-wrap: break-word;
     position: absolute; 
-    background: rgba(255, 255, 255, 0.44); 
+    border-bottom: 4px white solid;
 }
 #loginButton {
-    width: 673px; 
-    height: 171px; 
-    left: 197px; 
-    top: 1490px; 
-    position: absolute;
-    font-size: 70px; 
-    font-weight: 600; 
-    line-height: 91px; 
+    width: 660px; 
+    height: 110px;
+    left: 210px; 
+    top: 979px;
+    position: absolute; 
+    color: white; 
+    font-size: 40px; 
+    font-family: Inter; 
+    font-weight: 400; 
     word-wrap: break-word;
 }
-#cameraButton {
-    background: none; 
-    border: none; 
-    padding: 0; 
-    cursor: pointer; 
-    width: 213px; 
-    height: 209px; 
+#loginError {
+    left: 332px; 
+    top: 900px; 
     position: absolute; 
-    left: 779px; 
-    top: 98px;
-}
-#operateButton {
-    width: 341px; 
-    height: 111px; 
-    left: 370px; 
-    top: 706px; 
-    position: absolute; 
-    font-size: 50px;  
-    font-weight: 600; 
-    line-height: 65px;
-}
-#logoutButton {
-    background: none; 
-    border: none; 
-    padding: 0;
-    cursor: pointer;
-    width: 110px; 
-    height: 113px; 
-    left: 731px; 
-    top:493px; 
-    position: absolute;
+    color: #FF0000; 
+    font-size: 35px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    word-wrap: break-word;
+    visibility: hidden;
 }
