@@ -41,9 +41,19 @@
 		.mileage-calendar {
 			text-align: center;
 			justify-content : center;
-			font-size: 30px;
+			font-size: 20px;
 			word-spacing:5px;
 		}
+		
+		.mileage-calendar table {
+        	width: 100%;
+        	table-layout: fixed;
+    	}
+
+    	.mileage-calendar table td {
+        	width: 14.28%;
+        	vertical-align: top;
+    	}
 
         @media only screen and (max-width: 600px) {
             input[type="text"],
@@ -123,82 +133,91 @@
 	<button onclick="prevMonth()">이전</button>
     <button onclick="nextMonth()">다음</button>
 	<script>
-    var currentDate = new Date();
-
-    var currentYear = currentDate.getFullYear();
-    var currentMonth = currentDate.getMonth() + 1;
+    var currentDate = new Date(); // 현재 날짜를 가져옵니다.
+    var currentYear = currentDate.getFullYear(); // 현재 연도를 가져옵니다.
+    var currentMonth = currentDate.getMonth() + 1; // 현재 월을 가져옵니다. (월은 0부터 시작하므로 1을 더합니다.)
 
     function getDaysInMonth(year, month) {
-        return new Date(year, month, 0).getDate();
+        return new Date(year, month, 0).getDate(); // 해당 연도와 월의 일 수를 반환합니다.
     }
 
     function generateCalendar(year, month) {
-        var daysInMonth = getDaysInMonth(year, month);
-        var calendarHTML = '<table>';
+        var daysInMonth = getDaysInMonth(year, month); // 해당 연도와 월의 일 수를 가져옵니다.
+        var calendarHTML = '<table>'; // 달력을 만들기 위한 HTML 문자열을 초기화합니다.
 
-        calendarHTML += '<tr><th colspan="7">' + month + '월 ' + year + '년</th></tr>';
-        calendarHTML += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>';
+        calendarHTML += '<tr><th colspan="7">' + month + '월 ' + year + '년</th></tr>'; // 달력의 제목 행을 추가합니다.
+        calendarHTML += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>'; // 요일 표시 행을 추가합니다.
 
-        var date = new Date(year, month - 1, 1);
+        var date = new Date(year, month - 1, 1); // 현재 달의 첫째 날의 Date 객체를 생성합니다.
 
         calendarHTML += '<tr>';
         for (var i = 0; i < date.getDay(); i++) {
-            calendarHTML += '<td></td>';
+            calendarHTML += '<td></td>'; // 이전 달의 날짜를 비워둡니다.
         }
 
         for (var day = 1; day <= daysInMonth; day++) {
-            var dayStr = day.toString(); // Convert day to string
-            calendarHTML += '<td style="position: relative;">' + dayStr + '</td>';
-            if (date.getDay() === 6) { //토요일일시 일요일은 다음 행부터
+            var dayStr = day.toString(); // 일자를 문자열로 변환합니다.
+            var backgroundColor = 'lightgray'; // 기본 배경색을 설정합니다.
+
+            // 특정 날짜의 재활용 횟수를 확인하여 배경색을 설정합니다.
+            // 만약 해당 날짜의 재활용 횟수가 1 이상이면 초록색으로 표시합니다.
+            if (checkRecyclingCount(year, month, day)) {
+                backgroundColor = 'green';
+            }
+
+            calendarHTML += '<td style="text-align: center; position: relative;">' + dayStr + '<br>' + '<div style="width: 20px; height: 20px; background-color: ' + backgroundColor + '; display: inline-block; margin-top: 2px;"></div>' + '</td>'; // 날짜를 표시하고 배경색을 설정합니다.
+            if (date.getDay() === 6) { // 토요일일 경우 다음 행으로 이동합니다.
                 calendarHTML += '</tr><tr>';
             }
-            date.setDate(date.getDate() + 1); // 다음날짜로
+            date.setDate(date.getDate() + 1); // 다음 날짜로 이동합니다.
         }
 
         while (date.getDay() > 0 && date.getDay() < 7) {
-            calendarHTML += '<td></td>';
+            calendarHTML += '<td></td>'; // 다음 달의 날짜를 비워둡니다.
             date.setDate(date.getDate() + 1);
         }
 
-        calendarHTML += '</tr></table>';
-        return calendarHTML;
+        calendarHTML += '</tr></table>'; // 달력을 마무리합니다.
+        return calendarHTML; // 생성된 달력 HTML을 반환합니다.
     }
 
-    document.querySelector('.mileage-calendar').innerHTML = generateCalendar(currentYear, currentMonth);
+    // 데이터베이스에서 특정 날짜의 재활용 횟수를 확인하는 함수입니다.
+    function checkRecyclingCount(year, month, day) {
+        // 여기에 실제 데이터베이스 쿼리를 사용하여 특정 날짜의 재활용 횟수를 확인하는 코드를 구현해야 합니다.
+        // 해당 날짜의 재활용 횟수가 1 이상이면 true를 반환하고, 그렇지 않으면 false를 반환합니다.
+        // 이 예제에서는 간단히 날짜가 홀수인 경우 true를 반환하고 짝수인 경우 false를 반환합니다.
+        return day % 2 !== 0; // 예제 로직입니다. 실제 데이터베이스 쿼리로 대체되어야 합니다.
+    }
+
+    document.querySelector('.mileage-calendar').innerHTML = generateCalendar(currentYear, currentMonth); // 초기 달력을 생성합니다.
 
     function prevMonth() {
-        currentMonth--;
-        if (currentMonth < 1) {
+        currentMonth--; // 이전 달로 이동합니다.
+        if (currentMonth < 1) { // 만약 현재 월이 1월인 경우 이전 해의 12월로 이동합니다.
             currentMonth = 12;
             currentYear--;
         }
-        refreshCalendar();
+        refreshCalendar(); // 달력을 새로고칩니다.
     }
 
     function nextMonth() {
-        currentMonth++;
-        if (currentMonth > 12) {
+        currentMonth++; // 다음 달로 이동합니다.
+        if (currentMonth > 12) { // 만약 현재 월이 12월인 경우 다음 해의 1월로 이동합니다.
             currentMonth = 1;
             currentYear++;
         }
-        refreshCalendar();
+        refreshCalendar(); // 달력을 새로고칩니다.
     }
     
     function refreshCalendar() {
-        document.querySelector('.mileage-calendar').innerHTML = generateCalendar(currentYear, currentMonth);
+        document.querySelector('.mileage-calendar').innerHTML = generateCalendar(currentYear, currentMonth); // 달력을 새로 고칩니다.
     }
-    
-    var smallSquareHTML = '<div style="width: 20px; height: 20px; background-color: lightgray; display: inline-block; margin-top: 2px;"></div>';
-
-    var tdElements = document.querySelectorAll('.mileage-calendar table td');
-    tdElements.forEach(function(td) {
-        if (td.innerHTML !== "") { 
-            td.innerHTML += '<br>' + smallSquareHTML;
-        }
-    });
 </script>
-
-</div>
+	<br>
+	<div style="text-align: center; margin-top: 20px;">
+        <img src="range.png" width="50px" height="10px">
+    </div>
+    </div>
 <br>
 <div class="mileage-chart">
 		차트들어갈곳
