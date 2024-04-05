@@ -10,6 +10,7 @@
         body {
             background-color: #F5F5F5;
             font-family: Arial, sans-serif;
+            color: #888888;
         }
 
 
@@ -24,7 +25,7 @@
             color: #555;
         }
 		
-		.show-mileage, .mileage-calendar, .mileage-chart {
+		.show-mileage, .mileage-chart {
             background-color: white;
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -32,6 +33,7 @@
             max-width: 500px;
             display : flex;       
             align-items : center;
+            margin: 5px;
 		}
 		
 		.show-mileage {
@@ -39,10 +41,16 @@
 		}
 		
 		.mileage-calendar {
-			text-align: center;
-			justify-content : center;
+			background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            display : flex;       
+            margin: 5px;
 			font-size: 20px;
-			word-spacing:5px;
+			word-spacing:3px;
+			height: 700px;
 		}
 		
 		.mileage-calendar table {
@@ -119,15 +127,18 @@
 %>
 
 <div id="user-info" style="display: flex;">
-    <strong><%= userId %> 님, 안녕하세요!<br></strong>
+    <div style="color:green; font-weight: bold;"><%= userId %></div><div style="font-weight: bold;">&nbsp;님, 안녕하세요!<br></div>
+    
     <%-- Lv <%= level %> <%= levelname %>--%>
 </div><br>
 
 <div class="show-mileage">
-	<img src="mileage-coin.png" alt="User Image" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 20px;" />
-		총 마일리지
-		<strong><%= totalmileage %> M </strong>
-</div> <br>
+    <img src="mileage-coin.png" alt="User Image" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 20px;" />
+    <div style="display: flex; flex-direction: column;">
+        <div style="font-size: 20px; margin-bottom: 10px; ">총 마일리지</div>
+        <div style="font-size: 30px; font-weight: bold; color: black;"><%= totalmileage %> M</div>
+    </div>
+</div><br>
 
 <div class="mileage-calendar">
 	<button onclick="prevMonth()">이전</button>
@@ -145,9 +156,10 @@
         var daysInMonth = getDaysInMonth(year, month); // 해당 연도와 월의 일 수를 가져옵니다.
         var calendarHTML = '<table>'; // 달력을 만들기 위한 HTML 문자열을 초기화합니다.
 
-        calendarHTML += '<tr><th colspan="7">' + month + '월 ' + year + '년</th></tr>'; // 달력의 제목 행을 추가합니다.
-        calendarHTML += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>'; // 요일 표시 행을 추가합니다.
-
+        calendarHTML += '<tr><th colspan="7">' + month + '월&nbsp;' + year + '년</th></tr>';
+        calendarHTML += '<tr><td colspan="7" style="border-bottom: 1px solid #000;"></td></tr>';
+        calendarHTML += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>'; 
+        
         var date = new Date(year, month - 1, 1); // 현재 달의 첫째 날의 Date 객체를 생성합니다.
 
         calendarHTML += '<tr>';
@@ -162,7 +174,7 @@
             // 특정 날짜의 재활용 횟수를 확인하여 배경색을 설정합니다.
             // 만약 해당 날짜의 재활용 횟수가 1 이상이면 초록색으로 표시합니다.
             if (checkRecyclingCount(year, month, day)) {
-                backgroundColor = 'green';
+                backgroundColor = '#349C9D';
             }
 
             calendarHTML += '<td style="text-align: center; position: relative;">' + dayStr + '<br>' + '<div style="width: 20px; height: 20px; background-color: ' + backgroundColor + '; display: inline-block; margin-top: 2px;"></div>' + '</td>'; // 날짜를 표시하고 배경색을 설정합니다.
@@ -212,12 +224,12 @@
     function refreshCalendar() {
         document.querySelector('.mileage-calendar').innerHTML = generateCalendar(currentYear, currentMonth); // 달력을 새로 고칩니다.
     }
+    
 </script>
-	<br>
-	<div style="text-align: center; margin-top: 20px;">
-        <img src="range.png" width="50px" height="10px">
+	<div style="text-align: center; position: absolute; bottom: 20px; left: calc(50% - 125px);">
+        <img src="range.png" width="250px" height="25px">
     </div>
-    </div>
+</div>
 <br>
 <div class="mileage-chart">
 		차트들어갈곳
