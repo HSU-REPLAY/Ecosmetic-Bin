@@ -8,8 +8,8 @@
     <title>Ecosmetic Bin 회원가입</title>
     <style>
         body {
-            margin: 0;
-            height: 100vh; /* 전체 화면 높이로 설정 */
+            margin: 0 auto;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,7 +22,7 @@
             flex-direction: column;
             position: relative;
             width: 80%;
-            margin: 10vh auto;
+            margin: 1vh auto;
         }
 
         input[type="text"], input[type="submit"] {
@@ -32,6 +32,7 @@
             margin: 5px;
             border-radius: 10px;
             border: 2px solid #55C595;
+            padding: 10px;
             font-size: 20px;
         }
 
@@ -44,6 +45,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         #message {
@@ -54,7 +56,7 @@
         }
 
         @media only screen and (max-width: 600px) {
-			input[type="text"], input[type="submit"] {
+            input[type="text"], input[type="submit"] {
                 width: 90%;
                 max-width: none;
                 height: 10vw;
@@ -112,20 +114,20 @@
         try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
     }
 %>
-<body>
-    <div class="container">
-        <p style="font-size: 50px;">Welcome!</p>
-        <img src="logo.png">
-        <p style="font-size: 20px;">회원 서비스 이용을 위해 로그인 해주세요. </p>
+<body class="container">
+    <div>
+        <p style="font-size: 30px;">Welcome!</p>
+        <img src="logo.png" style="width: 200px; height: auto;">
+        <p style="font-size: 10px;">회원 서비스 이용을 위해 로그인 해주세요. </p>
 		<br><br>
         <form action="" method="post">
             <div class="search-container">
                 <div>
                     <input type="text" id="id" name="id" placeholder="아이디">
-                </div>
+                </div><br>
                 <% if(message != null) { %>
                     <div id="message"><%= message %></div>
-                <% } %>
+                <% } %><br><br>
                 <input type="submit" value="회원가입">
             </div>
         </form>
