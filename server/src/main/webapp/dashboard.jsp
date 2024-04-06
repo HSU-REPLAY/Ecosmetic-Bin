@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %> 
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,7 @@
             cursor: pointer;
         }
 
-		.calendar-container {
+        .calendar-container {
             display: flex;
             flex-direction: column;
         }
@@ -44,8 +45,8 @@
             font-size: 18px;
             color: #555;
         }
-		
-		.show-mileage, .mileage-chart {
+        
+        .show-mileage, .mileage-chart {
             background-color: white;
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -54,21 +55,21 @@
             display : flex;       
             align-items : center;
             margin: 5px;
-		}
-		
-		.show-mileage {
-			font-size: 20px;
-		}
-		
-		.mileage-calendar-container {
-    		width: 100%; /* 부모 요소의 너비에 따라 조정할 수 있도록 설정 */
-    		max-width: 460px; /* 최대 너비 설정 */
-    		height: 450px; /* 달력의 높이를 고정 */
-    		overflow-y: auto; /* 세로 스크롤이 필요할 경우 스크롤바 표시 */
-		}
-		
-		.mileage-calendar {
-			background-color: white;
+        }
+        
+        .show-mileage {
+            font-size: 20px;
+        }
+        
+        .mileage-calendar-container {
+            width: 100%;
+            max-width: 460px;
+            height: 450px;
+            overflow-y: auto;
+        }
+        
+        .mileage-calendar {
+            background-color: white;
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -77,26 +78,26 @@
             margin: 5px;
             padding-left: 20px;
             padding-right: 20px;
-			font-size: 20px;
-			word-spacing:3px;
-			height: 800px;
-			position: relative;
-		}
-		
-		.mileage-calendar table {
-			margin-top: 20px;
-        	width: 100%;
-        	table-layout: fixed;
-    	}
+            font-size: 20px;
+            word-spacing:3px;
+            height: 900px;
+            position: relative;
+        }
+        
+        .mileage-calendar table {
+            margin-top: 20px;
+            width: 100%;
+            table-layout: fixed;
+        }
 
-    	.mileage-calendar table td {
-        	width: 14.28%;
-        	vertical-align: top;
-            cursor: pointer; /* 클릭 가능하도록 커서 스타일 설정 */
-            text-align: center; /* 텍스트 가운데 정렬 */
-            padding: 10px 0; /* 셀 안의 요소들이 수직 가운데 정렬되도록 패딩 설정 */
-    	}
-    	
+        .mileage-calendar table td {
+            width: 14.28%;
+            vertical-align: top;
+            cursor: pointer;
+            text-align: center;
+            padding: 10px 0;
+        }
+        
         @media only screen and (max-width: 600px) {
             input[type="text"],
             input[type="button"] {
@@ -119,7 +120,7 @@
     String userId = "";
     String level = "";
     String levelname = "";
-    int totalmileage =0;
+    int totalmileage = 0;
 
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -158,12 +159,25 @@
         try { if (pstmt != null) pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
         try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
     }
-%>
+    
+ // 데이터베이스에서 플라스틱, 유리, 캔 개수를 가져오는 부분 수정
+    String selectedDate = request.getParameter("selectedDate");
+    Object plasticCountObj = request.getAttribute("plasticCount");
+    Object glassCountObj = request.getAttribute("glassCount");
+    Object canCountObj = request.getAttribute("canCount");
 
+    //데이터가 null이 아닌지 확인 후, String으로 변환하여 사용
+    String plasticCount = (plasticCountObj != null) ? plasticCountObj.toString() : "";
+    String glassCount = (glassCountObj != null) ? glassCountObj.toString() : "";
+    String canCount = (canCountObj != null) ? canCountObj.toString() : "";
+
+    request.setAttribute("plasticCount", plasticCount);
+    request.setAttribute("glassCount", glassCount);
+    request.setAttribute("canCount", canCount);
+    
+%>
 <div id="user-info" style="display: flex;">
     <div style="color:green; font-weight: bold;"><%= userId %></div><div style="font-weight: bold;">&nbsp;님, 안녕하세요!<br></div>
-    
-    <%-- Lv <%= level %> <%= levelname %>--%>
 </div><br>
 
 <div class="show-mileage">
@@ -173,13 +187,19 @@
         <div style="font-size: 30px; font-weight: bold; color: black;"><%= totalmileage %> M</div>
     </div>
 </div><br>
-
-<div class="mileage-calendar">
-	<div id="calendar-container"></div>
-	<img class="type-img" src="type.png" width="400px" height="250px" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-	<div style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;"> 총 __M 적립했습니다</div>
-
+<div class="mileage-calendar" style="position: relative;">
+    <div id="calendar-container"></div>
+    <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
+        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
+        <div id="recycling-info" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
+            플라스틱: <%= plasticCount %>개<br>
+            유리: <%= glassCount %>개<br>
+            캔: <%= canCount %>개<br>
+        </div>
+        <div style="text-align: center; margin-top: 10px;"> 총 __M 적립했습니다</div>
+    </div>
 </div>
+
 <script>
     var currentDate = new Date(); // 현재 날짜를 가져옵니다.
     var currentYear = currentDate.getFullYear(); // 현재 연도를 가져옵니다.
@@ -219,9 +239,16 @@
                 backgroundColor = '#349C9D';
             }
 
+         // 현재 날짜인 경우 동그라미를 추가합니다.
+            if (year === currentDate.getFullYear() && month === currentDate.getMonth() + 1 && day === currentDate.getDate()) {
+    dayStr = '<div style="position: relative; display: inline-block; width: 20px; height: 20px; background-color: black; border-radius: 50%; text-align: center; line-height: 0px;">' + 
+             '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 16px;">' + dayStr + '</div>' +
+             '</div>';
+}
+
             calendarHTML += '<td style="text-align: center; position: relative;">' + dayStr + '<br>' + 
             '<div style="width: 20px; height: 20px; background-color: ' + backgroundColor + 
-            '; display: inline-block; margin-top: 2px;"></div>' + '</td>'; // 날짜를 표시하고 배경색을 설정합니다.
+            '; display: inline-block; margin-top: 2px; border-radius: 5px;"></div>' + '</td>'; // 날짜를 표시하고 배경색을 설정합니다.
             if (date.getDay() === 6) { // 토요일일 경우 다음 행으로 이동합니다.
                 calendarHTML += '</tr><tr>';
             }
@@ -233,11 +260,17 @@
             date.setDate(date.getDate() + 1);
         }
 
+        while (date.getDay() > 0 && date.getDay() < 7) {
+            calendarHTML += '<td></td>'; // 다음 달의 날짜를 비워둡니다.
+            date.setDate(date.getDate() + 1);
+        }
+
         calendarHTML += '</tr></table>';
 
         // 이미지 요소 추가
-        calendarHTML += '<img src="range.png" width="250px" height="25px" style="position: absolute; bottom: 300px; left: 70%; transform: translateX(-50%);">';
-
+        calendarHTML += '<img src="range.png" width="250px" height="25px" style="position: absolute; bottom: 400px; left: 70%; transform: translateX(-50%);">';
+        
+        
         return calendarHTML;
     }
 
@@ -275,42 +308,43 @@
         document.getElementById("currentMonthYear").innerHTML = currentMonth + "월 " + currentYear + "년"; // 현재 연도와 월을 업데이트합니다.
     }
 
-    // 날짜 클릭 이벤트 설정
+ // 날짜 클릭 이벤트 설정
     var cells = document.querySelectorAll('.mileage-calendar table td');
-		cells.forEach(function(cell) {
-    		cell.addEventListener('click', function() {
-        var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
-        
-        // Ajax 요청 보내기
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'updateChartData.jsp?date=' + selectedDate, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // 차트 업데이트 함수 호출
-                updateChart(xhr.responseText);
-            }
-        };
-        xhr.send();
+    cells.forEach(function(cell) {
+        cell.addEventListener('click', function() {
+            var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
+            
+            // Ajax 요청 보내기
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'updateChartData.jsp?date=' + selectedDate, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // 차트 업데이트 함수 호출
+                    updateChart(xhr.responseText);
+                }
+            };
+            xhr.send();
+        });
     });
-});
-		function updateChart(responseData) {
-			// JSON 형식의 응답 데이터를 JavaScript 객체로 파싱합니다.
-		    var data = JSON.parse(responseData);
 
-		    // 차트 데이터를 업데이트합니다.
-		    myChart.data.labels = data.labels; // 차트의 라벨 업데이트
-		    myChart.data.datasets.forEach((dataset, index) => {
-		        dataset.data = data.datasets[index].data; // 각 데이터셋의 데이터 업데이트
-		    });
+    function updateChart(responseData) {
+        // JSON 형식의 응답 데이터를 JavaScript 객체로 파싱합니다.
+        var data = JSON.parse(responseData);
 
-		    // 차트를 다시 그립니다.
-		    myChart.update();
-		}
+        // 차트 데이터를 업데이트합니다.
+        myChart.data.labels = data.labels; // 차트의 라벨 업데이트
+        myChart.data.datasets.forEach((dataset, index) => {
+            dataset.data = data.datasets[index].data; // 각 데이터셋의 데이터 업데이트
+        });
+
+        // 차트를 업데이트합니다.
+        myChart.update();
+    }
 </script>
 <br>
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h3>__월 요약</h3>
-		<%@ include file="mileageChart.jsp" %>
+        <%--<%@ include file="mileageChart.jsp" %>--%>
     <%-- 이 부분은 해당 월에 대한 차트를 보여주는 부분인데, 여기에 해당 월의 차트를 표시하는 코드를 추가하셔야 합니다. --%>
 </div>
 <br>
