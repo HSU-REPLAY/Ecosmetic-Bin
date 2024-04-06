@@ -13,6 +13,27 @@
             color: #888888;
         }
 
+        /* 버튼 스타일 */
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .btn-container button {
+            background-color: #349C9D;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+		.calendar-container {
+            display: flex;
+            flex-direction: column;
+        }
 
         #user-info {
             margin-top: 50px;
@@ -50,10 +71,19 @@
             margin: 5px;
 			font-size: 20px;
 			word-spacing:3px;
-			height: 700px;
+			height: 400px;
+			position: relative;
 		}
 		
+		.mileage-calendar img {
+            position: absolute; /* 절대 위치로 설정하여 부모 요소에 상대적으로 배치 */
+            bottom: 10px; /* 아래쪽으로 25px만큼 이동하여 달력 아래에 배치 */
+            left: 70%; /* 부모 요소 가로 중앙에 위치 */
+            transform: translateX(-50%); /* 수평 방향으로 요소를 이동하여 가운데 정렬 */
+        }
+		
 		.mileage-calendar table {
+			margin-top: 20px;
         	width: 100%;
         	table-layout: fixed;
     	}
@@ -62,6 +92,7 @@
         	width: 14.28%;
         	vertical-align: top;
     	}
+    	
 
         @media only screen and (max-width: 600px) {
             input[type="text"],
@@ -134,15 +165,16 @@
 
 <div class="show-mileage">
     <img src="mileage-coin.png" alt="User Image" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 20px;" />
-    <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-disrection: column;">
         <div style="font-size: 20px; margin-bottom: 10px; ">총 마일리지</div>
         <div style="font-size: 30px; font-weight: bold; color: black;"><%= totalmileage %> M</div>
     </div>
 </div><br>
 
 <div class="mileage-calendar">
-	<button onclick="prevMonth()">이전</button>
-    <button onclick="nextMonth()">다음</button>
+	<div id="calendar-container"></div>
+	<img src="range.png" width="250px" height="25px">
+	
 	<script>
     var currentDate = new Date(); // 현재 날짜를 가져옵니다.
     var currentYear = currentDate.getFullYear(); // 현재 연도를 가져옵니다.
@@ -156,7 +188,11 @@
         var daysInMonth = getDaysInMonth(year, month); // 해당 연도와 월의 일 수를 가져옵니다.
         var calendarHTML = '<table>'; // 달력을 만들기 위한 HTML 문자열을 초기화합니다.
 
-        calendarHTML += '<tr><th colspan="7">' + month + '월&nbsp;' + year + '년</th></tr>';
+        calendarHTML += '<tr><th colspan="7" style="position: relative;">';
+        calendarHTML += '<button onclick="prevMonth()" style="position: absolute; left: 0;">이전</button>';
+        calendarHTML += month + '월 ' + year + '년';
+        calendarHTML += '<button onclick="nextMonth()" style="position: absolute; right: 0;">다음</button>';
+        calendarHTML += '</th></tr>';
         calendarHTML += '<tr><td colspan="7" style="border-bottom: 1px solid #000;"></td></tr>';
         calendarHTML += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>'; 
         
@@ -201,7 +237,7 @@
         return day % 2 !== 0; // 예제 로직입니다. 실제 데이터베이스 쿼리로 대체되어야 합니다.
     }
 
-    document.querySelector('.mileage-calendar').innerHTML = generateCalendar(currentYear, currentMonth); // 초기 달력을 생성합니다.
+    document.querySelector('.mileage-calendar #calendar-container').innerHTML = generateCalendar(currentYear, currentMonth);
 
     function prevMonth() {
         currentMonth--; // 이전 달로 이동합니다.
@@ -212,6 +248,7 @@
         refreshCalendar(); // 달력을 새로고칩니다.
     }
 
+    // 다음 달로 이동하는 함수
     function nextMonth() {
         currentMonth++; // 다음 달로 이동합니다.
         if (currentMonth > 12) { // 만약 현재 월이 12월인 경우 다음 해의 1월로 이동합니다.
@@ -223,12 +260,10 @@
     
     function refreshCalendar() {
         document.querySelector('.mileage-calendar').innerHTML = generateCalendar(currentYear, currentMonth); // 달력을 새로 고칩니다.
+        document.getElementById("currentMonthYear").innerHTML = currentMonth + "월 " + currentYear + "년"; // 현재 연도와 월을 업데이트합니다.
     }
     
 </script>
-	<div style="text-align: center; position: absolute; bottom: 20px; left: calc(50% - 125px);">
-        <img src="range.png" width="250px" height="25px">
-    </div>
 </div>
 <br>
 <div class="mileage-chart">
