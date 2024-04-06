@@ -1,3 +1,6 @@
+.homeScreen {
+    visibility: visible;
+}
 #inputName::placeholder {
     color: #A0A0A0; 
 }
@@ -42,5 +45,8 @@
     font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
+    visibility: hidden;
+}
+#logoutButton {
     visibility: hidden;
 }

@@ -6,7 +6,7 @@ let isImageSubscribed = false; // (확인) 꼭 필요한 변수인가
 
 // load 이벤트 리스너 등록. 웹페이지가 로딩된 후 실행
 window.addEventListener("load", function () {
-    canvas = document.getElementById("myCanvas");
+    canvas = document.getElementById("camStreaming");
     context = canvas.getContext("2d");
     img = new Image();
     img.onload = function () {

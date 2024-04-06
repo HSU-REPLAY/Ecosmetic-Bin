@@ -1,69 +1,50 @@
-.EcosmeticBin {
-    left: 229px; 
-    top: 359px; 
+.homeScreen {
+    visibility: hidden;
+}
+.mainScreen {
+    visibility: visible;
+}
+#logo {
+    width: 654px; 
+    height: 181px; 
+    left: 213px; 
+    top: 114px; 
     position: absolute;
-    color: white; 
-    font-size: 90px; 
-    font-weight: 700; 
-    line-height: 117px; 
-    word-wrap: break-word;
 }
-#highlight1 {
-    width: 679px; 
-    height: 63px; 
-    left: 200px; 
-    top: 408px; 
-    position: absolute; 
-    background: #005E26;
-}
-#highlight2 {
-    width: 237px; 
-    height: 47px; 
+#selectCamera {
+    width: 400px; 
+    height: 50px; 
     left: 340px; 
-    top: 545px; 
+    top: 607px; 
     position: absolute; 
-    background: #005E26;
+    color: white;
+    appearance: none;
+    border-radius: 100px; 
+    border: 1.50px #B5B5B5 solid;
 }
-#highlight3 {
-    width: 142px; 
-    height: 42px; 
-    left: 406px; 
-    top: 628px; 
+#camStreaming {
+    width: 660px; 
+    height: 451.58px; 
+    left: 210px; 
+    top: 689px; 
     position: absolute; 
-    background: #005E26;
-}
-#ecoIcon {
-    width: 308.42px; 
-    height: 300px; 
-    left: 375px; 
-    top: 52px; 
-    position: absolute;
-}
-#ecoWord {
-    color: #C1F1C1; 
-    font-size: 90px;
-    font-weight: 700; 
-    line-height: 117px; 
-    word-wrap: break-word;
+    background: #333333; 
+    border: 3px #B5B5B5 solid;
 }
 #userName {
-    left: 358px; 
-    top: 517px; 
-    position: absolute;
     color: white; 
-    font-size: 50px;
+    font-size: 40px; 
+    font-family: Inter; 
     font-weight: 700; 
-    line-height: 65px; 
+    line-height: 52px; 
     word-wrap: break-word;
 }
-#total {
-    left: 406px; 
-    top: 605px; 
-    position: absolute; 
+#sayHello {
     color: white; 
-    font-size: 50px; 
-    font-weight: 600; 
-    line-height: 65px; 
+    font-size: 40px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    line-height: 52px; 
     word-wrap: break-word;
 }
 #cameraButton {
@@ -78,53 +59,31 @@
     top: 98px;
 }
 #operateButton {
-    width: 341px; 
-    height: 111px; 
-    left: 370px; 
-    top: 706px; 
-    position: absolute; 
-    font-size: 50px; 
-    font-weight: 600; 
-    line-height: 65px;
+    width: 660px; 
+    height: 110px; 
+    left: 210px; 
+    top: 1210.58px; 
+    position: absolute;
+    color: white; 
+    font-size: 40px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    word-wrap: break-word;
 }
 .idContainer {
-    position: relative;
+    left: 351px; 
+    top: 523px;
+    position: absolute;
 }
 #logoutButton {
-    background: none; 
-    border: none; 
-    padding: 0;
-    cursor: pointer;
-    width: 110px; 
-    height: 113px; 
-    position: absolute;
-    left: calc(100% + 10px);
-    top:0;
-}
-
-#glassTable {
-    width: 277px; height: 814px; left: 61px; top: 853px; position: absolute;
-}
-
-#plasticTable {
-    width: 277px; height: 814px; left: 382px; top: 853px; position: absolute; 
-}
-
-#canTable {
-    width: 277px; height: 814px; left: 703px; top: 853px; position: absolute; 
-}
-
-#merakiCam {
-    left: 750px;
-    top: 100px;
-    width: 320px;
-    height: 240px;
-    position: absolute;
-}
-
-.tableCaption {
-    font-size: 50px; 
-    font-weight: 600; 
-    line-height: 65px; 
+    left: 507px; 
+    top: 1600px; 
+    position: absolute; 
+    color: #9F9F9F; 
+    background: none;
+    font-size: 20px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    text-decoration: underline; 
     word-wrap: break-word;
 }

@@ -14,36 +14,24 @@ body {
     color: white;
     font-family: "Hahmlet", serif;
 }
-table { 
-    border: 3px solid;
-    border-collapse: collapse;
-    border-top: none;
-    margin: 30px;
-    display: none;
-}
-caption {
-    caption-side: bottom;
-}
-td {
-    width : 200px;
-    height : 200px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
 tr, td {
     border: none;
 }
 .hidden {
     display: none;
 }
-.dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+.mainScreen, .analysisScreen, .loadingScreen, .resultScreen, .mileageResultScreen {
+    visibility: hidden;
+}
+#logoutButton {
+    left: 507px; 
+    top: 1600px; 
+    position: absolute; 
+    color: #9F9F9F; 
+    background: none;
+    font-size: 20px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    text-decoration: underline; 
+    word-wrap: break-word;
 }
