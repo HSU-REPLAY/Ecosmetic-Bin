@@ -192,9 +192,9 @@
     <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
         <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
         <div id="recycling-info" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-            플라스틱: <%= plasticCount %>개<br>
-            유리: <%= glassCount %>개<br>
-            캔: <%= canCount %>개<br>
+            플라스틱: <%= plasticCount %>개
+            유리: <%= glassCount %>개
+            캔: <%= canCount %>개
         </div>
         <div style="text-align: center; margin-top: 10px;"> 총 __M 적립했습니다</div>
     </div>
