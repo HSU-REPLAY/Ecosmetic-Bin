@@ -86,15 +86,15 @@
 
         function toResultScreen() {
             document.getElementById("screenStyleSheet").setAttribute('href', 'resultScreen.css');
-            let plasticCount = document.getElementById("plasticCount").innerHTML;
+            let plasticCount = document.getElementById("plasticCount").innerHTML.replace(/\D/g,'');;
             if(plasticCount > 0) {
                 fillTrashbin('plastic', plasticCount);
             }
-            let glassCount = document.getElementById("glassCount").innerHTML;
+            let glassCount = document.getElementById("glassCount").innerHTML.replace(/\D/g,'');;
             if(glassCount > 0) {
                 fillTrashbin('glass', glassCount);
             }
-            let canCount = document.getElementById("canCount").innerHTML;
+            let canCount = document.getElementById("canCount").innerHTML.replace(/\D/g,'');;
             if(canCount > 0) {
                 fillTrashbin('can', canCount);
             }
