@@ -105,23 +105,6 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 		document.getElementById("plasticCount").innerHTML = parseInt(msgString[0]) + "개";
 		document.getElementById("canCount").innerHTML = parseInt(msgString[1]) + "개";
 		document.getElementById("glassCount").innerHTML = parseInt(msgString[2]) + "개";
-
-		/*if(plasticCount == 1) {
-			total++;
-			intervalId = setInterval(function() {
-				moveImageDown('plastic', './plastic.png');
-			}, 300);
-		} else if(canCount == 1) {
-			total++;
-			intervalId = setInterval(function() {
-				moveImageDown('can', './can.png');
-			}, 300);
-		} else if(glassCount == 1) {
-			total++;
-			intervalId = setInterval(function() {
-				moveImageDown('glass', './glass.png');
-			}, 300);
-		}*/
 	}
 }
 

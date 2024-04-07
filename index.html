@@ -87,16 +87,45 @@
         function toResultScreen() {
             document.getElementById("screenStyleSheet").setAttribute('href', 'resultScreen.css');
             let plasticCount = document.getElementById("plasticCount").innerHTML;
+            if(plasticCount > 0) {
+                fillTrashbin('plastic', plasticCount);
+            }
             let glassCount = document.getElementById("glassCount").innerHTML;
+            if(glassCount > 0) {
+                fillTrashbin('glass', glassCount);
+            }
             let canCount = document.getElementById("canCount").innerHTML;
+            if(canCount > 0) {
+                fillTrashbin('can', canCount);
+            }
         }
 
-        function fillTrashbin(tableId, color) {
-            var table = document.getElementById(tableId); // 테이블 선택
+        function fillTrashbin(tableId, count) {
+            var table = document.getElementById(tableId + "Table"); // 테이블 선택
             var cells = table.getElementsByTagName('td'); // 테이블 내의 모든 셀 선택
-            for (var i = 0; i < cells.length; i++) {
-                cells[i].style.backgroundColor = color; // 각 셀에 배경색 적용
+            var color;
+            // 플라스틱일 경우
+            if(tableId == "plastic") {
+                color = "#02FDC0";
             }
+            // 유리일 경우
+            else if(tableId == "glass") {
+                color = "#FF15A8";
+            }
+            // 캔일 경우
+            else {
+                color = "#A700FE";
+            }
+            var index = cells.length - 1;
+            var interval = setInterval(function() {
+                if (count <= 0 || index < 0) {
+                    clearInterval(interval);
+                    return;
+                }
+                cells[index].style.backgroundColor = color;
+                count--;
+                index--;
+            }, 1000); // 1초 간격으로 적용
         }
     </script>
 </head>
