@@ -16,6 +16,8 @@ body {
 }
 tr, td {
     border: none;
+    width: 277px;
+    height: 79px;
 }
 .hidden {
     display: none;

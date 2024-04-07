@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./button.css">
     <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" type="text/css" id="loading" />
     <link rel="stylesheet" type="text/css" href="keyboard.css" />
     
     <link rel="stylesheet" href="./homeScreen.css" id="screenStyleSheet">
@@ -30,7 +29,7 @@
             subscribe("result");
             stopStreaming();
             publish("capture", "true"); // 캡처하기 위해 'capture' 토픽으로 메시지 발행. 메시지는 의미 없음
-            document.getElementById("screenStyleSheet").setAttribute('href', 'loadingScreen.css'); // 로딩 화면으로 전환 
+            document.getElementById("loading").setAttribute('href', 'loadingScreen.css'); // 로딩 화면으로 전환 
         }
 
         function moveImageDown(tableId, imgPath) {
@@ -90,6 +89,14 @@
             let plasticCount = document.getElementById("plasticCount").innerHTML;
             let glassCount = document.getElementById("glassCount").innerHTML;
             let canCount = document.getElementById("canCount").innerHTML;
+        }
+
+        function fillTrashbin(tableId, color) {
+            var table = document.getElementById(tableId); // 테이블 선택
+            var cells = table.getElementsByTagName('td'); // 테이블 내의 모든 셀 선택
+            for (var i = 0; i < cells.length; i++) {
+                cells[i].style.backgroundColor = color; // 각 셀에 배경색 적용
+            }
         }
     </script>
 </head>
@@ -186,14 +193,24 @@
     <button onclick="toMainScreen()" class="analysisScreen button button--ujarak button--border-medium button--round-s button--text-thick" id="recaptureButton">재촬영</button>
     <button onclick="toResultScreen()" class="analysisScreen button button--ujarak button--border-medium button--round-s button--text-thick" id="continueButton">계속</button>
 
-    <table class="resultScreen" id="glassTable">
+    <table class="resultScreen" id="plasticTable">
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
     </table> 
-    <table class="resultScreen" id="plasticTable">
+    <table class="resultScreen" id="glassTable">
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
@@ -201,6 +218,11 @@
         <tr><td></td></tr>
     </table> 
     <table class="resultScreen" id="canTable">
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>
         <tr><td></td></tr>

@@ -98,6 +98,7 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
 		// document.getElementById("merakiCam").src = msg.payloadString;
     }
 	else if(msg.destinationName == "result") {
+		document.getElementById("loading").setAttribute('href', '');
 		document.getElementById("screenStyleSheet").setAttribute('href', 'analysisScreen.css'); // 분석 결과 화면으로 전환 
 		document.getElementById("info").innerHTML = "분류 결과";
 		let msgString = msg.payloadString.split(",");

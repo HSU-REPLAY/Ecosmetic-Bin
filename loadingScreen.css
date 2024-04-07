@@ -4,46 +4,6 @@
 .mainScreen {
     z-index: -1;
 }
-#logo {
-    width: 654px; 
-    height: 181px; 
-    left: 213px; 
-    top: 114px; 
-    position: absolute;
-    z-index: -1;
-}
-#userName {
-    color: white; 
-    font-size: 40px; 
-    font-family: Inter; 
-    font-weight: 700; 
-    line-height: 52px; 
-    word-wrap: break-word;
-}
-#sayHello {
-    color: white; 
-    font-size: 40px; 
-    font-family: Inter; 
-    font-weight: 400; 
-    line-height: 52px; 
-    word-wrap: break-word;
-}
-.idContainer {
-    left: 351px; 
-    top: 574px; 
-    position: absolute;
-    z-index: -1;
-}
-#camStreaming {
-    width: 660px; 
-    height: 451.58px; 
-    left: 210px; 
-    top: 689px; 
-    position: absolute; 
-    background: #333333; 
-    border: 3px #B5B5B5 solid;
-    z-index: -1;
-}
 #analysisInProgress {
     left: 457px;
     top: 984px;
@@ -69,17 +29,4 @@
     top: 0px; 
     position: absolute; 
     background: rgba(0, 0, 0, 0.60);
-}
-#operateButton {
-    width: 660px; 
-    height: 110px; 
-    left: 210px; 
-    top: 1210.58px; 
-    position: absolute;
-    color: white; 
-    font-size: 40px; 
-    font-family: Inter; 
-    font-weight: 400; 
-    word-wrap: break-word;
-    z-index: -1;
 }
