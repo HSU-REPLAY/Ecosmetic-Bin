@@ -37,7 +37,7 @@
 
         #user-info {
             margin-top: 50px;
-            font-size: 32px;
+            font-size: 25px;
             color: #333;
         }
 
@@ -102,6 +102,7 @@
             text-align: center;
             padding: 10px 0;
         }
+        
         
         @media only screen and (max-width: 600px) {
             input[type="text"],
@@ -184,7 +185,7 @@
     
 %>
 <div id="user-info" style="display: flex;">
-    <div style="color:green; font-weight: bold;"><%= userId %></div><div style="font-weight: bold;">&nbsp;님, 안녕하세요!<br></div>
+    <div style="color:#55C595; font-weight: bold; margin-left: 20px;"><%= userId %></div><div style="font-weight: bold;">&nbsp;님, 안녕하세요!<br></div>
 </div><br>
 
 <div class="show-mileage">
@@ -197,17 +198,18 @@
 <div class="mileage-calendar" style="position: relative;">
     <div id="calendar-container"></div>
     <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);">
-        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
-        <div id="recycling-info" style="position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);">
+        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
+        <div id="recycling-info" style="position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);">
             <span id="plasticCount">0</span>
             <span id="glassCount" style="margin-left: 120px;">0</span>
             <span id="canCount" style="margin-left: 110px;">0</span>
         </div>
-                <div style="text-align: center; font-size: 20px; font-weight: bold;">
+                <div style="text-align: center; font-size: 15px; font-weight: bold;">
     			<span id="totalResult"></span>
 				</div>
     </div>
 </div>
+<button type="button" onclick="location.href='myPage.jsp'">마이 페이지로 이동</button>
 
 
 <script>
@@ -241,7 +243,7 @@
 
         for (var day = 1; day <= daysInMonth; day++) {
             var dayStr = day.toString(); // 일자를 문자열로 변환합니다.
-            var backgroundColor = 'lightgray'; // 기본 배경색을 설정합니다.
+            var backgroundColor = '#EBEDF0'; // 기본 배경색을 설정합니다.
 
             // 특정 날짜의 재활용 횟수를 확인하여 배경색을 설정합니다.
             // 만약 해당 날짜의 재활용 횟수가 1 이상이면 초록색으로 표시합니다.
@@ -278,7 +280,7 @@
         calendarHTML += '</tr></table>';
 
         // 이미지 요소 추가
-        calendarHTML += '<img src="range.png" width="250px" height="25px" style="position: absolute; bottom: 400px; left: 70%; transform: translateX(-50%);">';
+        calendarHTML += '<img src="range.png" width="180px" height="15px" style="position: absolute; bottom: 360px; left: 70%; transform: translateX(-50%);">';
         
         
         return calendarHTML;
@@ -342,40 +344,36 @@
     function updateChart(responseData) {
         var data = JSON.parse(responseData);
 
-        // 받아온 데이터를 이용하여 차트 업데이트 등의 작업을 수행합니다.
-        // 예를 들어, 차트의 데이터를 업데이트하거나, 웹 페이지의 다른 요소에 데이터를 표시할 수 있습니다.
-
-        // 예시: 받아온 데이터를 이용하여 플라스틱, 유리, 캔 개수를 표시하는 예제
-    var plasticCount = data.plasticCount;
-    var glassCount = data.glassCount;
-    var canCount = data.canCount;
+    	var plasticCount = data.plasticCount;
+    	var glassCount = data.glassCount;
+    	var canCount = data.canCount;
         
         // 받아온 데이터를 이용하여 HTML 요소 업데이트 등의 작업을 수행합니다.
-    var plasticCountElement = document.getElementById("plasticCount");
-    if (plasticCountElement) {
-        plasticCountElement.innerText = plasticCount;
-    }
+    	var plasticCountElement = document.getElementById("plasticCount");
+    	if (plasticCountElement) {
+        	plasticCountElement.innerText = plasticCount;
+    	}
 
-    var glassCountElement = document.getElementById("glassCount");
-    if (glassCountElement) {
-        glassCountElement.innerText = glassCount;
-    }
+    	var glassCountElement = document.getElementById("glassCount");
+    	if (glassCountElement) {
+        	glassCountElement.innerText = glassCount;
+    	}
 
-    var canCountElement = document.getElementById("canCount");
-    if (canCountElement) {
-        canCountElement.innerText = canCount;
-    }
-    var totalResultElement = document.getElementById("totalResult");
-    if (totalResultElement) {
-        var totalResult = data.result; // result 열의 값을 가져와서 총 적립한 마일리지로 설정합니다.
-        totalResultElement.innerHTML = "총 " + "<b style='color: black; font-size: 25px;'>" + totalResult + "  M</b> 적립했습니다";
-    }
+    	var canCountElement = document.getElementById("canCount");
+    	if (canCountElement) {
+        	canCountElement.innerText = canCount;
+    	}
+    	var totalResultElement = document.getElementById("totalResult");
+    	if (totalResultElement) {
+        	var totalResult = data.result; // result 열의 값을 가져와서 총 적립한 마일리지로 설정합니다.
+        	totalResultElement.innerHTML = "총 " + "<b style='color: black; font-size: 20px;'>" + totalResult + "  M</b> 적립했습니다";
+    	}
     }
 </script>
 <br>
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h3>4월 요약</h3>
-        <%--<%@ include file="mileageChart.jsp" %>--%>
+		<%-- <%@ include file="mileageChart.jsp" %>--%>
     <%-- 이 부분은 해당 월에 대한 차트를 보여주는 부분인데, 여기에 해당 월의 차트를 표시하는 코드를 추가하셔야 합니다. --%>
 </div>
 <br>

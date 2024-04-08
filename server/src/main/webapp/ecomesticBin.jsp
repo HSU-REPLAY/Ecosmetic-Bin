@@ -41,6 +41,8 @@
         input[type="submit"] {
             background-color: #55C595;
             color: white;
+            height: 3em;
+            width: 330px;
         }
 
         .search-container {
@@ -59,12 +61,11 @@
         }
         
         @media only screen and (max-width: 600px) {
-            input[type="text"], input[type="submit"] {
+            input[type="text"] {
                 width: 90%;
                 max-width: none;
                 height: 10vw;
                 font-size: 5vw;
-                width: 90%;
             }
         }
     </style>
