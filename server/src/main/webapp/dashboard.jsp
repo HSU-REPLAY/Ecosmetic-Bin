@@ -46,6 +46,15 @@
             color: #555;
         }
         
+        #recycling-info {
+        	font-size: 40px;
+        	font-weight: bold;
+        	color: black;
+        	display: flex;
+        	align-items: flex-start;
+        	margin-top: 20px;
+        	justify-content: flex-start;	
+        }
         .show-mileage, .mileage-chart {
             background-color: white;
             border-radius: 30px;
@@ -63,7 +72,6 @@
         
         .mileage-calendar-container {
             width: 100%;
-            max-width: 460px;
             height: 450px;
             overflow-y: auto;
         }
@@ -72,21 +80,18 @@
             background-color: white;
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 460px;
+            width: auto;
+            max-width: 480px;
             display : flex;       
             margin: 5px;
             padding-left: 20px;
-            padding-right: 20px;
             font-size: 20px;
-            word-spacing:3px;
             height: 900px;
-            position: relative;
         }
         
         .mileage-calendar table {
             margin-top: 20px;
-            width: 100%;
+            width: 90%;
             table-layout: fixed;
         }
 
@@ -121,6 +126,7 @@
     String level = "";
     String levelname = "";
     int totalmileage = 0;
+    String result = "";
 
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -130,12 +136,12 @@
         // 데이터베이스 연결
         conn = DriverManager.getConnection(url, username, password);
 
-        String sql = "SELECT u.id, u.level, u.totalmileage, l.levelname " +
+        String sql = "SELECT u.id, u.level, u.totalmileage, l.levelname, h.result " +
                 "FROM user u " +
                 "JOIN history h ON u.id = h.id " +
                 "JOIN level l ON u.level = l.level " +
                 "WHERE u.id = ?";
-        
+
         pstmt = conn.prepareStatement(sql);
 
         pstmt.setString(1, loggedInUserId);
@@ -190,16 +196,16 @@
 <div class="mileage-calendar" style="position: relative;">
     <div id="calendar-container"></div>
     <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);">
-    <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
-    <div id="recycling-info" style="font-size: 40px; font-weight: bold; color: black; width: 200px; left: 30%; bottom: 40px; transform: translateX(-45%);">
-        <span id="plasticCount"></span>
-        <span id="glassCount" style="margin-left: 100px;"></span>
-        <span id="canCount" style="margin-left: 0px;"></span>
+        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
+        <div id="recycling-info" style="position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);">
+            <span id="plasticCount">0</span>
+            <span id="glassCount" style="margin-left: 120px;">0</span>
+            <span id="canCount" style="margin-left: 110px;">0</span>
+        </div>
+                <div style="text-align: center;"> 총 <%= result %>M 적립했습니다 </div>
     </div>
-    <div style="text-align: center; margin-top: 10px;"> 총 __M 적립했습니다</div>
 </div>
 
-</div>
 
 <script>
 	var currentDate = new Date(); // 현재 날짜를 가져옵니다.
@@ -344,17 +350,17 @@
         // 받아온 데이터를 이용하여 HTML 요소 업데이트 등의 작업을 수행합니다.
     var plasticCountElement = document.getElementById("plasticCount");
     if (plasticCountElement) {
-        plasticCountElement.innerText = plasticCount + "개";
+        plasticCountElement.innerText = plasticCount;
     }
 
     var glassCountElement = document.getElementById("glassCount");
     if (glassCountElement) {
-        glassCountElement.innerText = glassCount + "개";
+        glassCountElement.innerText = glassCount;
     }
 
     var canCountElement = document.getElementById("canCount");
     if (canCountElement) {
-        canCountElement.innerText = canCount + "개";
+        canCountElement.innerText = canCount;
     }
     }
 </script>
