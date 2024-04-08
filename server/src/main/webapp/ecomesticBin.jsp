@@ -96,7 +96,7 @@
             out.println("로그인 성공!");
             String loggedInUser = rs.getString("id");
             session.setAttribute("loggedInUser", loggedInUser);
-            response.sendRedirect("dashboard.jsp");
+            response.sendRedirect("home.jsp");
         } else if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
             
         }
