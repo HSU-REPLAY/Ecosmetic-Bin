@@ -189,21 +189,22 @@
 </div><br>
 <div class="mileage-calendar" style="position: relative;">
     <div id="calendar-container"></div>
-    <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
-        <div id="recycling-info" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-            플라스틱: <%= plasticCount %>개
-            유리: <%= glassCount %>개
-            캔: <%= canCount %>개
-        </div>
-        <div style="text-align: center; margin-top: 10px;"> 총 __M 적립했습니다</div>
+    <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);">
+    <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
+    <div id="recycling-info" style="font-size: 40px; font-weight: bold; color: black; width: 200px; left: 30%; bottom: 40px; transform: translateX(-45%);">
+        <span id="plasticCount"></span>
+        <span id="glassCount" style="margin-left: 100px;"></span>
+        <span id="canCount" style="margin-left: 0px;"></span>
     </div>
+    <div style="text-align: center; margin-top: 10px;"> 총 __M 적립했습니다</div>
+</div>
+
 </div>
 
 <script>
-    var currentDate = new Date(); // 현재 날짜를 가져옵니다.
-    var currentYear = currentDate.getFullYear(); // 현재 연도를 가져옵니다.
-    var currentMonth = currentDate.getMonth() + 1; // 현재 월을 가져옵니다. (월은 0부터 시작하므로 1을 더합니다.)
+	var currentDate = new Date(); // 현재 날짜를 가져옵니다.
+	var currentYear = currentDate.getFullYear(); // 현재 연도를 가져옵니다.
+	var currentMonth = currentDate.getMonth() + 1; // 현재 월을 가져옵니다. (월은 0부터 시작하므로 1을 더합니다.)
 
     function getDaysInMonth(year, month) {
         return new Date(year, month, 0).getDate(); // 해당 연도와 월의 일 수를 반환합니다.
@@ -316,7 +317,7 @@
             
             // Ajax 요청 보내기
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'updateChartData.jsp?date=' + selectedDate, true);
+            xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     // 차트 업데이트 함수 호출
@@ -327,23 +328,39 @@
         });
     });
 
+
+ // 예시: 받아온 JSON 데이터를 이용하여 차트를 업데이트하는 함수
     function updateChart(responseData) {
-        // JSON 형식의 응답 데이터를 JavaScript 객체로 파싱합니다.
         var data = JSON.parse(responseData);
 
-        // 차트 데이터를 업데이트합니다.
-        myChart.data.labels = data.labels; // 차트의 라벨 업데이트
-        myChart.data.datasets.forEach((dataset, index) => {
-            dataset.data = data.datasets[index].data; // 각 데이터셋의 데이터 업데이트
-        });
+        // 받아온 데이터를 이용하여 차트 업데이트 등의 작업을 수행합니다.
+        // 예를 들어, 차트의 데이터를 업데이트하거나, 웹 페이지의 다른 요소에 데이터를 표시할 수 있습니다.
 
-        // 차트를 업데이트합니다.
-        myChart.update();
+        // 예시: 받아온 데이터를 이용하여 플라스틱, 유리, 캔 개수를 표시하는 예제
+    var plasticCount = data.plasticCount;
+    var glassCount = data.glassCount;
+    var canCount = data.canCount;
+        
+        // 받아온 데이터를 이용하여 HTML 요소 업데이트 등의 작업을 수행합니다.
+    var plasticCountElement = document.getElementById("plasticCount");
+    if (plasticCountElement) {
+        plasticCountElement.innerText = plasticCount + "개";
+    }
+
+    var glassCountElement = document.getElementById("glassCount");
+    if (glassCountElement) {
+        glassCountElement.innerText = glassCount + "개";
+    }
+
+    var canCountElement = document.getElementById("canCount");
+    if (canCountElement) {
+        canCountElement.innerText = canCount + "개";
+    }
     }
 </script>
 <br>
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <h3>__월 요약</h3>
+    <h3>4월 요약</h3>
         <%--<%@ include file="mileageChart.jsp" %>--%>
     <%-- 이 부분은 해당 월에 대한 차트를 보여주는 부분인데, 여기에 해당 월의 차트를 표시하는 코드를 추가하셔야 합니다. --%>
 </div>
