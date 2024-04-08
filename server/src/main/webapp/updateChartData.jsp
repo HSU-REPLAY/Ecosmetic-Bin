@@ -22,13 +22,14 @@
         connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 
         String sql = "SELECT " +
-                     "    SUM(CASE WHEN recyclingcode = 'plastic' THEN recyclingcount ELSE 0 END) AS plastic, " +
-                     "    SUM(CASE WHEN recyclingcode = 'glass' THEN recyclingcount ELSE 0 END) AS glass, " +
-                     "    SUM(CASE WHEN recyclingcode = 'can' THEN recyclingcount ELSE 0 END) AS can " +
-                     "FROM " +
-                     "    history " +
-                     "WHERE " +
-                     "    DATE(date) = ?";
+                "    SUM(CASE WHEN recyclingcode = 'plastic' THEN recyclingcount ELSE 0 END) AS plastic, " +
+                "    SUM(CASE WHEN recyclingcode = 'glass' THEN recyclingcount ELSE 0 END) AS glass, " +
+                "    SUM(CASE WHEN recyclingcode = 'can' THEN recyclingcount ELSE 0 END) AS can, " +
+                "    SUM(result) AS totalResult " +
+                "FROM " +
+                "    history " +
+                "WHERE " +
+                "    DATE(date) = ?";
 
         statement = connection.prepareStatement(sql);
         statement.setString(1, selectedDate);
@@ -39,10 +40,12 @@
             int plasticCount = resultSet.getInt("plastic");
             int glassCount = resultSet.getInt("glass");
             int canCount = resultSet.getInt("can");
+            int totalResult = resultSet.getInt("totalResult");
 
             responseData.put("plasticCount", plasticCount);
             responseData.put("glassCount", glassCount);
             responseData.put("canCount", canCount);
+            responseData.put("result", totalResult);
         } else {
             response.setStatus(404);
             response.getWriter().write("Data not found for selected date");

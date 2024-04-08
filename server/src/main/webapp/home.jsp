@@ -203,7 +203,9 @@
             <span id="glassCount" style="margin-left: 120px;">0</span>
             <span id="canCount" style="margin-left: 110px;">0</span>
         </div>
-                <div style="text-align: center;"> 총 <%= result %>M 적립했습니다 </div>
+                <div style="text-align: center; font-size: 20px; font-weight: bold;">
+    			<span id="totalResult"></span>
+				</div>
     </div>
 </div>
 
@@ -362,6 +364,11 @@
     var canCountElement = document.getElementById("canCount");
     if (canCountElement) {
         canCountElement.innerText = canCount;
+    }
+    var totalResultElement = document.getElementById("totalResult");
+    if (totalResultElement) {
+        var totalResult = data.result; // result 열의 값을 가져와서 총 적립한 마일리지로 설정합니다.
+        totalResultElement.innerHTML = "총 " + "<b style='color: black; font-size: 25px;'>" + totalResult + "  M</b> 적립했습니다";
     }
     }
 </script>
