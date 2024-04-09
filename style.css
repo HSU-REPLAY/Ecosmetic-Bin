@@ -12,17 +12,13 @@ body {
     align-items: center;
     background-color: #000000;
     color: white;
-    font-family: "Hahmlet", serif;
 }
 tr, td {
     border: none;
     width: 277px;
     height: 79px;
 }
-.hidden {
-    display: none;
-}
-.mainScreen, .analysisScreen, .loadingScreen, .resultScreen, .mileageResultScreen {
+.mainScreen, .analysisScreen, .loadingScreen, .resultScreen, .mileageResultScreen, #virtualKeyboardContainer {
     visibility: hidden;
 }
 #logoutButton {
@@ -34,6 +30,7 @@ tr, td {
     font-size: 20px; 
     font-family: Inter; 
     font-weight: 400; 
+    border: none;
     text-decoration: underline; 
     word-wrap: break-word;
 }

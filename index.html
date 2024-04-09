@@ -14,14 +14,17 @@
     
     <link rel="stylesheet" href="./homeScreen.css" id="screenStyleSheet">
     <link rel="stylesheet" id="loading" href="">
+    <link rel="stylesheet" id="mileageResultScreen" href="">
+
     <script src="./mqttio.js"></script>
     <script src="./streaming.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+    <script src="./keyboard.js"></script>
     <script src="./en.js"></script>
     <script>
         let total = 0;
         let intervalId = null;
-        let hiddenItems = document.getElementsByClassName("hidden");
         let tables = document.getElementsByClassName("trashbin");
         let tdLoc = 0;
 	
@@ -32,27 +35,17 @@
             document.getElementById("loading").setAttribute('href', 'loadingScreen.css'); // 로딩 화면으로 전환 
         }
 
-        function moveImageDown(tableId, imgPath) {
-            let table = document.getElementById(tableId + "Table");
-            let tds = table.getElementsByTagName("td");
-            let imgHtml = `<img src="${imgPath}" width="200" height="190">`;
+        function clearTrashbin() {
+            var tableIds = ["plasticTable", "glassTable", "canTable"];
 
-            if(tdLoc != 0) {
-                tds[tdLoc - 1].innerHTML = '';
-            }
-            tds[tdLoc].innerHTML = imgHtml;
-            tdLoc++;
-            if(tdLoc == tds.length || tds[tdLoc].querySelector("img")) {
-                tdLoc = 0;
-                clearInterval(intervalId);
-            }
-        }
-
-        function cleanTrashcan() {
-            let tds = document.getElementsByTagName("td");
-            for(let i=0; i<tds.length; i++) {
-                tds[i].innerHTML = '';
-            }
+            // 각 테이블에 대해 반복
+            tableIds.forEach(function(tableId) {
+                var table = document.getElementById(tableId); // 테이블 선택
+                var cells = table.getElementsByTagName('td');
+                for (let i = 0; i < cells.length; i++) {
+                    cells[i].style.backgroundColor = ''; // 셀의 배경색을 비움
+                }
+            });
         }
 
         function keyboardInput() {
@@ -86,6 +79,7 @@
 
         function toResultScreen() {
             document.getElementById("screenStyleSheet").setAttribute('href', 'resultScreen.css');
+            let promises = [];
             let plasticCount = document.getElementById("plasticCount").innerHTML.replace(/\D/g,'');;
             if(plasticCount > 0) {
                 fillTrashbin('plastic', plasticCount);
@@ -98,6 +92,13 @@
             if(canCount > 0) {
                 fillTrashbin('can', canCount);
             }
+
+            let maxCount = Math.max(plasticCount, glassCount, canCount);
+
+            setTimeout(function () {
+                document.getElementById("mileageResultScreen").setAttribute('href', './mileageResultScreen.css');
+                decreaseSecond();
+            }, 1000 * maxCount + 1000);
         }
 
         function fillTrashbin(tableId, count) {
@@ -118,7 +119,7 @@
             }
             var index = cells.length - 1;
             var interval = setInterval(function() {
-                if (count <= 0 || index < 0) {
+                if (count == 0 || index < 0) {
                     clearInterval(interval);
                     return;
                 }
@@ -127,6 +128,32 @@
                 index--;
             }, 1000); // 1초 간격으로 적용
         }
+
+        function decreaseSecond() {
+            var remainSecElement = document.getElementById('remainSec');
+            
+            // 인터벌 시작
+            var decreaseInterval = setInterval(function() {
+                var remainSec = parseInt(remainSecElement.innerText); // 요소의 텍스트 값을 정수로 변환
+
+                if (remainSec > 1) {
+                    remainSecElement.innerText = remainSec - 1; // 1초마다 숫자를 1씩 감소
+                } else {
+                    clearInterval(decreaseInterval); // remainSec이 0이 되면 인터벌을 중지
+                    remainSecElement.innerHTML = "5";
+                    document.getElementById("mileageResultScreen").setAttribute('href', '');
+                    
+                    startDisconnect();
+                }
+            }, 1000);
+        }
+
+        function showKeyboard() {
+            var keyboardContainer = document.getElementById('virtualKeyboardContainer');
+
+            keyboardContainer.style.visibility = 'visible';
+        }
+
     </script>
 </head>
 <body>
@@ -139,77 +166,81 @@
     <div class="mainScreen idContainer">
         <span class="mainScreen" id="userName"></span><span class="mainScreen" id="sayHello">님, 안녕하세요!</span>
     </div>
-    <input id="inputName" class="homeScreen" type="text" placeholder="ID">    
+    <input id="inputName" onclick="showKeyboard()" class="homeScreen" type="text" placeholder="ID">    
 
-    <!--가상 키보드
-    <div class = 'keyboard-container'> 
+    <!--가상 키보드-->  
+    <div id = 'virtualKeyboardContainer'> 
         <div class = 'line' id="line1">
-            <input type ='button' class="key" value="1">
-            <input type ='button' class="key" value="2">
-            <input type ='button' class="key" value="3">
-            <input type ='button' class="key" value="4">
-            <input type ='button' class="key" value="5">
-            <input type ='button' class="key" value="6">
-            <input type ='button' class="key" value="7">
-            <input type ='button' class="key" value="8">
-            <input type ='button' class="key" value="9">
-            <input type ='button' class="key" value="◀-">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="1">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="2">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="3">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="4">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="5">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="6">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="7">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="8">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="9">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="0">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="◀-">
         </div>
         <div class = 'line' id="line2">
-            <input type ='button' class="key" value="q">
-            <input type ='button' class="key" value="w">
-            <input type ='button' class="key" value="e">
-            <input type ='button' class="key" value="r">
-            <input type ='button' class="key" value="t">
-            <input type ='button' class="key" value="y">
-            <input type ='button' class="key" value="u">
-            <input type ='button' class="key" value="i">
-            <input type ='button' class="key" value="o">
-            <input type ='button' class="key" value="p">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="q">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="w">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="e">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="r">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="t">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="y">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="u">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="i">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="o">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="p">
         </div>
         <div class = 'line' id="line3">
-            <input type ='button' class="key" value="a">
-            <input type ='button' class="key" value="s">
-            <input type ='button' class="key" value="d">
-            <input type ='button' class="key" value="f">
-            <input type ='button' class="key" value="g">
-            <input type ='button' class="key" value="h">
-            <input type ='button' class="key" value="j">
-            <input type ='button' class="key" value="k">
-            <input type ='button' class="key" value="l">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="a">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="s">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="d">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="f">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="g">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="h">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="j">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="k">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="l">
         </div>
         <div  class = 'line' id="line4">
-            <input type ='button' class="key" value="z">
-            <input type ='button' class="key" value="x">
-            <input type ='button' class="key" value="c">
-            <input type ='button' class="key" value="v">
-            <input type ='button' class="key" value="b">
-            <input type ='button' class="key" value="n">
-            <input type ='button' class="key" value="m">
-            <input type ='button' class="key" value=",">
-            <input type ='button' class="key" value=".">
-            <input type ='button' class="key" value="/">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="z">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="x">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="c">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="v">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="b">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="n">
+            <input type ='button' onclick="keyClicked(this)" class="key" value="m">
         </div>
         <div  id="line5">
-            <input type ='button' class="key" value=" space "> 
-            <input type ='button' class="key" value="한/영" onClick = "location1()">
+            <input type ='button' id="space" onclick="keyClicked(this)" class="key" value=" space ">
+            <input type ='button' id="enter" onclick="keyClicked(this)" class="key" value=" enter ">
         </div>
-    </div>-->    
+    </div>  
 
     <button onclick="startConnect()" id="loginButton" class="homeScreen button button--ujarak button--border-medium button--round-s button--text-thick">로그인</button>
     
     <form class="mainScreen" >
         <select name = "camera" id="selectCamera">
+            <img src="./cameraIcon.svg" alt="">
             <option value = "webcam" selected>HD Webcam</option>
             <option value = "meraki">Cisco Meraki Camera</option>
         </select>
     </form>
-    <button onclick="operate()" id="operateButton" class=" mainScreen hidden button button--ujarak button--border-medium button--round-s button--text-thick">분류 시작</button>
-    <button onclick="startDisconnect()" class="" id="logoutButton">로그아웃</button>
+    <!--<ul id="cameraList">
+        <li>HD Webcam</li>
+        <li>Cisco Meraki Camera</li>
+    </ul>-->
+    
+    <button onclick="operate()" id="operateButton" class=" mainScreen button button--ujarak button--border-medium button--round-s button--text-thick">분류 시작</button>
+    <button onclick="startDisconnect()" class="" id="logoutButton">Logout</button>
 
     <img class="loadingScreen" id="loadingGif" src="./loading.gif" alt="">
     <div class="loadingScreen" id="analysisInProgress">분류 중 ...</div>
-    <div class="loadingScreen" id="loadingShadow"></div>
+    <div class="loadingScreen mileageResultScreen" id="shadow"></div>
 
     <div class="analysisScreen" id="info"></div>
     <div id="analysisResult"></div>
@@ -259,8 +290,10 @@
         <tr><td></td></tr>
     </table>
 
-    <div class="mileageResultScreen" id="mileageResult"></div>
-    <img class="mileageResultScreen" src="" alt="">
+    <div class="mileageResultScreen" id="mileageBox"></div>
+    <img class="mileageResultScreen" id="mileageImg" src="./mileage-coin.png" alt="">
+    <div class="mileageResultScreen" id="mileageResult"><span id="mileage"></span>M 적립 성공!</div>
+    <div class="mileageResultScreen" id="returnAlert"><span id="remainSec">5</span>초 뒤에 홈으로 자동 전환됩니다.</div>
 </body>
 </html>
 

@@ -17,7 +17,6 @@
     position: absolute; 
     color: white;
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 700; 
     line-height: 52px; 
     word-wrap: break-word;
@@ -36,7 +35,6 @@
     position: absolute; 
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400;
     word-wrap: break-word;
 }
@@ -46,7 +44,6 @@
     position: absolute; 
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
 }
@@ -56,18 +53,35 @@
     position: absolute; 
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
 }
 #plasticCount {
-    left: 286px; top: 938px; position: absolute; color: white; font-size: 60px; font-family: Inter; font-weight: 700; word-wrap: break-word
+    left: 286px; 
+    top: 938px; 
+    position: absolute; 
+    color: white; 
+    font-size: 60px; 
+    font-weight: 700; 
+    word-wrap: break-word;
 }
 #glassCount {
-    left: 494px; top: 938px; position: absolute; color: white; font-size: 60px; font-family: Inter; font-weight: 700; word-wrap: break-word
+    left: 494px; 
+    top: 938px; 
+    position: absolute; 
+    color: white; 
+    font-size: 60px; 
+    font-weight: 700; 
+    word-wrap: break-word;
 }
 #canCount {
-    left: 702px; top: 938px; position: absolute; color: white; font-size: 60px; font-family: Inter; font-weight: 700; word-wrap: break-word
+    left: 702px; 
+    top: 938px; 
+    position: absolute; 
+    color: white; 
+    font-size: 60px; 
+    font-weight: 700; 
+    word-wrap: break-word;
 }
 #recaptureButton {
     width: 307px; 
@@ -76,7 +90,6 @@
     top: 1211px; 
     position: absolute;
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
 }
@@ -87,7 +100,6 @@
     top: 1211px;
     position: absolute;
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
 }
@@ -98,7 +110,6 @@
     color: #9F9F9F; 
     background: none;
     font-size: 20px; 
-    font-family: Inter; 
     font-weight: 400; 
     text-decoration: underline; 
     word-wrap: break-word;

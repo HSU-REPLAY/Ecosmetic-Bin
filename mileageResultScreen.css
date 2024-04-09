@@ -1,0 +1,63 @@
+.mileageResultScreen {
+    visibility: visible;
+}
+.resultScreen {
+    z-index: -1;
+}
+#shadow {
+    width: 1080px; 
+    height: 1920px; 
+    left: 0px; 
+    top: 0px; 
+    position: absolute; 
+    background: rgba(0, 0, 0, 0.60);
+}
+#mileageBox {
+    width: 660px; 
+    height: 451.58px; 
+    left: 210px; 
+    top: 689px; 
+    position: absolute; 
+    background: black; 
+    box-shadow: 0px 0px 200px 70px rgba(255, 255, 255, 0.25); 
+    border-radius: 30px; 
+    border: 3px white solid;
+    z-index: 9998;
+}
+#mileageImg {   
+    left: 268px;
+    top: 833px;
+    width: 100px; 
+    height: 100px;
+    position: absolute;
+    z-index: 9999;
+}
+#mileageResult {
+    left: 368px;
+    top: 844px;
+    position: absolute;
+    color: white; 
+    font-size: 60px;
+    font-weight: 400; 
+    line-height: 78px; 
+    word-wrap: break-word;
+    z-index: 9999;
+}
+#returnAlert {
+    left: 331px;
+    top: 958px;
+    color: #AAAAAA; 
+    position: absolute;
+    font-size: 30px; 
+    font-weight: 400; 
+    line-height: 39px; 
+    word-wrap: break-word;
+    z-index: 9999;
+}
+#remainSec {
+    color: #AAAAAA; 
+    font-size: 30px; 
+    font-weight: 700; 
+    line-height: 39px; 
+    word-wrap: break-word;
+}

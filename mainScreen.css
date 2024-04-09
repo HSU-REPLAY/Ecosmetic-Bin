@@ -34,7 +34,6 @@
 #userName {
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 700; 
     line-height: 52px; 
     word-wrap: break-word;
@@ -42,7 +41,6 @@
 #sayHello {
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     line-height: 52px; 
     word-wrap: break-word;
@@ -66,7 +64,6 @@
     position: absolute;
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
 }
@@ -82,7 +79,6 @@
     color: #9F9F9F; 
     background: none;
     font-size: 20px; 
-    font-family: Inter; 
     font-weight: 400; 
     text-decoration: underline; 
     word-wrap: break-word;

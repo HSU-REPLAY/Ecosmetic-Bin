@@ -16,6 +16,8 @@
     height: 138px; 
     left: 210px; 
     top: 726px; 
+    border: none;
+    outline: none;
     font-size: 40px; 
     font-weight: 700; 
     background: none;
@@ -32,7 +34,6 @@
     position: absolute; 
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
 }
@@ -42,7 +43,6 @@
     position: absolute; 
     color: #FF0000; 
     font-size: 35px; 
-    font-family: Inter; 
     font-weight: 400; 
     word-wrap: break-word;
     visibility: hidden;
