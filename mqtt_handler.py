@@ -16,7 +16,7 @@ current_user_id = None
 
 # 데이터 전송 함수
 def send_data(user_id, plastic_count, can_count, glass_count):
-    server_url = 'http://172.20.10.4:8080/ecobin/data'
+    server_url = 'http://192.168.42.80:8080/ecobin/data'
     params = {
         'userId': user_id,
         'plasticCount': plastic_count,
