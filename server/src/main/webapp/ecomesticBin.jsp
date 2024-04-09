@@ -26,8 +26,7 @@
         }
 
         input[type="text"],
-        input[type="submit"],
-        input[type="button"] {
+        input[type="submit"] {
             width: 90%;
             max-width: 400px;
             height: 2.5em;
@@ -36,6 +35,10 @@
             border: 2px solid #55C595;
             padding: 10px;
             font-size: 20px;
+        }
+
+		input[type="text"].error {
+            border-color: red;
         }
 
         input[type="submit"] {
@@ -55,9 +58,9 @@
         .error-message {
             position: absolute;
             top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 2%;
             color: red;
+            font-size: 1vh;
         }
         
         @media only screen and (max-width: 600px) {
@@ -126,8 +129,8 @@
     </div>
     <form action="" method="post">
     <div class="search-container">
-        <input type="text" name="id" placeholder="아이디">
-        <br><br><div>
+        <input type="text" name="id" placeholder="아이디" class="<%= userId != null && !userId.isEmpty() && request.getMethod().equals("POST") ? "error" : "" %>"> <!-- 에러 발생 시 클래스 추가 -->
+		<div>
         <% 
             if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
                 out.println("<p class='error-message'>잘못된 아이디 입니다.</p>");
@@ -135,7 +138,7 @@
         %>
         </div><br>
         <input type="submit" value="로그인">
-    </div> <br> <br> <br> <br>
+    </div> 
 </form>
 </body>
 </html>

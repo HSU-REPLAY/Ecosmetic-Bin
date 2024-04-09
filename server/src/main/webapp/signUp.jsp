@@ -8,10 +8,9 @@
     <title>Ecosmetic Bin 회원가입</title>
     <style>
         body {
-            margin: 0 auto;
+            margin: 0;
             height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
             color: #666666;
         }
@@ -22,10 +21,11 @@
             flex-direction: column;
             position: relative;
             width: 80%;
-            margin: 1vh auto;
+            margin: 10vh auto;
         }
 
-        input[type="text"], input[type="submit"] {
+        input[type="text"],
+        input[type="submit"] {
             width: 90%;
             max-width: 400px;
             height: 2.5em;
@@ -35,33 +35,39 @@
             padding: 10px;
             font-size: 20px;
         }
-
+		
+		input[type="text"].error {
+            border-color: red;
+        }
+		
         input[type="submit"] {
             background-color: #55C595;
             color: white;
+            height: 3em;
+            width: 330px;
         }
         
         .search-container {
             display: flex;
-            flex-direction: column;
             align-items: center;
+            flex-direction: column;
             position: relative;
         }
 
         #message {
+            position: absolute;
+            top: 80px;
+            left: 2%;
             color: red;
-            font-size: 2vh;
-            margin-top: 1vh;
-            text-align: left;
-        }
+            font-size: 1vh;
+		}
 
         @media only screen and (max-width: 600px) {
-            input[type="text"], input[type="submit"] {
+            input[type="text"] {
                 width: 90%;
                 max-width: none;
                 height: 10vw;
                 font-size: 5vw;
-                width: 90%;
             }
         }
     </style>
@@ -108,14 +114,27 @@
         }
     } catch (SQLException | ClassNotFoundException e) {
         e.printStackTrace();
+        message = "오류 발생: " + e.getMessage(); // 선택적으로 오류 메시지 설정.
     } finally {
-        try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-        try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-        try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        try {
+            if (stmt != null) stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (rs != null) rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 %>
 <body class="container">
-    <div>
+    <div style="text-align: center;">
         <p style="font-size: 30px;">Welcome!</p>
         <img src="logo.png" style="width: 200px; height: auto;">
         <p style="font-size: 10px;">회원 서비스 이용을 위해 로그인 해주세요. </p>
@@ -123,11 +142,11 @@
         <form action="" method="post">
             <div class="search-container">
                 <div>
-                    <input type="text" id="id" name="id" placeholder="아이디">
-                </div><br>
+                    <input type="text" id="id" name="id" placeholder="아이디" class="<%= message != null ? "error" : "" %>">
+                </div>
                 <% if(message != null) { %>
                     <div id="message"><%= message %></div>
-                <% } %><br><br>
+                <% } %><br>
                 <input type="submit" value="회원가입">
             </div>
         </form>
