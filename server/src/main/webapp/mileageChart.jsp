@@ -88,10 +88,8 @@ try {
 %>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<div style="position: relative; width: 400px; height: 400px; color: #666666">
-    <canvas id="myDonutChart"></canvas>
-    <div id="chartLegend" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-        <%-- 범례를 표시할 위치 설정 --%>
+<div style="position: relative; width: 400px; height: 350px; color: #666666">
+    <canvas id="myDonutChart"></canvas><br><br>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <%
                 // 각 재활용 코드의 백분율 계산 및 표시
@@ -105,7 +103,7 @@ try {
     		<div style="width: 200px; height: 5px; background-color: #E8E8E8; position: relative; border-radius: 5px; margin-left: 10px;">
         		<div style="width: <%= percentage %>% ; height: 100%; background-color: <%= color %>; position: absolute; left: 0; border-radius: 5px;"></div>
     		</div>
-    		<span style="width: 30px; margin-left: 10px;"><%= recyclingCounts.get(i) %>개</span>
+    		<span style="width: 30px; font-size: 15px; margin-left: 10px;"><%= recyclingCounts.get(i) %>개</span>
 		</div>
 
             <% } %>
@@ -155,21 +153,26 @@ try {
                         borderWidth: 0.5 // 외곽선 두께 조절
                     }
                 },
-                animation: false // 애니메이션 비활성화
+                animation: false, // 애니메이션 비활성화
+                legend: {
+                    display: false // 범례 숨기기
+                }
             }
         });
-        
-        
 
         // 월별 마일리지 표시
-        var text = "<%= selectedMonth.substring(5) %>월 마일리지 <%= totalMileage %>M";
+        var text = "<%= selectedMonth.substring(5) %>월 마일리지";
         var textX = myDonutChart.canvas.clientWidth / 2;
-        var textY = myDonutChart.canvas.clientHeight / 2;
+        var textY = myDonutChart.canvas.clientHeight / 2 -10;
         var ctx = myDonutChart.ctx;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.font = 'bold 20px Arial';
         ctx.fillStyle = '#000'; // 텍스트 색상
+        ctx.fillText(text, textX, textY);
+        text= "<%= totalMileage %>M"
+       	textX = myDonutChart.canvas.clientWidth / 2;
+        textY = myDonutChart.canvas.clientHeight / 2 + 20;
         ctx.fillText(text, textX, textY);
     }
 

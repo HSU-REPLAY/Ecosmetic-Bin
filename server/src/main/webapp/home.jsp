@@ -81,7 +81,7 @@
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: auto;
-            max-width: 480px;
+            max-width: 500px;
             display : flex;       
             margin: 5px;
             padding-left: 20px;
@@ -198,11 +198,11 @@
 <div class="mileage-calendar" style="position: relative;">
     <div id="calendar-container"></div>
     <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);">
-        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
-        <div id="recycling-info" style="position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);">
+        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
+        <div id="recycling-info" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);">
             <span id="plasticCount">0</span>
             <span id="glassCount" style="margin-left: 120px;">0</span>
-            <span id="canCount" style="margin-left: 110px;">0</span>
+            <span id="canCount" style="margin-left: 95px;">0</span>
         </div>
                 <div style="text-align: center; font-size: 15px; font-weight: bold;">
     			<span id="totalResult"></span>
