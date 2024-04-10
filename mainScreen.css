@@ -45,20 +45,9 @@
     line-height: 52px; 
     word-wrap: break-word;
 }
-#cameraButton {
-    background: none; 
-    border: none; 
-    padding: 0; 
-    cursor: pointer; 
-    width: 213px; 
-    height: 209px; 
-    position: absolute; 
-    left: 779px; 
-    top: 98px;
-}
 #operateButton {
     width: 660px; 
-    height: 110px; 
+    height: 94px;
     left: 210px; 
     top: 1210.58px; 
     position: absolute;
@@ -82,4 +71,35 @@
     font-weight: 400; 
     text-decoration: underline; 
     word-wrap: break-word;
+}
+#cameraList {
+    left: 300px; top: 652px; position: absolute;
+    visibility: hidden;
+}
+button {
+    background: none;
+    color: white;
+    border: none;
+}
+#selectedCamera {
+    left: 31px; top: 15px; position: absolute;
+    font-size: 16px;
+    font-weight: 400; 
+    line-height: 20.80px; 
+    word-wrap: break-word;
+}
+li {
+    width: 400px; 
+    height: 45px; 
+    font-size: 16px;
+    font-weight: 400; 
+    line-height: 20.80px; 
+    text-align: left;
+    background: black; 
+    border: 1.50px #B5B5B5 solid;
+    list-style-type: none;
+}
+#checked {
+    width: 18px;
+    height: 18px;
 }
