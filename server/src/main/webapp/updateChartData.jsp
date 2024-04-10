@@ -4,8 +4,10 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 
+<%--이 코드는 사용자가 달력을 클릭했을때 각 recyclingcode가 변경되는 것--%>
 <%
     String selectedDate = request.getParameter("selectedDate");
+    String loggedInUserId = (String) session.getAttribute("loggedInUser");
 
     String dbUrl = "jdbc:mysql://localhost:3306/ecosmeticbin";
     String dbUsername = "root";
@@ -22,17 +24,20 @@
         connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 
         String sql = "SELECT " +
-                "    SUM(CASE WHEN recyclingcode = 'plastic' THEN recyclingcount ELSE 0 END) AS plastic, " +
-                "    SUM(CASE WHEN recyclingcode = 'glass' THEN recyclingcount ELSE 0 END) AS glass, " +
-                "    SUM(CASE WHEN recyclingcode = 'can' THEN recyclingcount ELSE 0 END) AS can, " +
-                "    SUM(result) AS totalResult " +
+                "    SUM(CASE WHEN h.recyclingcode = 'plastic' THEN h.recyclingcount ELSE 0 END) AS plastic, " +
+                "    SUM(CASE WHEN h.recyclingcode = 'glass' THEN h.recyclingcount ELSE 0 END) AS glass, " +
+                "    SUM(CASE WHEN h.recyclingcode = 'can' THEN h.recyclingcount ELSE 0 END) AS can, " +
+                "    SUM(h.result) AS totalResult " +
                 "FROM " +
-                "    history " +
+                "    history h " +
+                "JOIN " +
+                "    user u ON h.id = u.id " +
                 "WHERE " +
-                "    DATE(date) = ?";
+                "    DATE(h.date) = ? AND u.id = ?";
 
         statement = connection.prepareStatement(sql);
         statement.setString(1, selectedDate);
+        statement.setString(2, loggedInUserId);
 
         resultSet = statement.executeQuery();
 
@@ -67,4 +72,4 @@
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(jsonResponse);
-%>
+--%>

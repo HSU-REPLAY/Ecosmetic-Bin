@@ -8,6 +8,7 @@
     <style>
         body {
             background-color: #F5F5F5;
+            font-weight: bold;
         }
         .table-container {
             background-color: white;
@@ -25,19 +26,25 @@
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
-
-        th {
-            background-color: #f2f2f2;
-        }
+        
+        td span {
+    		font-weight: normal;
+		}
+        
         .logged-in-user {
-        	border-radius: 10px;
-        	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             background-color: #CDF8D6;
+        }
+        
+        .rank-color {
+            color: #55C595;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>실시간 차트</h1>
+    <h3>실시간 차트</h3>
     <div class="table-container">
     <table>
         <tr>
@@ -55,10 +62,10 @@
                 // 데이터베이스 연결
                 Connection conn = DriverManager.getConnection(url, username, password);
 
-             	// 로그인한 사용자의 이름을 세션에서 가져옴
+                // 로그인한 사용자의 이름을 세션에서 가져옴
                 String loggedInUser = (String) session.getAttribute("loggedInUser");
                 
-                // 랭킹 쿼리 실행
+             // 랭킹 쿼리 실행
                 String sql = "SELECT id, totalmileage, " +
                              "       FIND_IN_SET(totalmileage, (SELECT GROUP_CONCAT(totalmileage ORDER BY totalmileage DESC) FROM user)) AS `rank` " +
                              "FROM user " +
@@ -68,9 +75,9 @@
                 
                 // 결과 처리
                 while (rs.next()) {
-                	int rank = rs.getInt("rank");
+                    int rank = rs.getInt("rank");
                     String id = rs.getString("id");
-                    int totalmileage = rs.getInt("totalmileage");
+                    String totalmileage = rs.getString("totalmileage");
 
                     // 현재 로그인한 사용자와 현재 반복되고 있는 사용자의 이름을 비교하여 일치하는 경우
                     if (id.equals(loggedInUser)) {
@@ -80,11 +87,11 @@
                                 <% if (rank <= 3) { %>
                                     <img src="gold-medal.png" alt="Medal" width="20" height="20" style="margin-right: 5px;">
                                 <% } else { %>
-                                    <%= rank %>
-                                <% } %>
+                                <span class="rank-color"><%= rank %></span>
+                            <% } %>
                             </td>
                             <td><%= id %></td>
-                            <td><%= totalmileage %></td>
+                            <td><span><%= totalmileage %> M</span></td>
                         </tr>
         <% 
                     } else {
@@ -102,11 +109,11 @@
                                 <% if (rank <= 3) { %>
                                     <img src="<%= medalImage %>" alt="Medal" width="20" height="20" style="margin-right: 5px;">
                                 <% } else { %>
-                                    <%= rank %>
-                                <% } %>
+                                	<span class="rank-color"><%= rank %></span>
+                            	<% } %>
                             </td>
                             <td><%= id %></td>
-                            <td><%= totalmileage %></td>
+                            <td><span><%= totalmileage %> M</span></td>
                         </tr>
         <%
                     }

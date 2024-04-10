@@ -4,17 +4,17 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <%
+// 세션에서 사용자 ID 가져오기
+String loggedInUserId = (String) session.getAttribute("loggedInUser");
+
 // 데이터베이스 연결 정보
 String dbUrl = "jdbc:mysql://localhost:3306/ecosmeticbin";
 String dbUsername = "root";
 String dbPassword = "1234";
 
-// 오늘 날짜를 가져오기
-java.util.Date currentDate = new java.util.Date();
-SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-String selectedDate = dateFormat.format(currentDate);
+// 월별 데이터 가져오기
+String selectedMonth = "2024-04"; // 예시로 2024년 4월 선택
 
-// 데이터베이스 연결 및 조회
 ArrayList<String> recyclingCodes = new ArrayList<String>();
 ArrayList<Integer> recyclingCounts = new ArrayList<Integer>();
 
@@ -24,14 +24,16 @@ ResultSet resultSet = null;
 
 try {
     // 데이터베이스 연결
+    Class.forName("com.mysql.jdbc.Driver");
     connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 
     // 쿼리 작성
-    String sql = "SELECT recyclingcode, SUM(recyclingcount) AS total_count FROM history WHERE date = ? GROUP BY recyclingcode";
+    String sql = "SELECT recyclingcode, SUM(recyclingcount) AS total_count FROM history WHERE id = ? AND DATE_FORMAT(date, '%Y-%m') = ? GROUP BY recyclingcode";
 
     // PreparedStatement 설정
     statement = connection.prepareStatement(sql);
-    statement.setString(1, selectedDate);
+    statement.setString(1, loggedInUserId);
+    statement.setString(2, selectedMonth);
 
     // 쿼리 실행
     resultSet = statement.executeQuery();
@@ -49,6 +51,8 @@ try {
             recyclingCounts.add(resultSet.getInt("total_count"));
         } while (resultSet.next());
     }
+} catch (ClassNotFoundException e) {
+    out.println("오류 발생: " + e.getMessage());
 } catch (SQLException e) {
     out.println("오류 발생: " + e.getMessage());
 } finally {

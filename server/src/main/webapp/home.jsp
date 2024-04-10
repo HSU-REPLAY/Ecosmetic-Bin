@@ -210,7 +210,7 @@
     </div>
 </div>
 <button type="button" onclick="location.href='myPage.jsp'">마이 페이지로 이동</button>
-
+<button type="button" onclick="location.href='ranking.jsp'">랭킹으로 이동</button>
 
 <script>
 	var currentDate = new Date(); // 현재 날짜를 가져옵니다.
@@ -322,58 +322,56 @@
 
  // 날짜 클릭 이벤트 설정
     var cells = document.querySelectorAll('.mileage-calendar table td');
-    cells.forEach(function(cell) {
-        cell.addEventListener('click', function() {
-            var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
-            
-            // Ajax 요청 보내기
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    // 차트 업데이트 함수 호출
-                    updateChart(xhr.responseText);
-                }
-            };
-            xhr.send();
-        });
+cells.forEach(function(cell) {
+    cell.addEventListener('click', function() {
+        var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
+        
+        // Ajax 요청 보내기
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                updateChart(xhr.responseText);
+            }
+        };
+        xhr.send();
     });
+});
 
 
- // 예시: 받아온 JSON 데이터를 이용하여 차트를 업데이트하는 함수
     function updateChart(responseData) {
         var data = JSON.parse(responseData);
 
-    	var plasticCount = data.plasticCount;
-    	var glassCount = data.glassCount;
-    	var canCount = data.canCount;
-        
-        // 받아온 데이터를 이용하여 HTML 요소 업데이트 등의 작업을 수행합니다.
-    	var plasticCountElement = document.getElementById("plasticCount");
-    	if (plasticCountElement) {
-        	plasticCountElement.innerText = plasticCount;
-    	}
+        var plasticCount = data.plasticCount;
+        var glassCount = data.glassCount;
+        var canCount = data.canCount;
 
-    	var glassCountElement = document.getElementById("glassCount");
-    	if (glassCountElement) {
-        	glassCountElement.innerText = glassCount;
-    	}
+        var plasticCountElement = document.getElementById("plasticCount");
+        if (plasticCountElement) {
+            plasticCountElement.innerText = plasticCount;
+        }
 
-    	var canCountElement = document.getElementById("canCount");
-    	if (canCountElement) {
-        	canCountElement.innerText = canCount;
-    	}
-    	var totalResultElement = document.getElementById("totalResult");
-    	if (totalResultElement) {
-        	var totalResult = data.result; // result 열의 값을 가져와서 총 적립한 마일리지로 설정합니다.
-        	totalResultElement.innerHTML = "총 " + "<b style='color: black; font-size: 20px;'>" + totalResult + "  M</b> 적립했습니다";
-    	}
+        var glassCountElement = document.getElementById("glassCount");
+        if (glassCountElement) {
+            glassCountElement.innerText = glassCount;
+        }
+
+        var canCountElement = document.getElementById("canCount");
+        if (canCountElement) {
+            canCountElement.innerText = canCount;
+        }
+
+        var totalResultElement = document.getElementById("totalResult");
+        if (totalResultElement) {
+            var totalResult = data.result;
+            totalResultElement.innerHTML = "총 " + "<b style='color: black; font-size: 20px;'>" + totalResult + "  M</b> 적립했습니다";
+        }
     }
 </script>
 <br>
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h3>4월 요약</h3>
-		<%-- <%@ include file="mileageChart.jsp" %>--%>
+	<jsp:include page="mileageChart.jsp" />
     <%-- 이 부분은 해당 월에 대한 차트를 보여주는 부분인데, 여기에 해당 월의 차트를 표시하는 코드를 추가하셔야 합니다. --%>
 </div>
 <br>
