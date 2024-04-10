@@ -85,7 +85,7 @@
 }
 #recaptureButton {
     width: 307px; 
-    height: 110px; 
+    height: 94px;
     left: 210px; 
     top: 1211px; 
     position: absolute;
@@ -95,7 +95,7 @@
 }
 #continueButton {
     width: 307px; 
-    height: 110px; 
+    height: 94px;
     left: 560px; 
     top: 1211px;
     position: absolute;
@@ -113,4 +113,14 @@
     font-weight: 400; 
     text-decoration: underline; 
     word-wrap: break-word;
+}
+#shadow {
+    width: 307px; 
+    height: 94px;
+    left: 560px; 
+    top: 1211px;
+    position: absolute;
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.60);
+    z-index: 9999;
 }
