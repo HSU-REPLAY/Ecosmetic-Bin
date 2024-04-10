@@ -372,7 +372,6 @@ cells.forEach(function(cell) {
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h3>4월 요약</h3>
 	<jsp:include page="mileageChart.jsp" />
-    <%-- 이 부분은 해당 월에 대한 차트를 보여주는 부분인데, 여기에 해당 월의 차트를 표시하는 코드를 추가하셔야 합니다. --%>
 </div>
 <br>
 </body>

@@ -4,7 +4,6 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 
-<%--이 코드는 사용자가 달력을 클릭했을때 각 recyclingcode가 변경되는 것--%>
 <%
     String selectedDate = request.getParameter("selectedDate");
     String loggedInUserId = (String) session.getAttribute("loggedInUser");
@@ -72,4 +71,4 @@
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(jsonResponse);
---%>
+%>
