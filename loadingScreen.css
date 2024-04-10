@@ -10,7 +10,6 @@
     position: absolute; 
     color: white; 
     font-size: 40px; 
-    font-family: Inter; 
     font-weight: 400; 
     line-height: 52px; 
     word-wrap: break-word;
@@ -22,7 +21,7 @@
     position: absolute;
     z-index: 9999;
 }
-#loadingShadow {
+#shadow {
     width: 1080px; 
     height: 1920px; 
     left: 0px; 

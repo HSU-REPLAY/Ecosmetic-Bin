@@ -3,6 +3,8 @@ let connectionFlag = false; // 연결 상태이면 true
 let userName;
 
 function startConnect() { // 브로커에 접속하는 함수
+	document.getElementById("virtualKeyboardContainer").style.visibility="hidden";
+
 	// 재로그인 시도 시
 	if(connectionFlag == true) {
 		subscribe("presence"); // 'presence' 토픽 구독
@@ -113,6 +115,7 @@ function startDisconnect() {
 	if(connectionFlag == false) 
 		return; // 연결 되지 않은 상태이면 그냥 리턴
 	stopStreaming();
+	clearTrashbin();
 	userName = "";
 	document.getElementById("screenStyleSheet").setAttribute('href', 'homeScreen.css');
 	document.getElementById("inputName").value = "";

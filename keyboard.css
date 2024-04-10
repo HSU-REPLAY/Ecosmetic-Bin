@@ -1,0 +1,70 @@
+#virtualKeyboardContainer{
+	position: absolute;
+	width : 860px;
+	height: 450px;
+	left: 110px;
+	top: 1200px;
+    background-color: #000;
+    border-radius: 2%;
+	border: 1px solid #fff;
+	box-shadow: 0 0 5pxrgba(255, 255, 255, 0.25),
+				0 0 10px rgba(255, 255, 255, 0.5),
+				0 0 20px rgba(255, 255, 255, 0.25);
+}
+div input[type="button"]{
+	color :white;
+    margin: 3px;
+	/* width : 7%;
+	height: 17%; */
+	background-color: #000;
+    border-radius: 10%;
+	border: 1px solid #fff;
+	box-shadow: 0 0 5px rgba(255, 255, 255, 0.25),
+				0 0 10px rgba(255, 255, 255, 0.5),
+				0 0 20px rgba(255, 255, 255, 0.25);
+	
+}
+div input[type="button"]:hover {
+	color: #fff;
+	text-shadow: 0 0 10px #C1F1C1,
+				0 0 20px #C1F1C1;
+}
+#line1{
+	width : 7%;
+	height: 13%;
+	margin-left: 7%;
+	width: 100%;
+}
+#line1 .key {
+	width: 50px;
+	height: 30px;
+}
+#line2 .key{
+	width: 70px;
+	height: 70px;
+}
+#line3{
+	margin-left: 5%;
+}
+#line3 .key{
+	width: 70px;
+	height: 70px;
+}
+#line4 .key{
+	width: 70px;
+	height: 70px;
+}
+#line5{
+	margin-left: 30%;
+}
+#space{
+	width: 300px;
+	height: 40px;
+}
+#enter {
+	height: 40px;
+}
+.line{
+	margin:1%;
+	width: 100%;
+}
