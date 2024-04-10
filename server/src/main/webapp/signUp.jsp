@@ -35,11 +35,11 @@
             padding: 10px;
             font-size: 20px;
         }
-		
-		input[type="text"].error {
+        
+        input[type="text"].error {
             border-color: red;
         }
-		
+        
         input[type="submit"] {
             background-color: #55C595;
             color: white;
@@ -60,7 +60,23 @@
             left: 2%;
             color: red;
             font-size: 1vh;
-		}
+        }
+
+        #success-message {
+            position: absolute;
+            top: 80px;
+            left: 2%;
+            color: #55C595;
+            font-size: 1vh;
+        }
+		
+		.success {
+        	color: #55C595;
+    	}
+    	
+        .error {
+            border-color: red;
+        }
 
         @media only screen and (max-width: 600px) {
             input[type="text"] {
@@ -97,7 +113,7 @@
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                message = "사용할 수 없는 아이디입니다. 다른 아이디를 입력해주세요.";
+                message = "이미 가입된 아이디입니다.";
             } else {
                 String insertUserSql = "INSERT INTO user (id, totalmileage, level) VALUES (?, 0, 1)";
                 stmt = conn.prepareStatement(insertUserSql);
@@ -106,7 +122,7 @@
                 int rowsAffected = stmt.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    message = "회원가입 성공!";
+                    message = "회원가입 성공! 로그인 해주세요";
                 } else {
                     message = "회원가입 실패!";
                 }
@@ -137,16 +153,18 @@
     <div style="text-align: center;">
         <p style="font-size: 30px;">Welcome!</p>
         <img src="logo.png" style="width: 200px; height: auto;">
-        <p style="font-size: 10px;">회원 서비스 이용을 위해 로그인 해주세요. </p>
-		<br><br>
+        <p style="font-size: 10px;">회원 서비스 이용을 위해 회원가입을 진행해주세요. </p>
+        <br><br>
         <form action="" method="post">
             <div class="search-container">
                 <div>
-                    <input type="text" id="id" name="id" placeholder="아이디" class="<%= message != null ? "error" : "" %>">
-                </div>
-                <% if(message != null) { %>
-                    <div id="message"><%= message %></div>
-                <% } %><br>
+    <input type="text" id="id" name="id" placeholder="아이디" class="<%= message != null ? (message.equals("회원가입 성공! 로그인 해주세요") ? "success" : "error") : "" %>">
+			</div>
+			<% if(message != null && message.equals("회원가입 성공! 로그인 해주세요")) { %>
+    			<div id="success-message" class="success"><%= message %></div>
+			<% } else if(message != null) { %>
+    			<div id="message" class="error"><%= message %></div>
+			<% } %><br>
                 <input type="submit" value="회원가입">
             </div>
         </form>
