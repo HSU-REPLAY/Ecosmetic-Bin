@@ -47,30 +47,6 @@
                 }
             });
         }
-
-        function keyboardInput() {
-            var keys = document.getElementsByClassName("key");
-            for(let i=0; i<keys.length; i++) {
-                keys[i].addEventListener("click", function () {
-                    // 버튼 입력 값
-                    var key = this.value;
-
-                    // input란에 있는 값
-                    var text = document.getElementById('inputName').value;
-                    if (key == " space ") {
-                        key = " ";
-                        document.getElementById('inputName').value = text + key;
-                        document.getElementById('inputName').focus();
-                    } else if (key == "◀-") {
-                        text = text.substring(0, text.length - 1);
-                        document.getElementById('inputName').value = text;
-                        document.getElementById('inputName').focus();
-                    } else {
-                        document.getElementById('inputName').value += this.value;
-                    }
-                });
-            }
-        }
         
         function toMainScreen() {
             document.getElementById("screenStyleSheet").setAttribute('href', 'mainScreen.css');
@@ -154,11 +130,34 @@
             keyboardContainer.style.visibility = 'visible';
         }
 
+        function showCameraList() {
+            var cameraList = document.getElementById("cameraList");
+            var currentVisibility = cameraList.style.visibility;
+
+            if (currentVisibility === "visible") {
+                cameraList.style.visibility = "hidden"; // 보이는 경우 숨김
+            } else {
+                cameraList.style.visibility = "visible"; // 숨겨진 경우 보이도록 변경
+            }
+        }
+
+        function selectCameraList(selectedItem) {
+            var selectedCamera = document.getElementById("selectedCamera");
+            selectedCamera.innerHTML = selectedItem.innerHTML;
+            var lis = document.getElementsByTagName("li");
+            for(let i=0; i<lis.length; i++) {
+                lis[i].style.backgroundColor = "black";
+            }
+            selectedItem.style.backgroundColor = "#333333";
+            var cameraList = document.getElementById("cameraList");
+            cameraList.style.visibility = "hidden";
+        }
+
     </script>
 </head>
 <body>
     <img id="logo" src="./ecosmeticLogo.png" />
-    <canvas class="mainScreen" id="camStreaming"></canvas>  <!--스트리밍 화면의 위치와 크기 조정해야함, 수정필요 -->
+    <canvas class="mainScreen" id="camStreaming"></canvas>
     <!--<img id="merakiCam" src=""></img>-->
     <div id="messages"></div>
     <div id="loginError">아이디를 잘못 입력했습니다.</div>
@@ -214,33 +213,27 @@
             <input type ='button' onclick="keyClicked(this)" class="key" value="b">
             <input type ='button' onclick="keyClicked(this)" class="key" value="n">
             <input type ='button' onclick="keyClicked(this)" class="key" value="m">
-        </div>
-        <div  id="line5">
-            <input type ='button' id="space" onclick="keyClicked(this)" class="key" value=" space ">
             <input type ='button' id="enter" onclick="keyClicked(this)" class="key" value=" enter ">
         </div>
     </div>  
 
     <button onclick="startConnect()" id="loginButton" class="homeScreen button button--ujarak button--border-medium button--round-s button--text-thick">로그인</button>
     
-    <form class="mainScreen" >
-        <select name = "camera" id="selectCamera">
-            <img src="./cameraIcon.svg" alt="">
-            <option value = "webcam" selected>HD Webcam</option>
-            <option value = "meraki">Cisco Meraki Camera</option>
-        </select>
-    </form>
-    <!--<ul id="cameraList">
-        <li>HD Webcam</li>
-        <li>Cisco Meraki Camera</li>
-    </ul>-->
+    <!-- 카메라 선택 리스트 -->
+    <section class="mainScreen" id="selectCamera">
+        <div id="selectedCamera" onclick="showCameraList()">HD Webcam</div>
+    </section>
+    <ul class="mainScreen" id="cameraList">
+        <li onclick="selectCameraList(this)" style="background-color: #333333;"><img id="checked" src="./checked.png" alt="">HD Webcam</li>
+        <li onclick="selectCameraList(this)"><img src="" alt="">Cisco Meraki Camera</li>
+    </ul>
     
     <button onclick="operate()" id="operateButton" class=" mainScreen button button--ujarak button--border-medium button--round-s button--text-thick">분류 시작</button>
     <button onclick="startDisconnect()" class="" id="logoutButton">Logout</button>
 
     <img class="loadingScreen" id="loadingGif" src="./loading.gif" alt="">
     <div class="loadingScreen" id="analysisInProgress">분류 중 ...</div>
-    <div class="loadingScreen mileageResultScreen" id="shadow"></div>
+    <div class="loadingScreen analysisScreen mileageResultScreen" id="shadow"></div>
 
     <div class="analysisScreen" id="info"></div>
     <div id="analysisResult"></div>
@@ -251,8 +244,9 @@
     <div class="analysisScreen resultScreen" id="canLabel">Can</div>
     <div class="analysisScreen" id="canCount"></div>
     <button onclick="toMainScreen()" class="analysisScreen button button--ujarak button--border-medium button--round-s button--text-thick" id="recaptureButton">재촬영</button>
-    <button onclick="toResultScreen()" class="analysisScreen button button--ujarak button--border-medium button--round-s button--text-thick" id="continueButton">계속</button>
+    <button onclick="toResultScreen()" class="analysisScreen button button--ujarak button--border-medium button--round-s button--text-thick" id="continueButton">버리기</button>
 
+    <div class="resultScreen"><span id="userName"></span>님의 쓰레기 배출이 완료되었습니다!</div>
     <table class="resultScreen" id="plasticTable">
         <tr><td></td></tr>
         <tr><td></td></tr>
@@ -296,5 +290,3 @@
     <div class="mileageResultScreen" id="returnAlert"><span id="remainSec">5</span>초 뒤에 홈으로 자동 전환됩니다.</div>
 </body>
 </html>
-
-

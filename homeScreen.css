@@ -28,7 +28,7 @@
 }
 #loginButton {
     width: 660px; 
-    height: 110px;
+    height: 94px;
     left: 210px; 
     top: 979px;
     position: absolute; 
@@ -42,7 +42,7 @@
     top: 900px; 
     position: absolute; 
     color: #FF0000; 
-    font-size: 35px; 
+    font-size: 25px; 
     font-weight: 400; 
     word-wrap: break-word;
     visibility: hidden;

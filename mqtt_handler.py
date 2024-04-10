@@ -1,9 +1,7 @@
 import paho.mqtt.client as mqtt
-import json
 import requests
+import datetime
 from requests.exceptions import RequestException
-import mysql.connector
-from mysql.connector import Error
 
 MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
@@ -11,75 +9,63 @@ CHECK_TOPIC = "check"
 PRESENCE_TOPIC = "presence"
 RESULT_TOPIC = "result"
 
+
 # 현재 사용자 ID 전역 변수
 current_user_id = None
 
 # 데이터 전송 함수
-def send_data(user_id, plastic_count, can_count, glass_count):
-    server_url = 'http://192.168.42.80:8080/ecobin/data'
+def send_data(user_id, date, plastic_count, can_count, glass_count):
+    server_result = 'http://192.168.137.41:8080/ecobin/result'
     params = {
         'userId': user_id,
+        'date' : date,
         'plasticCount': plastic_count,
         'canCount': can_count,
         'glassCount': glass_count
     }
     try:
-        response = requests.get(server_url, params=params)
-        # 응답 내용 확인
-        if response.text == "OK":
+        response = requests.get(server_result, params=params)
+        if response.status_code == 200:
             print("Data successfully sent to server.")
         else:
-            print("Server response:", response.text)
+            print("Server response:", response.status_code)
     except RequestException as e:
         print("Server connection failed:", e)
 
-# 사용자 ID 존재 확인 함수
-def check_user_exists(user_id):
+# 웹 서버에 사용자 ID 검증
+def verify_user(user_id):
+    server_check = "http://192.168.137.41:8080/ecobin/check"
     try:
-        connection = mysql.connector.connect(
-            host='172.20.10',
-            database='ecosmeticbin',
-            user='root', 
-            password='1234'
-        )
-        cursor = connection.cursor()
-        cursor.execute("SELECT EXISTS(SELECT 1 FROM user WHERE id = %s)", (user_id,))
-        (exists,) = cursor.fetchone()
-        return exists == 1
-    except Error as e:
-        print(f"Error: {e}")
-        return False
-    finally:
-        if connection and connection.is_connected():
-            cursor.close()
-            connection.close()
+        response = requests.get(server_check, params={'userId': user_id})
+        if response.status_code == 200:
+            return response.text  # "true" 또는 "false"
+        else:
+            print("Error response from web server:", response.status_code)
+            return "false"
+    except requests.exceptions.RequestException as e:
+        print("Exception during web server request:", e)
+        return "false"
 
 def on_message(client, userdata, msg):
-    global current_user_id  # 전역 변수 사용
-
+    global current_user_id
     if msg.topic == CHECK_TOPIC:
         user_id = msg.payload.decode()
-        user_exists = check_user_exists(user_id)
-
-        # 사용자가 존재하면 전역 변수에 ID 저장
-        if user_exists:
-            current_user_id = user_id  # 사용자 ID 저장
-
-        client.publish(PRESENCE_TOPIC, "true" if user_exists else "false")
+        # 웹 서버에 사용자 ID 검증 요청
+        print("사용자 id : " + user_id);
+        verification_result = verify_user(user_id)
+        print("맞니? : " + verification_result)
+        if verification_result == "true":
+            current_user_id = user_id
+        # PRESENCE_TOPIC에 검증 결과 발행
+        client.publish(PRESENCE_TOPIC, verification_result)
 
     elif msg.topic == RESULT_TOPIC and current_user_id:
-        try:
-            msg_string = msg.payload.decode().split(",")
-            plastic_count = int(msg_string[0])
-            can_count = int(msg_string[1])
-            glass_count = int(msg_string[2])
-            # 파싱된 데이터를 사용하여 서버로 데이터 전송
-            send_data(current_user_id, plastic_count, can_count, glass_count)
-        except ValueError:
-            print("Error parsing RESULT_TOPIC message")
-        except IndexError:
-            print("RESULT_TOPIC message format error")
-
+        
+        date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print("time:", date)
+        msg_string = msg.payload.decode().split(",")
+        plastic_count, can_count, glass_count = map(int, msg_string)
+        send_data(current_user_id, date, plastic_count, can_count, glass_count)#
 
 def on_connect(client, userdata, flags, rc):
     client.subscribe(CHECK_TOPIC)
@@ -90,6 +76,4 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 client.connect(MQTT_BROKER, MQTT_PORT, 60)
-
 client.loop_forever()
-
