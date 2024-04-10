@@ -72,42 +72,41 @@ function onConnectionLost(responseObject) { // responseObject는 응답 패킷
 
 // 메시지가 도착할 때 호출되는 함수
 function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지를 담고 있는 객체
-	if(msg.destinationName == "presence") {
-		if(msg.payloadString == "false") {
-			unsubscribe("presence");
-			userName = "";
-			document.getElementById("loginError").style.visibility = "visible";
-			document.getElementById("userName").style.color = "red";
-			document.getElementById("loginButton").style.color = "red";
-		}
-		else if(msg.payloadString == "true") {
-			document.getElementById("screenStyleSheet").setAttribute('href', 'mainScreen.css');
-			document.getElementById("userName").innerHTML = "<b>" + userName + "</b>";
-			/*document.getElementById("inputName").style.display = "none";
-			document.getElementById("loginButton").style.display = "none";
-			*/
-			document.getElementById("userName").style.color = "white";
-			document.getElementById("loginError").style.visibility = "hidden";
-			for (let i = 0; i < hiddenItems.length; i++) {
-				hiddenItems[i].style.display = "inline";
-			}
-			startStreaming();
-		}
-	}
-	else if(msg.destinationName == "image") {
-		//console.log(“received”)
-		drawImage(msg.payloadString); // 메시지에 담긴 파일 이름으로 drawImage() 호출. drawImage()는 웹 페이지에 있음
-		// document.getElementById("merakiCam").src = msg.payloadString;
+	if (client.isConnected()) { // 클라이언트가 연결되어 있는지 확인
+        if (msg.destinationName == "presence") {
+            if (msg.payloadString == "false") {
+                unsubscribe("presence"); // 연결된 상태에서만 구독 해제
+                userName = "";
+                document.getElementById("loginError").style.visibility = "visible";
+                document.getElementById("userName").style.color = "red";
+                document.getElementById("loginButton").style.color = "red";
+				document.getElementById("inputName").style.color = "red";
+				document.getElementById("inputName").style.borderBottom = "4px red solid";
+            } else if (msg.payloadString == "true") {
+                document.getElementById("screenStyleSheet").setAttribute('href', 'mainScreen.css');
+                document.getElementById("userName").innerHTML = userName;
+                document.getElementById("userName").style.color = "white";
+				document.getElementById("loginButton").style.color = "white";
+				document.getElementById("inputName").style.color = "white";
+				document.getElementById("inputName").style.borderBottom = "4px white solid";
+                document.getElementById("loginError").style.visibility = "hidden";
+                startStreaming();
+            }
+        } else if (msg.destinationName == "image") {
+            drawImage(msg.payloadString);
+        } else if (msg.destinationName == "result") {
+            document.getElementById("loading").setAttribute('href', '');
+            document.getElementById("screenStyleSheet").setAttribute('href', 'analysisScreen.css');
+            document.getElementById("info").innerHTML = "분류 결과";
+            let msgString = msg.payloadString.split(",");
+            document.getElementById("plasticCount").innerHTML = parseInt(msgString[0]) + "개";
+            document.getElementById("canCount").innerHTML = parseInt(msgString[1]) + "개";
+            document.getElementById("glassCount").innerHTML = parseInt(msgString[2]) + "개";
+            if (msgString[0] == "0" && msgString[1] == "0" && msgString[2] == "0") {
+                document.getElementById("shadow").style.visibility = "visible";
+            }
+        }
     }
-	else if(msg.destinationName == "result") {
-		document.getElementById("loading").setAttribute('href', '');
-		document.getElementById("screenStyleSheet").setAttribute('href', 'analysisScreen.css'); // 분석 결과 화면으로 전환 
-		document.getElementById("info").innerHTML = "분류 결과";
-		let msgString = msg.payloadString.split(",");
-		document.getElementById("plasticCount").innerHTML = parseInt(msgString[0]) + "개";
-		document.getElementById("canCount").innerHTML = parseInt(msgString[1]) + "개";
-		document.getElementById("glassCount").innerHTML = parseInt(msgString[2]) + "개";
-	}
 }
 
 // disconnection 버튼이 선택되었을 때 호출되는 함수
