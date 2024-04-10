@@ -133,7 +133,7 @@
 		<div>
         <% 
             if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
-                out.println("<p class='error-message'>잘못된 아이디 입니다.</p>");
+                out.println("<p class='error-message'>아이디를 잘못 입력했습니다.</p>");
             }
         %>
         </div><br>
