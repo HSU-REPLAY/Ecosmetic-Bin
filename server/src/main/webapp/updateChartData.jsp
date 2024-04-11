@@ -23,10 +23,11 @@
         connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 
         String sql = "SELECT " +
-                "    SUM(CASE WHEN h.recyclingcode = 'plastic' THEN h.recyclingcount ELSE 0 END) AS plastic, " +
-                "    SUM(CASE WHEN h.recyclingcode = 'glass' THEN h.recyclingcount ELSE 0 END) AS glass, " +
-                "    SUM(CASE WHEN h.recyclingcode = 'can' THEN h.recyclingcount ELSE 0 END) AS can, " +
-                "    SUM(h.result) AS totalResult " +
+                "    SUM(CASE WHEN h.recyclingcode = 'plastic' THEN h.recyclingcount ELSE 0 END) AS plasticCount, " +
+                "    SUM(CASE WHEN h.recyclingcode = 'glass' THEN h.recyclingcount ELSE 0 END) AS glassCount, " +
+                "    SUM(CASE WHEN h.recyclingcode = 'can' THEN h.recyclingcount ELSE 0 END) AS canCount, " +
+                "    SUM(h.result) AS totalResult, " +
+                "    SUM(h.recyclingcount) AS recyclingCount " + // 추가된 부분
                 "FROM " +
                 "    history h " +
                 "JOIN " +
@@ -41,15 +42,17 @@
         resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
-            int plasticCount = resultSet.getInt("plastic");
-            int glassCount = resultSet.getInt("glass");
-            int canCount = resultSet.getInt("can");
+            int plasticCount = resultSet.getInt("plasticCount");
+            int glassCount = resultSet.getInt("glassCount");
+            int canCount = resultSet.getInt("canCount");
             int totalResult = resultSet.getInt("totalResult");
+            int recyclingCount = plasticCount + glassCount + canCount;
 
             responseData.put("plasticCount", plasticCount);
             responseData.put("glassCount", glassCount);
             responseData.put("canCount", canCount);
             responseData.put("result", totalResult);
+            responseData.put("recyclingCount", recyclingCount);
         } else {
             response.setStatus(404);
             response.getWriter().write("Data not found for selected date");

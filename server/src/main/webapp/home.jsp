@@ -96,18 +96,19 @@
         }
 
         .mileage-calendar table td {
-            width: 14.28%;
-            vertical-align: top;
-            cursor: pointer;
-            text-align: center;
-            padding: 10px 0;
-        }
+		    width: 14.28%;
+		    vertical-align: top;
+		    cursor: pointer;
+		    text-align: center;
+		    padding: 10px 0;
+		    position: relative;
+		}
         
-        .clicked {
-    		position: absolute;
-    		width: 10px;
-    		height: 10px;
-		    background-color: #55C595;
+        .mileage-calendar table td.clicked::before {
+		    position: absolute;
+		    width: 20px;
+		    height: 20px;
+		    background-color: black;
 		    border-radius: 50%;
 		    font-size: 16px;
 		    text-align: center;
@@ -229,7 +230,24 @@
     function getDaysInMonth(year, month) {
         return new Date(year, month, 0).getDate();
     }
+	
+    function getRecyclingCount(year, month, day) {
+        var selectedDate = year + "-" + month + "-" + day;
+        var xhr = new XMLHttpRequest();
+        var count = 0; // 재활용 횟수를 저장할 변수 초기화
 
+        xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, false);
+        xhr.send();
+
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // JSON 형태로 반환된 데이터를 파싱하여 재활용 횟수를 가져옴
+            var data = JSON.parse(xhr.responseText);
+            count = data.recyclingCount;
+        }
+
+        return count;
+    }
+    
     function generateCalendar(year, month) {
         var daysInMonth = getDaysInMonth(year, month);
         var calendarHTML = '<table>'; 
@@ -254,9 +272,8 @@
             var dayStr = day.toString(); 
             var backgroundColor = '#EBEDF0'; 
 
-         // 특정 날짜의 재활용 횟수를 확인하여 배경색을 설정합니다.
-            var recyclingCount = getRecyclingCountFromDatabase(year, month, day);
-            if (recyclingCount >= 0 && recyclingCount <= 3) {
+            var recyclingCount = getRecyclingCount(year, month, day);
+            if (recyclingCount > 0 && recyclingCount <= 3) {
                 backgroundColor = '#CFF4D2'; // 1~3회 재활용
             } else if (recyclingCount >= 4 && recyclingCount <= 6) {
                 backgroundColor = '#7DE495'; // 4~6회 재활용
@@ -266,10 +283,9 @@
                 backgroundColor = '#339B9C'; // 10회 이상 재활용
             }
 
-
             calendarHTML += '<td style="text-align: center; position: relative;">' + dayStr + '<br>' + 
             '<div style="width: 20px; height: 20px; background-color: ' + backgroundColor + 
-            '; display: inline-block; margin-top: 2px; border-radius: 5px;"></div>' + '</td>'; // 날짜를 표시하고 배경색을 설정합니다.
+            '; display: inline-block; margin-top: 2px; border-radius: 5px;"></div>' + '</td>';
             if (date.getDay() === 6) {
                 calendarHTML += '</tr><tr>';
             }
@@ -293,22 +309,6 @@
         
         
         return calendarHTML;
-    }
-
-    // 데이터베이스에서 특정 날짜의 재활용 횟수를 가져오는 함수
-    function getRecyclingCountFromDatabase(year, month, day) {
-        
-        var selectedDate = year + "-" + month + "-" + day;
-        
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'getRecyclingCount.jsp?selectedDate=' + selectedDate, false);
-        xhr.send();
-
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            return parseInt(xhr.responseText);
-        } else {
-            return 0;
-        }
     }
 
     document.querySelector('.mileage-calendar #calendar-container').innerHTML = generateCalendar(currentYear, currentMonth);
@@ -358,8 +358,6 @@ cells.forEach(function(cell) {
         xhr.send();
     });
 });
-
-
 
     function updateChart(responseData) {
         var data = JSON.parse(responseData);
