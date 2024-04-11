@@ -105,6 +105,10 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
             if (msgString[0] == "0" && msgString[1] == "0" && msgString[2] == "0") {
                 document.getElementById("shadow").style.visibility = "visible";
             }
+			let lis = document.getElementsByTagName("li");
+            for(let i=0; i<lis.length; i++) {
+                lis[i].visibility = "hidden";
+            }
         }
     }
 }
@@ -114,7 +118,6 @@ function startDisconnect() {
 	if(connectionFlag == false) 
 		return; // 연결 되지 않은 상태이면 그냥 리턴
 	stopStreaming();
-	clearTrashbin();
 	userName = "";
 	document.getElementById("screenStyleSheet").setAttribute('href', 'homeScreen.css');
 	document.getElementById("inputName").value = "";
