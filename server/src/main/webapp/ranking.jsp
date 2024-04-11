@@ -62,10 +62,8 @@
                 // 데이터베이스 연결
                 Connection conn = DriverManager.getConnection(url, username, password);
 
-                // 로그인한 사용자의 이름을 세션에서 가져옴
                 String loggedInUser = (String) session.getAttribute("loggedInUser");
                 
-             // 랭킹 쿼리 실행
                 String sql = "SELECT id, totalmileage, " +
                              "       FIND_IN_SET(totalmileage, (SELECT GROUP_CONCAT(totalmileage ORDER BY totalmileage DESC) FROM user)) AS `rank` " +
                              "FROM user " +
@@ -73,13 +71,11 @@
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 ResultSet rs = pstmt.executeQuery();
                 
-                // 결과 처리
                 while (rs.next()) {
                     int rank = rs.getInt("rank");
                     String id = rs.getString("id");
                     String totalmileage = rs.getString("totalmileage");
 
-                    // 현재 로그인한 사용자와 현재 반복되고 있는 사용자의 이름을 비교하여 일치하는 경우
                     if (id.equals(loggedInUser)) {
         %>
                         <tr class="logged-in-user">

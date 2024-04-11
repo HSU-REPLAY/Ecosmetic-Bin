@@ -222,17 +222,17 @@
 <button type="button" onclick="location.href='ranking.jsp'">랭킹으로 이동</button>
 
 <script>
-	var currentDate = new Date(); // 현재 날짜를 가져옵니다.
-	var currentYear = currentDate.getFullYear(); // 현재 연도를 가져옵니다.
-	var currentMonth = currentDate.getMonth() + 1; // 현재 월을 가져옵니다. (월은 0부터 시작하므로 1을 더합니다.)
+	var currentDate = new Date(); 
+	var currentYear = currentDate.getFullYear(); 
+	var currentMonth = currentDate.getMonth() + 1; 
 
     function getDaysInMonth(year, month) {
-        return new Date(year, month, 0).getDate(); // 해당 연도와 월의 일 수를 반환합니다.
+        return new Date(year, month, 0).getDate();
     }
 
     function generateCalendar(year, month) {
-        var daysInMonth = getDaysInMonth(year, month); // 해당 연도와 월의 일 수를 가져옵니다.
-        var calendarHTML = '<table>'; // 달력을 만들기 위한 HTML 문자열을 초기화합니다.
+        var daysInMonth = getDaysInMonth(year, month);
+        var calendarHTML = '<table>'; 
 
         calendarHTML += '<tr><th colspan="7" style="position: relative;">';
         calendarHTML += '<span onclick="prevMonth()" style="position: absolute; left: 0; width: 18px; height: 18px; cursor: pointer; background-image: url(\'pre.png\');"></span>';
@@ -243,39 +243,46 @@
         <%--calendarHTML += '<tr><td colspan="7" style="border-bottom: 1px solid #888888;"></td></tr>'; --%>
         calendarHTML += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>'; 
         
-        var date = new Date(year, month - 1, 1); // 현재 달의 첫째 날의 Date 객체를 생성합니다.
+        var date = new Date(year, month - 1, 1);
 
         calendarHTML += '<tr>';
         for (var i = 0; i < date.getDay(); i++) {
-            calendarHTML += '<td></td>'; // 이전 달의 날짜를 비워둡니다.
+            calendarHTML += '<td></td>';
         }
 
         for (var day = 1; day <= daysInMonth; day++) {
-            var dayStr = day.toString(); // 일자를 문자열로 변환합니다.
-            var backgroundColor = '#EBEDF0'; // 기본 배경색을 설정합니다.
+            var dayStr = day.toString(); 
+            var backgroundColor = '#EBEDF0'; 
 
-            // 특정 날짜의 재활용 횟수를 확인하여 배경색을 설정합니다.
-            // 만약 해당 날짜의 재활용 횟수가 1 이상이면 초록색으로 표시합니다.
-            if (checkRecyclingCount(year, month, day)) {
-                backgroundColor = '#349C9D';
+         // 특정 날짜의 재활용 횟수를 확인하여 배경색을 설정합니다.
+            var recyclingCount = getRecyclingCountFromDatabase(year, month, day);
+            if (recyclingCount >= 0 && recyclingCount <= 3) {
+                backgroundColor = '#CFF4D2'; // 1~3회 재활용
+            } else if (recyclingCount >= 4 && recyclingCount <= 6) {
+                backgroundColor = '#7DE495'; // 4~6회 재활용
+            } else if (recyclingCount >= 7 && recyclingCount <= 10) {
+                backgroundColor = '#55C595'; // 7~10회 재활용
+            } else if (recyclingCount > 10) {
+                backgroundColor = '#339B9C'; // 10회 이상 재활용
             }
+
 
             calendarHTML += '<td style="text-align: center; position: relative;">' + dayStr + '<br>' + 
             '<div style="width: 20px; height: 20px; background-color: ' + backgroundColor + 
             '; display: inline-block; margin-top: 2px; border-radius: 5px;"></div>' + '</td>'; // 날짜를 표시하고 배경색을 설정합니다.
-            if (date.getDay() === 6) { // 토요일일 경우 다음 행으로 이동합니다.
+            if (date.getDay() === 6) {
                 calendarHTML += '</tr><tr>';
             }
-            date.setDate(date.getDate() + 1); // 다음 날짜로 이동합니다.
+            date.setDate(date.getDate() + 1); 
         }
 
         while (date.getDay() > 0 && date.getDay() < 7) {
-            calendarHTML += '<td></td>'; // 다음 달의 날짜를 비워둡니다.
+            calendarHTML += '<td></td>'; 
             date.setDate(date.getDate() + 1);
         }
 
         while (date.getDay() > 0 && date.getDay() < 7) {
-            calendarHTML += '<td></td>'; // 다음 달의 날짜를 비워둡니다.
+            calendarHTML += '<td></td>'; 
             date.setDate(date.getDate() + 1);
         }
 
@@ -288,33 +295,41 @@
         return calendarHTML;
     }
 
-    // 데이터베이스에서 특정 날짜의 재활용 횟수를 확인하는 함수입니다.
-    function checkRecyclingCount(year, month, day) {
-        // 여기에 실제 데이터베이스 쿼리를 사용하여 특정 날짜의 재활용 횟수를 확인하는 코드를 구현해야 합니다.
-        // 해당 날짜의 재활용 횟수가 1 이상이면 true를 반환하고, 그렇지 않으면 false를 반환합니다.
-        // 이 예제에서는 간단히 날짜가 홀수인 경우 true를 반환하고 짝수인 경우 false를 반환합니다.
-        return day % 2 !== 0; // 예제 로직입니다. 실제 데이터베이스 쿼리로 대체되어야 합니다.
+    // 데이터베이스에서 특정 날짜의 재활용 횟수를 가져오는 함수
+    function getRecyclingCountFromDatabase(year, month, day) {
+        
+        var selectedDate = year + "-" + month + "-" + day;
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'getRecyclingCount.jsp?selectedDate=' + selectedDate, false);
+        xhr.send();
+
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            return parseInt(xhr.responseText);
+        } else {
+            return 0;
+        }
     }
 
     document.querySelector('.mileage-calendar #calendar-container').innerHTML = generateCalendar(currentYear, currentMonth);
 
     function prevMonth() {
-        currentMonth--; // 이전 달로 이동합니다.
-        if (currentMonth < 1) { // 만약 현재 월이 1월인 경우 이전 해의 12월로 이동합니다.
+        currentMonth--; 
+        if (currentMonth < 1) {
             currentMonth = 12;
             currentYear--;
         }
-        refreshCalendar(); // 달력을 새로고칩니다.
+        refreshCalendar();
     }
 
     // 다음 달로 이동하는 함수
     function nextMonth() {
-        currentMonth++; // 다음 달로 이동합니다.
-        if (currentMonth > 12) { // 만약 현재 월이 12월인 경우 다음 해의 1월로 이동합니다.
+        currentMonth++;
+        if (currentMonth > 12) { 
             currentMonth = 1;
             currentYear++;
         }
-        refreshCalendar(); // 달력을 새로고칩니다.
+        refreshCalendar();
     }
     
     function refreshCalendar() {
@@ -322,23 +337,17 @@
         document.getElementById("currentMonthYear").innerHTML = currentMonth + "월 " + currentYear + "년"; // 현재 연도와 월을 업데이트합니다.
     }
 
- // 날짜 클릭 이벤트 설정
-    // 날짜 클릭 이벤트 설정
-// 날짜 클릭 이벤트 설정
 var cells = document.querySelectorAll('.mileage-calendar table td');
 cells.forEach(function(cell) {
     cell.addEventListener('click', function() {
-        // 이전에 클릭된 셀에 있던 검은 원을 모두 제거합니다.
         document.querySelectorAll('.clicked').forEach(function(clickedCell) {
             clickedCell.classList.remove('clicked');
         });
 
-        // 사용자가 클릭한 날짜에만 검은 원을 추가합니다.
         this.classList.add('clicked');
         
         var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
         
-        // Ajax 요청 보내기
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
         xhr.onreadystatechange = function() {

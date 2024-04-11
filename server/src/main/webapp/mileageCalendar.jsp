@@ -58,7 +58,7 @@
     function showPreviousMonth() {
         var currentDate = new Date();
         var year = currentDate.getFullYear();
-        var month = currentDate.getMonth() + 1; // 현재 월
+        var month = currentDate.getMonth() + 1;
 
         // 이전 달 계산
         var prevMonth = month === 1 ? 12 : month - 1;
@@ -81,7 +81,7 @@
     function showNextMonth() {
         var currentDate = new Date();
         var year = currentDate.getFullYear();
-        var month = currentDate.getMonth() + 1; // 현재 월
+        var month = currentDate.getMonth() + 1;
 
         // 다음 달 계산
         var nextMonth = month === 12 ? 1 : month + 1;
@@ -116,38 +116,30 @@
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    // 세션에서 사용자 ID 가져오기
     String userId = (String) session.getAttribute("id");
 
     try {
         // 데이터베이스 연결
         conn = DriverManager.getConnection(url, username, password);
 
-        // URL에서 연도와 월 정보 가져오기
         String yearStr = request.getParameter("year");
         String monthStr = request.getParameter("month");
 
-        // URL에서 가져온 연도와 월 정보가 숫자가 아닌 경우에 대한 예외 처리 추가
         int year = 0;
         int month = 0;
 
         try {
             year = (yearStr != null && !yearStr.isEmpty()) ? Integer.parseInt(yearStr) : Calendar.getInstance().get(Calendar.YEAR);
         } catch (NumberFormatException e) {
-            // URL에서 가져온 연도 정보가 잘못된 경우에 대한 처리
-            // 기본값으로 현재 연도를 사용
             year = Calendar.getInstance().get(Calendar.YEAR);
         }
 
         try {
             month = (monthStr != null && !monthStr.isEmpty()) ? Integer.parseInt(monthStr) : Calendar.getInstance().get(Calendar.MONTH) + 1;
         } catch (NumberFormatException e) {
-            // URL에서 가져온 월 정보가 잘못된 경우에 대한 처리
-            // 기본값으로 현재 월을 사용
             month = Calendar.getInstance().get(Calendar.MONTH) + 1;
         }
 
-        // 쿼리를 통해 특정 사용자의 해당 연월의 쓰레기 버린 개수와 총 마일리지를 가져옵니다.
         String sql = "SELECT " +
                      "SUM(CASE WHEN recyclingcode = 1 THEN recyclingcount ELSE 0 END) AS plastic_count, " +
                      "SUM(CASE WHEN recyclingcode = 2 THEN recyclingcount ELSE 0 END) AS glass_count, " +
@@ -199,8 +191,8 @@
 %>
 </div>
 <div class="navigation">
-    <button onclick="showPreviousMonth()">&#60;</button> <!-- 이전 달로 이동하는 버튼 -->
-    <button onclick="showNextMonth()">&#62;</button> <!-- 다음 달로 이동하는 버튼 -->
+    <button onclick="showPreviousMonth()">&#60;</button>
+    <button onclick="showNextMonth()">&#62;</button>
 </div>
 </body>
 </html>

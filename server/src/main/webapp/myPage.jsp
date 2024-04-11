@@ -46,13 +46,11 @@
 <body>
 <%
     String loggedInUserId = (String) session.getAttribute("loggedInUser");
-
     // 데이터베이스 연결 정보
     String url = "jdbc:mysql://localhost:3306/ecosmeticbin";
     String username = "root";
     String password = "1234";
 
-    // 사용자 정보를 담을 변수
     String userId = "";
     int level = 0;
     String levelname = "";
@@ -98,47 +96,43 @@
         try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
     }
     
-    String currentLevel = levelname; // 사용자의 현재 등급 이름
-    String currentLevelImage = ""; // 사용자의 현재 등급 이미지 URL
-    String nextLevel = ""; // 사용자의 다음 등급 이름
-    String nextLevelImage = ""; // 사용자의 다음 등급 이미지 URL
+    String currentLevel = levelname;
+    String currentLevelImage = "";
+    String nextLevel = "";
+    String nextLevelImage = "";
   
     int nextLevelMileageThreshold = 0;
-    // 다음 등급 이미지와 다음 등급 이름을 결정하는 로직을 추가합니다.
+
     if (currentLevel.equals("Bronze")) {
         nextLevel = "Silver";
         nextLevelMileageThreshold = 5000;
-        nextLevelImage = "Silver.png"; // 예시로 Silver.png를 사용합니다.
-        currentLevelImage = "Bronze.png"; // Bronze 등급에 해당하는 이미지 URL
+        nextLevelImage = "Silver.png"; 
+        currentLevelImage = "Bronze.png";
     } else if (currentLevel.equals("Silver")) {
         nextLevel = "Gold";
         nextLevelMileageThreshold = 20000;
-        nextLevelImage = "Gold.png"; // 예시로 Gold.png를 사용합니다.
-        currentLevelImage = "Silver.png"; // Silver 등급에 해당하는 이미지 URL
+        nextLevelImage = "Gold.png"; 
+        currentLevelImage = "Silver.png"; 
     } else if (currentLevel.equals("Gold")) {
         nextLevel = "Platinum";
         nextLevelMileageThreshold = 50000;
-        nextLevelImage = "Platinum.png"; // 예시로 Platinum.png를 사용합니다.
-        currentLevelImage = "Gold.png"; // Gold 등급에 해당하는 이미지 URL
+        nextLevelImage = "Platinum.png"; 
+        currentLevelImage = "Gold.png";
     } else {
         nextLevel = "Diamond";
         nextLevelMileageThreshold = 50000;
-        nextLevelImage = "Diamond.png"; // 예시로 Diamond.png를 사용합니다.
-        currentLevelImage = "Platinum.png"; // Platinum 등급에 해당하는 이미지 URL
+        nextLevelImage = "Diamond.png";
+        currentLevelImage = "Platinum.png"; 
     }
 
- 	// 다음 등급까지 필요한 마일리지 계산
     int requiredMileageForNextLevel = nextLevelMileageThreshold - totalmileage;
 
-    // 남은 마일리지 계산
     int remainingMileage = requiredMileageForNextLevel > 0 ? requiredMileageForNextLevel : 0;
     String formattedRemainingMileage = String.format("%,d", remainingMileage);
     
- 	// Range 바의 길이 계산
     double rangePercentage = (double) totalmileage / nextLevelMileageThreshold * 100;
     double rangePerUnit = 100.0 / nextLevelMileageThreshold;
     
-    // 사용자의 정보와 계산된 값을 HTML 페이지로 전달합니다.
     request.setAttribute("currentLevelImage", currentLevelImage);
     request.setAttribute("nextLevelImage", nextLevelImage);
     request.setAttribute("nextLevelname", nextLevel);
