@@ -103,7 +103,16 @@
             padding: 10px 0;
         }
         
-        
+        .clicked {
+    		position: absolute;
+    		width: 10px;
+    		height: 10px;
+		    background-color: #55C595;
+		    border-radius: 50%;
+		    font-size: 16px;
+		    text-align: center;
+		}
+
         @media only screen and (max-width: 600px) {
             input[type="text"],
             input[type="button"] {
@@ -251,13 +260,6 @@
                 backgroundColor = '#349C9D';
             }
 
-         // 현재 날짜인 경우 동그라미를 추가합니다.
-            if (year === currentDate.getFullYear() && month === currentDate.getMonth() + 1 && day === currentDate.getDate()) {
-    dayStr = '<div style="position: relative; display: inline-block; width: 20px; height: 20px; background-color: black; border-radius: 50%; text-align: center; line-height: 0px;">' + 
-             '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 16px;">' + dayStr + '</div>' +
-             '</div>';
-}
-
             calendarHTML += '<td style="text-align: center; position: relative;">' + dayStr + '<br>' + 
             '<div style="width: 20px; height: 20px; background-color: ' + backgroundColor + 
             '; display: inline-block; margin-top: 2px; border-radius: 5px;"></div>' + '</td>'; // 날짜를 표시하고 배경색을 설정합니다.
@@ -321,9 +323,19 @@
     }
 
  // 날짜 클릭 이벤트 설정
-    var cells = document.querySelectorAll('.mileage-calendar table td');
+    // 날짜 클릭 이벤트 설정
+// 날짜 클릭 이벤트 설정
+var cells = document.querySelectorAll('.mileage-calendar table td');
 cells.forEach(function(cell) {
     cell.addEventListener('click', function() {
+        // 이전에 클릭된 셀에 있던 검은 원을 모두 제거합니다.
+        document.querySelectorAll('.clicked').forEach(function(clickedCell) {
+            clickedCell.classList.remove('clicked');
+        });
+
+        // 사용자가 클릭한 날짜에만 검은 원을 추가합니다.
+        this.classList.add('clicked');
+        
         var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
         
         // Ajax 요청 보내기
@@ -337,6 +349,7 @@ cells.forEach(function(cell) {
         xhr.send();
     });
 });
+
 
 
     function updateChart(responseData) {
