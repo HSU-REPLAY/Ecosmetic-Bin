@@ -103,7 +103,7 @@
   
     int nextLevelMileageThreshold = 0;
 
-    if (currentLevel.equals("Bronze")) {
+    if (totalmileage >= 0 && totalmileage < 5000) {
         nextLevel = "Silver";
         nextLevelMileageThreshold = 5000;
         nextLevelImage = "Silver.png"; 

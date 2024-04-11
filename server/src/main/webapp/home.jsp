@@ -195,8 +195,9 @@
     
 %>
 <div id="user-info" style="display: flex;">
-    <div style="color:#55C595; font-weight: bold; margin-left: 20px;"><%= userId %></div><div style="font-weight: bold;">&nbsp;님, 안녕하세요!<br></div>
+    <div style="color:#55C595; font-weight: bold; margin-left: 20px;"><%= (userId != null ? userId + " 님" : "") %></div><div style="font-weight: bold;">&nbsp;안녕하세요!<br></div>
 </div><br>
+
 
 <div class="show-mileage">
     <img src="mileage-coin.png" alt="User Image" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 20px;" />
