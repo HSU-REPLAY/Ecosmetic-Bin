@@ -8,17 +8,20 @@ import cv2
 import camera
 import base64
 import json
+import merakicam
+import traceback
 
 isStart  = False
 
 def on_connect(client, userdata, flag, rc):
     client.subscribe("streaming")  # "streaming" 토픽으로 구독 신청
     client.subscribe("capture")  # "capture" 토픽으로 구독 신청
-      
+    client.subscribe("camera")  # "capture" 토픽으로 구독 신청
+
 def on_message(client, userdata, msg):
+    global isStart
 
     if msg.topic == "streaming":
-        global isStart
         if msg.payload.decode() == 'start':
             print("Start Stream")
             isStart = True
@@ -28,12 +31,18 @@ def on_message(client, userdata, msg):
             pass
 
     elif msg.topic == "capture":
-        # 사용자가 'start' 버튼을 누르고, 사용자가 존재한다면 카메라 작동  
-        frame = camera.take_picture()
-        image_path = 'image.jpg'
-        cv2.imwrite(image_path, frame) # 이미지를 캡처하여 'image.jpg' 파일로 저장한다.
-        print("Image saved successfully.")
+        # 사용자가 'start' 버튼을 누르고, 사용자가 존재한다면 카메라 작동
+        filename='image.jpg'
 
+        if msg.payload.decode() == 'webcam':
+              frame = camera.take_picture()
+              image_path = 'image.jpg'
+              cv2.imwrite(image_path, frame) # 이미지를 캡처하여 'image.jpg' 파일로 저장한다.
+              print("Image saved successfully.")
+        elif msg.payload.decode() == 'merakicam':
+             merakicam.download_image(filename) 
+             image_path = 'image.jpg'
+             
         ocr.ocr(image_path) # 카메라를 활성화하는 함수를 호출
         
         # 새로운 문자열을 새로운 토픽으로 발행
