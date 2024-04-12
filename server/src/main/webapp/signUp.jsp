@@ -5,12 +5,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecosmetic Bin 회원가입</title>
     <style>
         body {
             margin: 0;
             height: 100vh;
             display: flex;
+            justify-content: center;
             align-items: center;
             color: #666666;
         }
@@ -82,8 +84,8 @@
             input[type="text"] {
                 width: 90%;
                 max-width: none;
-                height: 10vw;
-                font-size: 5vw;
+                height: 40px;
+                font-size: 16px;
             }
         }
     </style>
@@ -157,16 +159,14 @@
         <br><br>
         <form action="" method="post">
             <div class="search-container">
-                <div>
-    <input type="text" id="id" name="id" placeholder="아이디" class="<%= message != null ? (message.equals("회원가입 성공! 로그인 해주세요") ? "success" : "error") : "" %>">
+			        <input type="text" name="id" placeholder="아이디" class="<%= message != null ? (message.equals("회원가입 성공! 로그인 해주세요") ? "success" : "error") : "" %>">
+					    <% if(message != null && message.equals("회원가입 성공! 로그인 해주세요")) { %>
+					        <div id="success-message" class="success"><%= message %></div>
+					    <% } else if(message != null) { %>
+					        <div id="message" class="error"><%= message %></div>
+					    <% } %><br>
+			    <input type="submit" value="회원가입">
 			</div>
-			<% if(message != null && message.equals("회원가입 성공! 로그인 해주세요")) { %>
-    			<div id="success-message" class="success"><%= message %></div>
-			<% } else if(message != null) { %>
-    			<div id="message" class="error"><%= message %></div>
-			<% } %><br>
-                <input type="submit" value="회원가입">
-            </div>
         </form>
     </div>
     <button type="button" onclick="location.href='ecomesticBin.jsp'">로그인으로 이동</button>

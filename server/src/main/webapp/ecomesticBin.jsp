@@ -5,6 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecosmetic Bin</title>
     <style>
         body {
@@ -67,8 +68,8 @@
             input[type="text"] {
                 width: 90%;
                 max-width: none;
-                height: 10vw;
-                font-size: 5vw;
+                height: 40px;
+                font-size: 16px;
             }
         }
     </style>
@@ -128,15 +129,15 @@
         <br><br>
     </div>
     <form action="" method="post">
-    <div class="search-container">
-        <input type="text" name="id" placeholder="아이디" class="<%= userId != null && !userId.isEmpty() && request.getMethod().equals("POST") ? "error" : "" %>"> <!-- 에러 발생 시 클래스 추가 -->
-		<div>
-        <% 
-            if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
-                out.println("<p class='error-message'>아이디를 잘못 입력했습니다.</p>");
-            }
-        %>
-        </div><br>
+	    <div class="search-container">
+	        <input type="text" name="id" placeholder="아이디" class="<%= userId != null && !userId.isEmpty() && request.getMethod().equals("POST") ? "error" : "" %>">
+			<div>
+	        <% 
+	            if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
+	                out.println("<p class='error-message'>아이디를 잘못 입력했습니다.</p>");
+	            }
+	        %>
+	        </div><br>
         <input type="submit" value="로그인">
     </div> 
 </form>
