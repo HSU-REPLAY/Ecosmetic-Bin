@@ -82,6 +82,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <div style="position: relative; width: 400px; height: 350px; color: #666666">
     <canvas id="myDonutChart"></canvas><br><br>
+    <div id="chartText" style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+        <span id="monthText" style="font-weight: bold;"></span><br>
+        <span id="mileageText" style="color: #000; font-weight: bold; font-size: 30px;"></span>
+    </div>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <%
                 for (int i = 0; i < recyclingCodes.size(); i++) {
@@ -102,67 +106,55 @@
 </div>
 
 <script>
-    function createDonutChart() {
-        var ctx = document.getElementById('myDonutChart').getContext('2d');
-        var myDonutChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [<%
-                    for (int i = 0; i < recyclingCodes.size(); i++) {
-                        out.println("'" + recyclingCodes.get(i) + "'");
-                     		if (i < recyclingCodes.size() - 1) out.println(", ");
-                    }
-                %>],
-                datasets: [{
-                    label: 'Recycling Counts',
-                    data: [<%
-                        for (int i = 0; i < recyclingCounts.size(); i++) {
-                            out.println(recyclingCounts.get(i));
-                            if (i < recyclingCounts.size() - 1) out.println(", ");
-                        }
-                    %>],
-                    backgroundColor: [
-                        '#349C9D',
-                        '#55C595',
-                        '#7CE494'
-                    ],
-                    borderColor: [
-                        '#349C9D',
-                        '#55C595',
-                        '#7CE494'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                cutoutPercentage: 75,
-                elements: {
-                    arc: {
-                        borderWidth: 0.5 
-                    }
-                },
-                animation: false,
-                legend: {
-                    display: false
-                }
-            }
-        });
+	document.getElementById('monthText').innerText = "<%= selectedMonth.substring(5) %>월 마일리지";
+	document.getElementById('mileageText').innerText = "<%= totalMileage %>M";
 
-        // 월별 마일리지 표시
-        var text = "<%= selectedMonth.substring(5) %>월 마일리지";
-        var textX = myDonutChart.canvas.clientWidth / 2;
-        var textY = myDonutChart.canvas.clientHeight / 2 -10;
-        var ctx = myDonutChart.ctx;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.font = 'bold 20px Arial';
-        ctx.fillStyle = '#000';
-        ctx.fillText(text, textX, textY);
-        text= "<%= totalMileage %>M"
-       	textX = myDonutChart.canvas.clientWidth / 2;
-        textY = myDonutChart.canvas.clientHeight / 2 + 20;
-        ctx.fillText(text, textX, textY);
-    }
+	function createDonutChart() {
+	    var ctx = document.getElementById('myDonutChart').getContext('2d');
+	    var myDonutChart = new Chart(ctx, {
+	        type: 'doughnut',
+	        data: {
+	            labels: [<%
+	                for (int i = 0; i < recyclingCodes.size(); i++) {
+	                    out.println("'" + recyclingCodes.get(i) + "'");
+	                 		if (i < recyclingCodes.size() - 1) out.println(", ");
+	                }
+	            %>],
+	            datasets: [{
+	                label: 'Recycling Counts',
+	                data: [<%
+	                    for (int i = 0; i < recyclingCounts.size(); i++) {
+	                        out.println(recyclingCounts.get(i));
+	                        if (i < recyclingCounts.size() - 1) out.println(", ");
+	                    }
+	                %>],
+	                backgroundColor: [
+	                    '#349C9D',
+	                    '#55C595',
+	                    '#7CE494'
+	                ],
+	                borderColor: [
+	                    '#349C9D',
+	                    '#55C595',
+	                    '#7CE494'
+	                ],
+	                borderWidth: 1
+	            }]
+	        },
+	        options: {
+	            cutoutPercentage: 75,
+	            elements: {
+	                arc: {
+	                    borderWidth: 0.5 
+	                }
+	            },
+	            animation: false,
+	            legend: {
+	                display: false
+	            }
+	        }
+	    });
+	}
 
-    createDonutChart();
+	createDonutChart();
 </script>

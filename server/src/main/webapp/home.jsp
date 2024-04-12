@@ -81,7 +81,7 @@
             background-color: white;
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: auto;
+            width: 95%;
             max-width: 500px;
             display : flex;       
             margin: 5px;
@@ -259,8 +259,7 @@
         calendarHTML += month + '월 ' + year + '년';
         calendarHTML += '<span onclick="nextMonth()" style="position: absolute; right: 0; width: 18px; height: 18px; cursor: pointer; background-image: url(\'next.png\');"></span>';
         calendarHTML += '</th></tr>';
-        calendarHTML += '<tr style="height: 10px;"></tr>';
-        <%--calendarHTML += '<tr><td colspan="7" style="border-bottom: 1px solid #888888;"></td></tr>'; --%>
+        calendarHTML += '<tr style="height: 5px;"></tr>';
         calendarHTML += '<tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>'; 
         
         var date = new Date(year, month - 1, 1);
@@ -303,12 +302,8 @@
             calendarHTML += '<td></td>'; 
             date.setDate(date.getDate() + 1);
         }
-
         calendarHTML += '</tr></table>';
-
-        // 이미지 요소 추가
-        calendarHTML += '<img src="range.png" width="180px" height="15px" style="position: absolute; bottom: 360px; left: 70%; transform: translateX(-50%);">';
-        
+        calendarHTML += '<img src="range.png" width="180px" height="15px" style="position: absolute; bottom: 400px; left: 70%; transform: translateX(-50%);">';
         
         return calendarHTML;
     }

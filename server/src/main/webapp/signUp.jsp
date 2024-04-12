@@ -169,6 +169,6 @@
 			</div>
         </form>
     </div>
-    <button type="button" onclick="location.href='ecomesticBin.jsp'">로그인으로 이동</button>
+
 </body>
 </html>
