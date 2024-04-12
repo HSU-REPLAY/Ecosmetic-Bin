@@ -5,7 +5,7 @@ import ocr
 
 start_time=time.time() 
 API_KEY = 'b9466f2bb4bc9b6f9c1e99fb46c36fcce3563797' 
-dashboard = merakicam.DashboardAPI(API_KEY)  # 본인 api 키를 이용해서 dashboard 접근
+dashboard = meraki.DashboardAPI(API_KEY)  # 본인 api 키를 이용해서 dashboard 접근
 end_time = time.time()
 execution_time = end_time - start_time
 print("dashboard 접근시간: {} 초".format(execution_time))

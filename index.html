@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecosmetic Bin</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js" type="text/javascript"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./button.css">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" type="text/css" href="keyboard.css" />
@@ -15,6 +12,7 @@
     <link rel="stylesheet" href="./homeScreen.css" id="screenStyleSheet">
     <link rel="stylesheet" id="loading" href="">
     <link rel="stylesheet" id="mileageResultScreen" href="">
+    <link rel="stylesheet" id="cleanTrashbin" href="">
 
     <script src="./mqttio.js"></script>
     <script src="./streaming.js"></script>
@@ -23,58 +21,82 @@
     <script src="./keyboard.js"></script>
     <script src="./en.js"></script>
     <script>
-        let total = 0;
-        let intervalId = null;
-        let tables = document.getElementsByClassName("trashbin");
-        let tdLoc = 0;
+        let totals = {
+            plasticTotal: 0,
+            glassTotal: 0,
+            canTotal: 0
+        };
+
+        let mileageSum = 0;
+        var selectedCamera = "webcam"; // 전역 변수 선언
 	
         function operate() {
             subscribe("result");
             stopStreaming();
-            publish("capture", "true"); // 캡처하기 위해 'capture' 토픽으로 메시지 발행. 메시지는 의미 없음
-            document.getElementById("loading").setAttribute('href', 'loadingScreen.css'); // 로딩 화면으로 전환 
+            publish("capture", selectedCamera); // 캡처하기 위해 'capture' 토픽으로 메시지 발행. 메시지는 의미 없음
+            document.getElementById("loading").setAttribute('href', 'loadingScreen.css'); // 로딩 화면으로 전환
+            
         }
 
-        function clearTrashbin() {
-            var tableIds = ["plasticTable", "glassTable", "canTable"];
-
-            // 각 테이블에 대해 반복
-            tableIds.forEach(function(tableId) {
-                var table = document.getElementById(tableId); // 테이블 선택
-                var cells = table.getElementsByTagName('td');
-                for (let i = 0; i < cells.length; i++) {
-                    cells[i].style.backgroundColor = ''; // 셀의 배경색을 비움
-                }
-            });
+        function clearTrashbin(tableId) {
+            var table = document.getElementById(tableId); // 테이블 선택
+            var cells = table.getElementsByTagName('td');
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].style.backgroundColor = ''; // 셀의 배경색을 비움
+            }
         }
         
         function toMainScreen() {
             document.getElementById("screenStyleSheet").setAttribute('href', 'mainScreen.css');
+            document.getElementById("shadow").style.visibility = "hidden";
             startStreaming();
         }
 
         function toResultScreen() {
+            let clearTrashbinCalled = false;
             document.getElementById("screenStyleSheet").setAttribute('href', 'resultScreen.css');
-            let promises = [];
-            let plasticCount = document.getElementById("plasticCount").innerHTML.replace(/\D/g,'');;
-            if(plasticCount > 0) {
-                fillTrashbin('plastic', plasticCount);
+            let plasticCount = document.getElementById("plasticCount").innerHTML.replace(/\D/g,'');
+            totals.plasticTotal += plasticCount;
+            mileageSum += plasticCount*30;
+            if(isAlmostFilled("plastic")) {
+                clearTrashbin("plastic");
+                clearTrashbinCalled = true;
             }
-            let glassCount = document.getElementById("glassCount").innerHTML.replace(/\D/g,'');;
-            if(glassCount > 0) {
-                fillTrashbin('glass', glassCount);
+            fillTrashbin('plastic', plasticCount);
+
+            let glassCount = document.getElementById("glassCount").innerHTML.replace(/\D/g,'');
+            totals.glassTotal += glassCount;
+            mileageSum += glassCount*20;
+            if(isAlmostFilled("glass")) {
+                clearTrashbin("glass");
+                clearTrashbinCalled = true;
             }
-            let canCount = document.getElementById("canCount").innerHTML.replace(/\D/g,'');;
-            if(canCount > 0) {
-                fillTrashbin('can', canCount);
+            fillTrashbin('glass', glassCount);
+
+            let canCount = document.getElementById("canCount").innerHTML.replace(/\D/g,'');
+            totals.canTotal += canCount;
+            mileageSum += canCount*10;
+            if(isAlmostFilled("can")) {
+                clearTrashbin("can");
+                clearTrashbinCalled = true;
             }
+            fillTrashbin('can', canCount);
+
+            document.getElementById("mileage").innerHTML = mileageSum;
+            if(clearTrashbinCalled) {
+                document.getElementById("cleanTrashbin").setAttribute('href', 'cleanTrashbin.css');
+                setTimeout(function() {
+                    document.getElementById("cleanTrashbin").setAttribute('href', '');
+                }, 3000);
+            }
+            
 
             let maxCount = Math.max(plasticCount, glassCount, canCount);
-
             setTimeout(function () {
                 document.getElementById("mileageResultScreen").setAttribute('href', './mileageResultScreen.css');
                 decreaseSecond();
             }, 1000 * maxCount + 1000);
+            mileageSum = 0;
         }
 
         function fillTrashbin(tableId, count) {
@@ -93,7 +115,7 @@
             else {
                 color = "#A700FE";
             }
-            var index = cells.length - 1;
+            var index = cells.length - 1 - (totals[tableId + "Total"] - count);
             var interval = setInterval(function() {
                 if (count == 0 || index < 0) {
                     clearInterval(interval);
@@ -118,7 +140,7 @@
                     clearInterval(decreaseInterval); // remainSec이 0이 되면 인터벌을 중지
                     remainSecElement.innerHTML = "5";
                     document.getElementById("mileageResultScreen").setAttribute('href', '');
-                    
+                    changeColor();
                     startDisconnect();
                 }
             }, 1000);
@@ -142,17 +164,65 @@
         }
 
         function selectCameraList(selectedItem) {
+            if (selectedItem.innerText == "HD Webcam") {
+                startStreaming();
+                selectedCamera = "webcam"
+            }
+            else if (selectedItem.innerText == "Cisco Meraki Camera") {
+                stopStreaming();
+                selectedCamera = "merakicam"
+            }
+
             var selectedCamera = document.getElementById("selectedCamera");
-            selectedCamera.innerHTML = selectedItem.innerHTML;
+            var selectedCameraText = selectedItem.childNodes[1].nodeValue.trim();
+            selectedCamera.innerText = selectedCameraText;
             var lis = document.getElementsByTagName("li");
             for(let i=0; i<lis.length; i++) {
                 lis[i].style.backgroundColor = "black";
+            }
+            if(selectedItem.id == "webcamOption") {
+                document.getElementById("webcamSelected").src = "checked.png";
+                document.getElementById("merakiSelected").src = "";
+            }
+            else if(selectedItem.id == "merakiOption") {
+                document.getElementById("merakiSelected").src = "checked.png";
+                document.getElementById("webcamSelected").src = "";
             }
             selectedItem.style.backgroundColor = "#333333";
             var cameraList = document.getElementById("cameraList");
             cameraList.style.visibility = "hidden";
         }
 
+        function isAlmostFilled(item) {
+            let total = totals[item + "Total"];
+            if(total >= 35) {
+                totals[item + "Total"] = 0;
+                return true;
+            }
+            return false;
+        }
+
+        function changeColor() {
+            var tableIds = ["plasticTable", "glassTable", "canTable"];
+
+            var table = document.getElementById("plasticTable"); 
+            var cells = table.getElementsByTagName('td');
+            for (let i = cells.length-1; i > cells.length-1-totals.plasticTotal; i--) {
+                cells[i].style.backgroundColor = '#009C76';
+            }
+
+            table = document.getElementById("glassTable"); 
+            cells = table.getElementsByTagName('td');
+            for (let i = cells.length-1; i > cells.length-1-totals.glassTotal; i--) {
+                cells[i].style.backgroundColor = '#A0106B'; 
+            }
+
+            table = document.getElementById("canTable"); 
+            cells = table.getElementsByTagName('td');
+            for (let i = cells.length-1; i > cells.length-1-totals.canTotal; i--) {
+                cells[i].style.backgroundColor = '#650199'; 
+            }
+        }
     </script>
 </head>
 <body>
@@ -161,9 +231,8 @@
     <!--<img id="merakiCam" src=""></img>-->
     <div id="messages"></div>
     <div id="loginError">아이디를 잘못 입력했습니다.</div>
-
-    <div class="mainScreen idContainer">
-        <span class="mainScreen" id="userName"></span><span class="mainScreen" id="sayHello">님, 안녕하세요!</span>
+    <div class="mainScreen analysisScreen loadingScreen resultScreen mileageResultScreen idContainer">
+        <span id="userName"></span><span id="sayHello">님, 안녕하세요!</span>
     </div>
     <input id="inputName" onclick="showKeyboard()" class="homeScreen" type="text" placeholder="ID">    
 
@@ -220,20 +289,23 @@
     <button onclick="startConnect()" id="loginButton" class="homeScreen button button--ujarak button--border-medium button--round-s button--text-thick">로그인</button>
     
     <!-- 카메라 선택 리스트 -->
-    <section class="mainScreen" id="selectCamera">
-        <div id="selectedCamera" onclick="showCameraList()">HD Webcam</div>
+    <section class="mainScreen" onclick="showCameraList()" id="selectCamera">
+        <div id="selectedCamera">HD Webcam</div>
+        <div id="menuIcon"></div>
     </section>
+    <section class="mainScreen">
+    <img class="mainScreen" src="./cameraIcon.svg" id="cameraIcon" alt="">
     <ul class="mainScreen" id="cameraList">
-        <li onclick="selectCameraList(this)" style="background-color: #333333;"><img id="checked" src="./checked.png" alt="">HD Webcam</li>
-        <li onclick="selectCameraList(this)"><img src="" alt="">Cisco Meraki Camera</li>
+        <li onclick="selectCameraList(this)"  id="webcamOption" style="background-color: #333333;"><img id="webcamSelected" src="./checked.png" alt="">HD Webcam</li>
+        <li onclick="selectCameraList(this)" id="merakiOption"><img id="merakiSelected" src="" alt="">Cisco Meraki Camera</li>
     </ul>
-    
+    </section>
     <button onclick="operate()" id="operateButton" class=" mainScreen button button--ujarak button--border-medium button--round-s button--text-thick">분류 시작</button>
     <button onclick="startDisconnect()" class="" id="logoutButton">Logout</button>
 
-    <img class="loadingScreen" id="loadingGif" src="./loading.gif" alt="">
+    <img class="loadingScreen cleanTrashbin" id="loadingGif" src="./loading.gif" alt="">
     <div class="loadingScreen" id="analysisInProgress">분류 중 ...</div>
-    <div class="loadingScreen analysisScreen mileageResultScreen" id="shadow"></div>
+    <div class="loadingScreen analysisScreen cleanTrashbin mileageResultScreen" id="shadow"></div>
 
     <div class="analysisScreen" id="info"></div>
     <div id="analysisResult"></div>
@@ -246,42 +318,42 @@
     <button onclick="toMainScreen()" class="analysisScreen button button--ujarak button--border-medium button--round-s button--text-thick" id="recaptureButton">재촬영</button>
     <button onclick="toResultScreen()" class="analysisScreen button button--ujarak button--border-medium button--round-s button--text-thick" id="continueButton">버리기</button>
 
-    <div class="resultScreen"><span id="userName"></span>님의 쓰레기 배출이 완료되었습니다!</div>
+    <div class="cleanTrashbin" id="cleaningInProgress">쓰레기통 비우는 중</div>
     <table class="resultScreen" id="plasticTable">
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
     </table> 
     <table class="resultScreen" id="glassTable">
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> 
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
     </table> 
     <table class="resultScreen" id="canTable">
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
+        <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr> <tr><td></td></tr>
     </table>
 
     <div class="mileageResultScreen" id="mileageBox"></div>

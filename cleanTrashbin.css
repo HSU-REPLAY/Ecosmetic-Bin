@@ -1,0 +1,32 @@
+.cleanTrashbin {
+    visibility: visible;
+}
+.analysisScreen {
+    z-index: -1;
+}
+#loadingGif {
+    left: 457px; 
+    top: 794px; 
+    position: absolute;
+    z-index: 9999;
+}
+#cleaningInProgress {
+    left: 382px; 
+    top: 984px;
+    position: absolute; 
+    color: white; 
+    font-size: 40px; 
+    font-weight: 400; 
+    line-height: 52px; 
+    word-wrap: break-word;
+    z-index: 9999;
+}
+#shadow {
+    width: 1080px; 
+    height: 1920px; 
+    left: 0px; 
+    top: 0px; 
+    visibility: visible;
+    position: absolute; 
+    background: rgba(0, 0, 0, 0.60);
+}

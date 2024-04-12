@@ -15,7 +15,7 @@
     width: 277px; 
     height: 792px; 
     left: 84px; 
-    top: 601px; 
+    top: 501px; 
     position: absolute; 
     border: 3px white solid;
 }
@@ -23,7 +23,7 @@
     width: 277px; 
     height: 792px; 
     left: 399px; 
-    top: 601px;
+    top: 501px;
     position: absolute; 
     border: 3px white solid;
 }
@@ -31,13 +31,13 @@
     width: 277px; 
     height: 792px; 
     left: 714px; 
-    top: 601px; 
+    top: 501px; 
     position: absolute; 
     border: 3px white solid;
 }
 #plasticLabel {
     left: 144px; 
-    top: 1456px; 
+    top: 1506px; 
     position: absolute; 
     color: white; 
     font-size: 50px; 
@@ -47,7 +47,7 @@
 }
 #glassLabel {
     left: 473px; 
-    top: 1456px;
+    top: 1506px;
     position: absolute; 
     color: white; 
     font-size: 50px; 
@@ -57,7 +57,7 @@
 }
 #canLabel {
     left: 812px; 
-    top: 1456px;
+    top: 1506px;
     position: absolute; 
     color: white; 
     font-size: 50px; 

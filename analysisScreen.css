@@ -1,6 +1,9 @@
 .mainScreen, .homeScreen, .loadingScreen {
     visibility: hidden;
 }
+li {
+    visibility: hidden;
+}
 .analysisScreen {
     visibility: visible;
 }
