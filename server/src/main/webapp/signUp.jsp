@@ -58,7 +58,7 @@
 
         #message {
             position: absolute;
-            top: 80px;
+            top: 170px;
             left: 2%;
             color: red;
             font-size: 1vh;
@@ -66,7 +66,7 @@
 
         #success-message {
             position: absolute;
-            top: 80px;
+            top: 180px;
             left: 2%;
             color: #55C595;
             font-size: 1vh;
@@ -97,6 +97,7 @@
     String password = "1234";
 
     String id = request.getParameter("id");
+    String webex_id = request.getParameter("webex_id");
 
     String message = null;
 
@@ -117,22 +118,32 @@
             if (rs.next()) {
                 message = "이미 가입된 아이디입니다.";
             } else {
-                String insertUserSql = "INSERT INTO user (id, totalmileage, level) VALUES (?, 0, 1)";
-                stmt = conn.prepareStatement(insertUserSql);
-                stmt.setString(1, id);
+            	String insertUserSql = "INSERT INTO user (id, totalmileage, level) VALUES (?, 0, 1)";
+            	stmt = conn.prepareStatement(insertUserSql);
+            	stmt.setString(1, id);
+            	int rowsAffected = stmt.executeUpdate();
 
-                int rowsAffected = stmt.executeUpdate();
+            	if (rowsAffected > 0) {
+            	    String insertWebexSql = "INSERT INTO webex (id, webex_id) VALUES (?, ?)";
+            	    stmt = conn.prepareStatement(insertWebexSql);
+            	    stmt.setString(1, id);
+            	    stmt.setString(2, webex_id);
 
-                if (rowsAffected > 0) {
-                    message = "회원가입 성공! 로그인 해주세요";
-                } else {
-                    message = "회원가입 실패!";
-                }
+            	    int webexRowsAffected = stmt.executeUpdate();
+
+            	    if (webexRowsAffected > 0) {
+            	        message = "회원가입 성공! 로그인 해주세요";
+            	    } else {
+            	        message = "웹엑스 아이디 저장 실패!";
+            	    }
+            	} else {
+            	    message = "회원가입 실패!";
+            	}
             }
         }
     } catch (SQLException | ClassNotFoundException e) {
         e.printStackTrace();
-        message = "오류 발생: " + e.getMessage(); // 선택적으로 오류 메시지 설정.
+        message = "오류 발생: " + e.getMessage();
     } finally {
         try {
             if (stmt != null) stmt.close();
@@ -153,21 +164,23 @@
 %>
 <body class="container">
     <div style="text-align: center;">
-        <p style="font-size: 30px;">Welcome!</p>
+        <p style="font-size: 30px;">Welcome!<br></p>
         <img src="logo.png" style="width: 200px; height: auto;">
-        <p style="font-size: 10px;">회원 서비스 이용을 위해 회원가입을 진행해주세요. </p>
-        <br><br>
+        <br><p style="font-size: 10px;">회원 서비스 이용을 위해 회원가입을 진행해주세요. </p>
+        <br>
         <form action="" method="post">
-            <div class="search-container">
-			        <input type="text" name="id" placeholder="아이디" class="<%= message != null ? (message.equals("회원가입 성공! 로그인 해주세요") ? "success" : "error") : "" %>">
-					    <% if(message != null && message.equals("회원가입 성공! 로그인 해주세요")) { %>
-					        <div id="success-message" class="success"><%= message %></div>
-					    <% } else if(message != null) { %>
-					        <div id="message" class="error"><%= message %></div>
-					    <% } %><br>
-			    <input type="submit" value="회원가입">
-			</div>
-        </form>
+    <div class="search-container">
+        <input type="text" name="id" placeholder="아이디" class="<%= message != null ? (message.equals("회원가입 성공! 로그인 해주세요") ? "success" : "error") : "" %>">
+        <input type="text" name="webex_id" placeholder="(선택) Webex 아이디 (알림용)" class="webex-id">
+        <br>
+        <% if(message != null && message.equals("회원가입 성공! 로그인 해주세요")) { %>
+            <div id="success-message" class="success"><%= message %></div>
+        <% } else if(message != null) { %>
+            <div id="message" class="error"><%= message %></div>
+        <% } %>
+        <input type="submit" value="회원가입">
+    </div>
+</form>
     </div>
 
 </body>
