@@ -227,7 +227,7 @@
 <script>
 	var currentDate = new Date(); 
 	var currentYear = currentDate.getFullYear(); 
-	var currentMonth = currentDate.getMonth() + 1; 
+	var currentMonth = currentDate.getMonth() + 1;
 
     function getDaysInMonth(year, month) {
         return new Date(year, month, 0).getDate();
@@ -335,31 +335,32 @@
     }
     
     function refreshCalendar() {
+    	var calendarHTML = generateCalendar(currentYear, currentMonth);
         document.querySelector('.mileage-calendar #calendar-container').innerHTML = generateCalendar(currentYear, currentMonth); // 달력을 새로 고칩니다.
         document.getElementById("currentMonthYear").innerHTML = currentMonth + "월 " + currentYear + "년"; // 현재 연도와 월을 업데이트합니다.
     }
 
-var cells = document.querySelectorAll('.mileage-calendar table td');
-cells.forEach(function(cell) {
-    cell.addEventListener('click', function() {
-        document.querySelectorAll('.clicked').forEach(function(clickedCell) {
-            clickedCell.classList.remove('clicked');
-        });
-
-        this.classList.add('clicked');
-        
-        var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
-        
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                updateChart(xhr.responseText);
-            }
-        };
-        xhr.send();
-    });
-});
+	var cells = document.querySelectorAll('.mileage-calendar table td');
+	cells.forEach(function(cell) {
+	    cell.addEventListener('click', function() {
+	        document.querySelectorAll('.clicked').forEach(function(clickedCell) {
+	            clickedCell.classList.remove('clicked');
+	        });
+	
+	        this.classList.add('clicked');
+	        
+	        var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
+	        
+	        var xhr = new XMLHttpRequest();
+	        xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
+	        xhr.onreadystatechange = function() {
+	            if (xhr.readyState == 4 && xhr.status == 200) {
+	                updateChart(xhr.responseText);
+	            }
+	        };
+	        xhr.send();
+	    });
+	});
 
     function updateChart(responseData) {
         var data = JSON.parse(responseData);
@@ -392,7 +393,7 @@ cells.forEach(function(cell) {
 </script>
 <br>
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <h3>4월 요약</h3>
+	<br> <br> <h3>월별 마일리지 내역</h3> <br>
 	<jsp:include page="mileageChart.jsp" />
 </div>
 <br>
