@@ -13,6 +13,7 @@
             background-color: #F5F5F5;
             font-family: Arial, sans-serif;
             color: #888888;
+            padding-bottom: 75px;
         }
 
         .btn-container {
@@ -114,6 +115,22 @@
 		    font-size: 16px;
 		    text-align: center;
 		}
+		
+		header {
+		  position: fixed;
+		  bottom: 0;
+		  left: 0;
+		  right: 0;
+		  z-index: 2;
+		  height: 60px;
+		  padding: 1rem;
+		  color: white;
+		  background: #FFFFFF;
+		  font-weight: bold;
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		}
 
         @media only screen and (max-width: 600px) {
             input[type="text"],
@@ -125,6 +142,31 @@
     </style>
 </head>
 <body>
+<header>
+	<button type="button" id="homeButton" style="background-color: transparent; border: none; margin-left: 50px;">
+	    <img src="homecheck.png" alt="Home" style="width: 20px; height: 35px;">
+	</button>
+	<button type="button" id="rankingButton" style="background-color: transparent; border: none; margin-left: 30px">
+	    <img src="rank.png" alt="ranking" style="width: 35px; height: 35px;">
+	</button>
+	<button type="button" id="myButton" style="background-color: transparent; border: none; margin-left: 10px; margin-right: 50px;">
+	    <img src="my.png" alt="mypage" style="width: 35px; height: 35px;">
+	</button>
+</header>
+<script>
+	document.getElementById("homeButton").addEventListener("click", function() {
+	    // home.jsp로 이동하는 코드
+	    window.location.href = "home.jsp";
+	});
+	document.getElementById("rankingButton").addEventListener("click", function() {
+	    // ranking.jsp로 이동하는 코드
+	    window.location.href = "ranking.jsp";
+	});
+	document.getElementById("myButton").addEventListener("click", function() {
+	    // myPage.jsp로 이동하는 코드
+	    window.location.href = "myPage.jsp";
+	});
+</script>
 <%
     String loggedInUserId = (String) session.getAttribute("loggedInUser");
 
@@ -221,9 +263,6 @@
 				</div>
     </div>
 </div>
-<button type="button" onclick="location.href='myPage.jsp'">마이 페이지로 이동</button>
-<button type="button" onclick="location.href='ranking.jsp'">랭킹으로 이동</button>
-
 <script>
 	var currentDate = new Date(); 
 	var currentYear = currentDate.getFullYear(); 

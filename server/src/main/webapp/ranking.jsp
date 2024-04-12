@@ -10,6 +10,7 @@
         body {
             background-color: #F5F5F5;
             font-weight: bold;
+            padding-bottom: 75px;
         }
         .table-container {
             background-color: white;
@@ -42,9 +43,50 @@
             color: #55C595;
             font-weight: bold;
         }
+        
+        header {
+		  position: fixed;
+		  bottom: 0;
+		  left: 0;
+		  right: 0;
+		  z-index: 2;
+		  height: 60px;
+		  padding: 1rem;
+		  color: white;
+		  background: #FFFFFF;
+		  font-weight: bold;
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		}
     </style>
 </head>
 <body>
+<header>
+	<button type="button" id="homeButton" style="background-color: transparent; border: none; margin-left: 50px;">
+	    <img src="home.png" alt="Home" style="width: 20px; height: 35px;">
+	</button>
+	<button type="button" id="rankingButton" style="background-color: transparent; border: none; margin-left: 30px">
+	    <img src="rankcheck.png" alt="ranking" style="width: 35px; height: 35px;">
+	</button>
+	<button type="button" id="myButton" style="background-color: transparent; border: none; margin-left: 10px; margin-right: 50px;">
+	    <img src="my.png" alt="mypage" style="width: 35px; height: 35px;">
+	</button>
+</header>
+<script>
+	document.getElementById("homeButton").addEventListener("click", function() {
+	    // home.jsp로 이동하는 코드
+	    window.location.href = "home.jsp";
+	});
+	document.getElementById("rankingButton").addEventListener("click", function() {
+	    // ranking.jsp로 이동하는 코드
+	    window.location.href = "ranking.jsp";
+	});
+	document.getElementById("myButton").addEventListener("click", function() {
+	    // myPage.jsp로 이동하는 코드
+	    window.location.href = "myPage.jsp";
+	});
+</script>
     <h3>실시간 차트</h3>
     <div class="table-container">
     <table>
