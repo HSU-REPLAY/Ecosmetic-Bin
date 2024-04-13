@@ -131,6 +131,20 @@
 		  justify-content: space-between;
 		  align-items: center;
 		}
+		
+		.clicked::after {
+		    content: '';
+		    display: block;
+		    width: 30px; /* 원의 지름 설정 */
+		    height: 30px; /* 원의 지름 설정 */
+		    border: 2px solid #000; /* 원의 테두리 스타일 및 색상 설정 */
+		    border-radius: 50%; /* 원의 모양을 둥글게 설정 */
+		    position: absolute;
+		    top: 50%; /* 원이 셀의 중앙에 위치하도록 설정 */
+		    left: 50%; /* 원이 셀의 중앙에 위치하도록 설정 */
+		    transform: translate(-50%, -50%); /* 원이 셀의 중앙에 위치하도록 설정 */
+		}
+		
 
         @media only screen and (max-width: 600px) {
             input[type="text"],
@@ -424,6 +438,7 @@
             totalResultElement.innerHTML = "총 " + "<b style='color: black; font-size: 20px;'>" + totalResult + "  M</b> 적립했습니다";
         }
     }
+
 </script>
 <br>
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
