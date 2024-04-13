@@ -98,10 +98,13 @@
         rs = stmt.executeQuery();
 
         if (rs.next()) {
-            out.println("로그인 성공!");
+     
             String loggedInUser = rs.getString("id");
             session.setAttribute("loggedInUser", loggedInUser);
-            response.sendRedirect("home.jsp");
+
+            // 서버 측에서 페이지 리다이렉션
+            response.sendRedirect("home.jsp?id=" + loggedInUser);
+            
         } else if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
             
         }
