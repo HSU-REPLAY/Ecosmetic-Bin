@@ -57,7 +57,7 @@ public class Servlet extends HttpServlet {
 
             try {
                 // 사용자 존재 여부를 확인하는 쿼리 실행
-                String sql = "SELECT EXISTS (SELECT 1 FROM `user` WHERE id = ?) AS userExists";
+            	String sql = "SELECT webex_id FROM `webex` WHERE id = ?";
 
                 System.out.println("sql 실행 전 userExists : " + userExists);
                 
