@@ -16,10 +16,7 @@
 
     <script src="./mqttio.js"></script>
     <script src="./streaming.js"></script>
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
     <script src="./keyboard.js"></script>
-    <script src="./en.js"></script>
     <script>
         let totals = {
             plasticTotal: 0,
@@ -55,31 +52,31 @@
         function toResultScreen() {
             let clearTrashbinCalled = false;
             document.getElementById("screenStyleSheet").setAttribute('href', 'resultScreen.css');
-            let plasticCount = document.getElementById("plasticCount").innerHTML.replace(/\D/g,'');
+            let plasticCount = parseInt(document.getElementById("plasticCount").innerHTML.replace(/\D/g,''));
             totals.plasticTotal += plasticCount;
             mileageSum += plasticCount*30;
             if(isAlmostFilled("plastic")) {
-                clearTrashbin("plastic");
+                clearTrashbin("plasticTable");
                 totals.plasticTotal = 0;
                 clearTrashbinCalled = true;
             }
             fillTrashbin('plastic', plasticCount);
 
-            let glassCount = document.getElementById("glassCount").innerHTML.replace(/\D/g,'');
+            let glassCount = parseInt(document.getElementById("glassCount").innerHTML.replace(/\D/g,''));
             totals.glassTotal += glassCount;
             mileageSum += glassCount*20;
             if(isAlmostFilled("glass")) {
-                clearTrashbin("glass");
+                clearTrashbin("glassTable");
                 totals.glassTotal = 0;
                 clearTrashbinCalled = true;
             }
             fillTrashbin('glass', glassCount);
 
-            let canCount = document.getElementById("canCount").innerHTML.replace(/\D/g,'');
+            let canCount = parseInt(document.getElementById("canCount").innerHTML.replace(/\D/g,''));
             totals.canTotal += canCount;
             mileageSum += canCount*10;
             if(isAlmostFilled("can")) {
-                clearTrashbin("can");
+                clearTrashbin("canTable");
                 totals.canTotal = 0;
                 clearTrashbinCalled = true;
             }
@@ -118,7 +115,15 @@
             else {
                 color = "#A700FE";
             }
-            var index = cells.length - 1 - (totals[tableId + "Total"] - count);
+            var filledCount = 0;
+            for (var i = cells.length - 1; i >= 0; i--) {
+                if (cells[i].style.backgroundColor === color) {
+                    filledCount++;
+                } else {
+                    break; // 이미 채워진 셀을 찾았으므로 반복문 종료
+                }
+            }
+            var index = cells.length - 1 - filledCount - (totals[tableId + "Total"] - count);
             var interval = setInterval(function() {
                 if (count == 0 || index < 0) {
                     clearInterval(interval);

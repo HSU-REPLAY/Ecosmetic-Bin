@@ -127,3 +127,6 @@ li {
     background: rgba(0, 0, 0, 0.60);
     z-index: 9999;
 }
+#logoutButton {
+    visibility: visible;
+}
