@@ -135,14 +135,14 @@
 		.clicked::after {
 		    content: '';
 		    display: block;
-		    width: 30px; /* 원의 지름 설정 */
-		    height: 30px; /* 원의 지름 설정 */
-		    border: 2px solid #000; /* 원의 테두리 스타일 및 색상 설정 */
-		    border-radius: 50%; /* 원의 모양을 둥글게 설정 */
+		    width: 20px;
+		    height: 20px;
+		    border: 2px solid #55C595;
+		    border-radius: 50%;
 		    position: absolute;
-		    top: 50%; /* 원이 셀의 중앙에 위치하도록 설정 */
-		    left: 50%; /* 원이 셀의 중앙에 위치하도록 설정 */
-		    transform: translate(-50%, -50%); /* 원이 셀의 중앙에 위치하도록 설정 */
+		    top: 30%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
 		}
 		
 
