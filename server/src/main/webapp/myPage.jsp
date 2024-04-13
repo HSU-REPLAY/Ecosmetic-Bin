@@ -255,7 +255,7 @@
 			</div>
     	</div> <br>
     	<div class ="logout" style="text-align: center;">
-    	<button type="button" id="logoutButton" style="background-color: transparent; border: none; margin-left: 50px; font-size: 20px; color: #55C595;">
+    	<button type="button" id="logoutButton" style="background-color: transparent; border: none; font-size: 20px; color: #55C595;">
 		    로그아웃
 		</button>
 		<script>

@@ -60,6 +60,7 @@
             mileageSum += plasticCount*30;
             if(isAlmostFilled("plastic")) {
                 clearTrashbin("plastic");
+                totals.plasticTotal = 0;
                 clearTrashbinCalled = true;
             }
             fillTrashbin('plastic', plasticCount);
@@ -69,6 +70,7 @@
             mileageSum += glassCount*20;
             if(isAlmostFilled("glass")) {
                 clearTrashbin("glass");
+                totals.glassTotal = 0;
                 clearTrashbinCalled = true;
             }
             fillTrashbin('glass', glassCount);
@@ -78,6 +80,7 @@
             mileageSum += canCount*10;
             if(isAlmostFilled("can")) {
                 clearTrashbin("can");
+                totals.canTotal = 0;
                 clearTrashbinCalled = true;
             }
             fillTrashbin('can', canCount);

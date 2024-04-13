@@ -135,8 +135,8 @@
 		.clicked::after {
 		    content: '';
 		    display: block;
-		    width: 20px;
-		    height: 20px;
+		    width: 24px;
+		    height: 24px;
 		    border: 2px solid #55C595;
 		    border-radius: 50%;
 		    position: absolute;
@@ -280,7 +280,6 @@
     <div style="color:#55C595; font-weight: bold; margin-left: 20px;"><%= (loggedInUserId != null ? loggedInUserId + " 님" : "") %></div><div style="font-weight: bold;">&nbsp;안녕하세요!<br></div>
 </div><br>
 
-
 <div class="show-mileage">
     <img src="mileage-coin.png" alt="User Image" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 20px;" />
     <div style="display: flex; flex-direction: column;">
@@ -291,15 +290,15 @@
 <div class="mileage-calendar" style="position: relative;">
     <div id="calendar-container"></div>
     <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);">
-        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
-        <div id="recycling-info" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);">
+        <img class="type-img" src="type.png" width="400px" height="230px" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
+        <div id="recycling-info" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); margin-bottom: 30px;">
             <span id="plasticCount">0</span>
             <span id="glassCount" style="margin-left: 120px;">0</span>
             <span id="canCount" style="margin-left: 95px;">0</span>
         </div>
-                <div style="text-align: center; font-size: 15px; font-weight: bold;">
-    			<span id="totalResult"></span>
-				</div>
+                <div style="text-align: center; font-size: 15px; font-weight: bold; margin-top: 30px;">
+			        <span id="totalResult"></span>
+			    </div>
     </div>
 </div>
 <script>
@@ -381,7 +380,7 @@
             date.setDate(date.getDate() + 1);
         }
         calendarHTML += '</tr></table>';
-        calendarHTML += '<img src="range.png" width="180px" height="15px" style="position: absolute; bottom: 400px; left: 70%; transform: translateX(-50%);">';
+        calendarHTML += '<img src="range.png" width="180px" height="15px" style="position: absolute; bottom: 350px; left: 70%; transform: translateX(-50%);">';
         
         return calendarHTML;
     }
