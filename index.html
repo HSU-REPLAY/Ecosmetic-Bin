@@ -51,46 +51,60 @@
 
         function toResultScreen() {
             let clearTrashbinCalled = false;
-            document.getElementById("screenStyleSheet").setAttribute('href', 'resultScreen.css');
             let plasticCount = parseInt(document.getElementById("plasticCount").innerHTML.replace(/\D/g,''));
             totals.plasticTotal += plasticCount;
             mileageSum += plasticCount*30;
             if(isAlmostFilled("plastic")) {
                 clearTrashbin("plasticTable");
-                totals.plasticTotal = 0;
+                totals.plasticTotal = plasticCount;
                 clearTrashbinCalled = true;
             }
-            fillTrashbin('plastic', plasticCount);
 
             let glassCount = parseInt(document.getElementById("glassCount").innerHTML.replace(/\D/g,''));
             totals.glassTotal += glassCount;
             mileageSum += glassCount*20;
             if(isAlmostFilled("glass")) {
                 clearTrashbin("glassTable");
-                totals.glassTotal = 0;
+                totals.glassTotal = glassCount;
                 clearTrashbinCalled = true;
             }
-            fillTrashbin('glass', glassCount);
 
             let canCount = parseInt(document.getElementById("canCount").innerHTML.replace(/\D/g,''));
             totals.canTotal += canCount;
             mileageSum += canCount*10;
             if(isAlmostFilled("can")) {
                 clearTrashbin("canTable");
-                totals.canTotal = 0;
+                totals.canTotal = canCount;
                 clearTrashbinCalled = true;
             }
-            fillTrashbin('can', canCount);
-
+            let resultString = plasticCount + "," + glassCount + "," + canCount; 
+            publish("completion", resultString);
             document.getElementById("mileage").innerHTML = mileageSum;
             if(clearTrashbinCalled) {
+                var count = 0;
                 document.getElementById("cleanTrashbin").setAttribute('href', 'cleanTrashbin.css');
-                setTimeout(function() {
-                    document.getElementById("cleanTrashbin").setAttribute('href', '');
-                }, 3000);
+                document.getElementById("loadingGif").style.zIndex = 9999;
+                var interval = setInterval(function() {
+                    count++;
+                    if (count == 3) {
+                        clearInterval(interval);
+                        document.getElementById("cleanTrashbin").setAttribute('href', '');
+                        fillTrashbinIfNeeded(plasticCount, glassCount, canCount);
+                        return;
+                    }
+                }, 1000);
+                
             }
-            
+            else {
+                fillTrashbinIfNeeded(plasticCount, glassCount, canCount);
+            }
+        }
 
+        function fillTrashbinIfNeeded(plasticCount, glassCount, canCount) {
+            document.getElementById("screenStyleSheet").setAttribute('href', './resultScreen.css');
+            fillTrashbin('plastic', plasticCount);
+            fillTrashbin('glass', glassCount);
+            fillTrashbin('can', canCount);
             let maxCount = Math.max(plasticCount, glassCount, canCount);
             setTimeout(function () {
                 document.getElementById("mileageResultScreen").setAttribute('href', './mileageResultScreen.css');
@@ -204,7 +218,6 @@
         function isAlmostFilled(item) {
             let total = totals[item + "Total"];
             if(total >= 35) {
-                totals[item + "Total"] = 0;
                 return true;
             }
             return false;

@@ -7,7 +7,7 @@ MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
 CHECK_TOPIC = "check"
 PRESENCE_TOPIC = "presence"
-RESULT_TOPIC = "result"
+RESULT_TOPIC = "completion"
 
 
 # 현재 사용자 ID 전역 변수
