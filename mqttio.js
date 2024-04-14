@@ -80,8 +80,14 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
                 document.getElementById("loginError").style.visibility = "visible";
                 document.getElementById("userName").style.color = "red";
                 document.getElementById("loginButton").style.color = "red";
-				document.getElementById("inputName").style.color = "red";
-				document.getElementById("inputName").style.borderBottom = "4px red solid";
+				let inputName = document.getElementById("inputName");
+				inputName.style.color = "red";
+				inputName.style.borderBottom = "4px red solid";
+				inputName.addEventListener("input", function() {
+					// 입력을 다시할 때 스타일을 초기값으로 변경합니다.
+					inputName.style.color = "white";
+					inputName.style.borderBottom = "4px white solid";
+				});
             } else if (msg.payloadString == "true") {
                 document.getElementById("screenStyleSheet").setAttribute('href', 'mainScreen.css');
                 document.getElementById("userName").innerHTML = userName;
