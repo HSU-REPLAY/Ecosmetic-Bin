@@ -50,6 +50,8 @@
         }
 
         function toResultScreen() {
+            let resultString = plasticCount + "," + glassCount + "," + canCount; 
+            publish("completion", resultString);
             let clearTrashbinCalled = false;
             let plasticCount = parseInt(document.getElementById("plasticCount").innerHTML.replace(/\D/g,''));
             totals.plasticTotal += plasticCount;
