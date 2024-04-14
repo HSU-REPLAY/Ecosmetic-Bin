@@ -16,7 +16,7 @@ current_user_id = None
 # 데이터 전송 함수
 def send_data(user_id, date, plastic_count, can_count, glass_count):
     print("함수들어왔?")
-    server_result = 'http://192.168.137.239:8080/ecobin/result'
+    server_result = 'http://172.20.10.4:8080/ecobin/result'
     params = {
         'userId': user_id,
         'date' : date,
@@ -38,7 +38,7 @@ def send_data(user_id, date, plastic_count, can_count, glass_count):
 # 웹 서버에 사용자 ID 검증
 def verify_user(user_id):
     print("함수들어왔?")
-    server_check = "http://192.168.137.239:8080/ecobin/check"
+    server_check = "http://172.20.10.4:8080/ecobin/check"
     try:
         print("????")
         response = requests.get(server_check, params={'userId': user_id})

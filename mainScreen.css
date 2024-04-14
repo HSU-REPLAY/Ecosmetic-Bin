@@ -102,3 +102,6 @@ li {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
 }
+#logoutButton {
+    visibility: visible;
+}
