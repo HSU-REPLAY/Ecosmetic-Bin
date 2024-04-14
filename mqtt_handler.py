@@ -57,7 +57,7 @@ def on_message(client, userdata, msg):
     if msg.topic == CHECK_TOPIC:
         user_id = msg.payload.decode()
         # 웹 서버에 사용자 ID 검증 요청
-        print("사용자 id : " + user_id);
+        print("사용자 id : " + user_id)
         verification_result = verify_user(user_id)
         print("맞니? : " + verification_result)
         if verification_result == "true":
