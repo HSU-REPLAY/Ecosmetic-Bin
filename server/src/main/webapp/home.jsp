@@ -167,22 +167,43 @@
 	    <img src="my.png" alt="mypage" style="width: 35px; height: 35px;">
 	</button>
 </header>
+
+
 <script>
-	document.getElementById("homeButton").addEventListener("click", function() {
-	    // home.jsp로 이동하는 코드
-	    window.location.href = "home.jsp";
-	});
-	document.getElementById("rankingButton").addEventListener("click", function() {
-	    // ranking.jsp로 이동하는 코드
-	    window.location.href = "ranking.jsp";
-	});
-	document.getElementById("myButton").addEventListener("click", function() {
-	    // myPage.jsp로 이동하는 코드
-	    window.location.href = "myPage.jsp";
-	});
+    var loggedInUserId = "<%= request.getParameter("id") %>"; // JSP 변수를 JavaScript 변수로 전달
+
+    document.getElementById("homeButton").addEventListener("click", function() {
+        // home.jsp로 이동하는 코드
+        window.location.href = "home.jsp?id=" + loggedInUserId;
+    });
+
+    document.getElementById("rankingButton").addEventListener("click", function() {
+        // ranking.jsp로 이동하는 코드
+        window.location.href = "ranking.jsp?id=" + loggedInUserId;
+    });
+
+    document.getElementById("myButton").addEventListener("click", function() {
+        // myPage.jsp로 이동하는 코드
+        window.location.href = "myPage.jsp?id=" + loggedInUserId;
+    });
 </script>
+
 <%
-    String loggedInUserId = (String) session.getAttribute("loggedInUser");
+    //String loggedInUserId = (String) session.getAttribute("loggedInUser");
+
+	//request 객체를 사용하여 'id' 쿼리 매개변수 값을 읽는다.
+	String loggedInUserId = request.getParameter("id");
+	
+	//이제 loggedInUserId를 사용하여 필요한 작업을 수행할 수 있습니다.
+	if (loggedInUserId != null && !loggedInUserId.isEmpty()) {
+	 // 사용자의 ID가 전달된 경우 이를 처리할 수 있습니다.
+	 System.out.println("전달된 사용자 ID: " + loggedInUserId);
+	 // 데이터베이스에서 사용자의 정보를 검색하거나 다른 작업을 수행합니다.
+	} else {
+	 // 사용자 ID가 전달되지 않은 경우
+	 System.out.println("사용자 ID가 전달되지 않았습니다.");
+	}
+	
 
     // 데이터베이스 연결 정보
     String url = "jdbc:mysql://localhost:3306/ecosmeticbin";
@@ -251,6 +272,10 @@
     request.setAttribute("canCount", canCount);
     
 %>
+
+
+
+
 <div id="user-info" style="display: flex;">
     <div style="color:#55C595; font-weight: bold; margin-left: 20px;"><%= (loggedInUserId != null ? loggedInUserId + " 님" : "") %></div><div style="font-weight: bold;">&nbsp;안녕하세요!<br></div>
 </div><br>

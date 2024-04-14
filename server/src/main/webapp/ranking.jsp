@@ -73,20 +73,26 @@
 	    <img src="my.png" alt="mypage" style="width: 35px; height: 35px;">
 	</button>
 </header>
+
 <script>
-	document.getElementById("homeButton").addEventListener("click", function() {
-	    // home.jsp로 이동하는 코드
-	    window.location.href = "home.jsp";
-	});
-	document.getElementById("rankingButton").addEventListener("click", function() {
-	    // ranking.jsp로 이동하는 코드
-	    window.location.href = "ranking.jsp";
-	});
-	document.getElementById("myButton").addEventListener("click", function() {
-	    // myPage.jsp로 이동하는 코드
-	    window.location.href = "myPage.jsp";
-	});
+    var loggedInUserId = "<%= request.getParameter("id") %>"; // JSP 변수를 JavaScript 변수로 전달
+
+    document.getElementById("homeButton").addEventListener("click", function() {
+        // home.jsp로 이동하는 코드
+        window.location.href = "home.jsp?id=" + loggedInUserId;
+    });
+
+    document.getElementById("rankingButton").addEventListener("click", function() {
+        // ranking.jsp로 이동하는 코드
+        window.location.href = "ranking.jsp?id=" + loggedInUserId;
+    });
+
+    document.getElementById("myButton").addEventListener("click", function() {
+        // myPage.jsp로 이동하는 코드
+        window.location.href = "myPage.jsp?id=" + loggedInUserId;
+    });
 </script>
+
     <h3>실시간 차트</h3>
     <div class="table-container">
     <table>
@@ -100,12 +106,11 @@
             String url = "jdbc:mysql://localhost:3306/ecosmeticbin";
             String username = "root";
             String password = "1234";
-
             try {
                 // 데이터베이스 연결
                 Connection conn = DriverManager.getConnection(url, username, password);
 
-                String loggedInUser = (String) session.getAttribute("loggedInUser");
+                String loggedInUser = request.getParameter("id");
                 
                 String sql = "SELECT id, totalmileage, " +
                              "       FIND_IN_SET(totalmileage, (SELECT GROUP_CONCAT(totalmileage ORDER BY totalmileage DESC) FROM user)) AS `rank` " +

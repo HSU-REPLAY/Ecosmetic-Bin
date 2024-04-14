@@ -79,26 +79,31 @@
 		</button>
 	</header>
 	<script>
-		document.getElementById("homeButton").addEventListener("click", function() {
-		    // home.jsp로 이동하는 코드
-		    window.location.href = "home.jsp";
-		});
-		document.getElementById("rankingButton").addEventListener("click", function() {
-		    // ranking.jsp로 이동하는 코드
-		    window.location.href = "ranking.jsp";
-		});
-		document.getElementById("myButton").addEventListener("click", function() {
-		    // myPage.jsp로 이동하는 코드
-		    window.location.href = "myPage.jsp";
-		});
+	    var loggedInUserId = "<%= request.getParameter("id") %>"; // JSP 변수를 JavaScript 변수로 전달
+	
+	    document.getElementById("homeButton").addEventListener("click", function() {
+	        // home.jsp로 이동하는 코드
+	        window.location.href = "home.jsp?id=" + loggedInUserId;
+	    });
+	
+	    document.getElementById("rankingButton").addEventListener("click", function() {
+	        // ranking.jsp로 이동하는 코드
+	        window.location.href = "ranking.jsp?id=" + loggedInUserId;
+	    });
+	
+	    document.getElementById("myButton").addEventListener("click", function() {
+	        // myPage.jsp로 이동하는 코드
+	        window.location.href = "myPage.jsp?id=" + loggedInUserId;
+	    });
 	</script>
 	<%
-	    String loggedInUserId = (String) session.getAttribute("loggedInUser");
+	    //String loggedInUserId = (String) session.getAttribute("loggedInUser");
+		String loggedInUserId = request.getParameter("id");
 	    // 데이터베이스 연결 정보
 	    String url = "jdbc:mysql://localhost:3306/ecosmeticbin";
 	    String username = "root";
 	    String password = "1234";
-	
+		
 	    String userId = "";
 	    int level = 0;
 	    String levelname = "";
@@ -108,7 +113,7 @@
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
-	
+		
 	    try {
 	        // 데이터베이스 연결
 	        conn = DriverManager.getConnection(url, username, password);
@@ -134,6 +139,8 @@
 	            levelname = rs.getString("levelname");
 	            totalmileage = rs.getInt("totalmileage");
 	            result = rs.getInt("result");
+	            
+	            System.out.println(userId + "님의 마이페이지 접속");
 	        }
 	    } catch (SQLException e) {
 	        out.println("오류 발생: " + e.getMessage());
@@ -253,7 +260,9 @@
 		</button>
 		<script>
 		    document.getElementById("logoutButton").addEventListener("click", function() {
-		        <% session.invalidate(); %>
+		        <% 
+		        session.invalidate(); 
+		        %>
 		        window.location.href = "ecomesticBin.jsp";
 		    });
 		</script>
