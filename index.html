@@ -78,7 +78,7 @@
                 totals.canTotal = canCount;
                 clearTrashbinCalled = true;
             }
-            let resultString = plasticCount + "," + glassCount + "," + canCount; 
+            let resultString = plasticCount + "," + canCount + "," + glassCount; 
             publish("completion", resultString);
             document.getElementById("mileage").innerHTML = mileageSum;
             if(clearTrashbinCalled) {
