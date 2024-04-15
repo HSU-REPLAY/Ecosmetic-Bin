@@ -6,7 +6,7 @@
 
 <%
     String selectedDate = request.getParameter("selectedDate");
-    String loggedInUserId = (String) session.getAttribute("loggedInUser");
+	String loggedInUserId = request.getParameter("id");
 
     String dbUrl = "jdbc:mysql://localhost:3306/ecosmeticbin";
     String dbUsername = "root";
