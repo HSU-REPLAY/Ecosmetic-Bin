@@ -40,24 +40,24 @@ div input[type="button"]:hover {
 	width: 75px;
 	height: 40px;
 }
-#line2 .key{
+#line2 .key {
 	width: 80px;
 	height: 80px;
-}
-#line3{
-	margin-left: 5%;
 }
 #line3 .key{
 	width: 80px;
 	height: 80px;
 }
+#line4 {
+	margin-left: 1%;
+}
 #line4 .key{
 	width: 80px;
 	height: 80px;
 }
-#enter {
+#virtualKeyboardContainer #enter {
 	width: 140px;
-	height: 40px;
+	height: 80px;
 }
 .line{
 	margin:1%;

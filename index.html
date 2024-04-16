@@ -25,12 +25,12 @@
         };
 
         let mileageSum = 0;
-        var selectedCamera = "webcam"; // 전역 변수 선언
+        var selectCamera = "webcam"; // 전역 변수 선언
 	
         function operate() {
             subscribe("result");
             stopStreaming();
-            publish("capture", selectedCamera); // 캡처하기 위해 'capture' 토픽으로 메시지 발행. 메시지는 의미 없음
+            publish("capture", selectCamera); // 캡처하기 위해 'capture' 토픽으로 메시지 발행. 메시지는 의미 없음
             document.getElementById("loading").setAttribute('href', 'loadingScreen.css'); // 로딩 화면으로 전환
             
         }
@@ -46,51 +46,66 @@
         function toMainScreen() {
             document.getElementById("screenStyleSheet").setAttribute('href', 'mainScreen.css');
             document.getElementById("shadow").style.visibility = "hidden";
-            startStreaming();
+            if (selectedCamera == "webcam")
+                startStreaming();
         }
 
         function toResultScreen() {
             let clearTrashbinCalled = false;
-            document.getElementById("screenStyleSheet").setAttribute('href', 'resultScreen.css');
             let plasticCount = parseInt(document.getElementById("plasticCount").innerHTML.replace(/\D/g,''));
             totals.plasticTotal += plasticCount;
             mileageSum += plasticCount*30;
             if(isAlmostFilled("plastic")) {
                 clearTrashbin("plasticTable");
-                totals.plasticTotal = 0;
+                totals.plasticTotal = plasticCount;
                 clearTrashbinCalled = true;
             }
-            fillTrashbin('plastic', plasticCount);
 
             let glassCount = parseInt(document.getElementById("glassCount").innerHTML.replace(/\D/g,''));
             totals.glassTotal += glassCount;
             mileageSum += glassCount*20;
             if(isAlmostFilled("glass")) {
                 clearTrashbin("glassTable");
-                totals.glassTotal = 0;
+                totals.glassTotal = glassCount;
                 clearTrashbinCalled = true;
             }
-            fillTrashbin('glass', glassCount);
 
             let canCount = parseInt(document.getElementById("canCount").innerHTML.replace(/\D/g,''));
             totals.canTotal += canCount;
             mileageSum += canCount*10;
             if(isAlmostFilled("can")) {
                 clearTrashbin("canTable");
-                totals.canTotal = 0;
+                totals.canTotal = canCount;
                 clearTrashbinCalled = true;
             }
-            fillTrashbin('can', canCount);
-
+            let resultString = plasticCount + "," + canCount + "," + glassCount; 
+            publish("completion", resultString);
             document.getElementById("mileage").innerHTML = mileageSum;
             if(clearTrashbinCalled) {
+                var count = 0;
                 document.getElementById("cleanTrashbin").setAttribute('href', 'cleanTrashbin.css');
-                setTimeout(function() {
-                    document.getElementById("cleanTrashbin").setAttribute('href', '');
-                }, 3000);
+                document.getElementById("loadingGif").style.zIndex = 9999;
+                var interval = setInterval(function() {
+                    count++;
+                    if (count == 3) {
+                        clearInterval(interval);
+                        document.getElementById("cleanTrashbin").setAttribute('href', '');
+                        fillTrashbinIfNeeded(plasticCount, glassCount, canCount);
+                        return;
+                    }
+                }, 1000);
+                
             }
-            
+            else {
+                fillTrashbinIfNeeded(plasticCount, glassCount, canCount);
+            }
+        }
 
+        function fillTrashbinIfNeeded(plasticCount, glassCount, canCount) {
+            document.getElementById("screenStyleSheet").setAttribute('href', './resultScreen.css');
+            fillTrashbin('plastic', plasticCount);
+            fillTrashbin('glass', glassCount);
+            fillTrashbin('can', canCount);
             let maxCount = Math.max(plasticCount, glassCount, canCount);
             setTimeout(function () {
                 document.getElementById("mileageResultScreen").setAttribute('href', './mileageResultScreen.css');
@@ -174,11 +189,11 @@
         function selectCameraList(selectedItem) {
             if (selectedItem.innerText == "HD Webcam") {
                 startStreaming();
-                selectedCamera = "webcam"
+                selectCamera = "webcam"
             }
             else if (selectedItem.innerText == "Cisco Meraki Camera") {
                 stopStreaming();
-                selectedCamera = "merakicam"
+                selectCamera = "merakicam"
             }
 
             var selectedCamera = document.getElementById("selectedCamera");
@@ -204,7 +219,6 @@
         function isAlmostFilled(item) {
             let total = totals[item + "Total"];
             if(total >= 35) {
-                totals[item + "Total"] = 0;
                 return true;
             }
             return false;
@@ -290,7 +304,7 @@
             <input type ='button' onclick="keyClicked(this)" class="key" value="b">
             <input type ='button' onclick="keyClicked(this)" class="key" value="n">
             <input type ='button' onclick="keyClicked(this)" class="key" value="m">
-            <input type ='button' id="enter" onclick="keyClicked(this)" class="key" value=" enter ">
+            <input type ='button' onclick="keyClicked(this)" class="key" id="enter" value=" enter ">
         </div>
     </div>  
 
@@ -370,3 +384,4 @@
     <div class="mileageResultScreen" id="returnAlert"><span id="remainSec">5</span>초 뒤에 홈으로 자동 전환됩니다.</div>
 </body>
 </html>
+

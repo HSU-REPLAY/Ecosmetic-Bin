@@ -1,14 +1,9 @@
 import meraki
 import requests
 import time
-import ocr
 
-start_time=time.time() 
 API_KEY = 'b9466f2bb4bc9b6f9c1e99fb46c36fcce3563797' 
 dashboard = meraki.DashboardAPI(API_KEY)  # 본인 api 키를 이용해서 dashboard 접근
-end_time = time.time()
-execution_time = end_time - start_time
-print("dashboard 접근시간: {} 초".format(execution_time))
 serial = 'Q2GV-GF7Q-9VQQ'  # 사용하고자 하는 메라키 카메라 시리얼넘버
 
 def download_image(filename): 
@@ -17,6 +12,9 @@ def download_image(filename):
         serial
     )
     print(response)
+    end_time=time.time()
+    execution_time = end_time - start_time
+    print("사진 촬영 요청 시점에서부터 이미지 url 받아오기까지 걸린 시간:{}".format(execution_time))
     url = response['url']
     response = requests.get(url)
     
@@ -24,9 +22,6 @@ def download_image(filename):
         with open(filename, 'wb') as f:
             f.write(response.content)
         print("이미지 다운로드 완료")
-        end_time = time.time()
-        execution_time = end_time - start_time
-        print("이미지 다운로드 시간: {} 초".format(execution_time))
     else:
         print("이미지를 다운로드할 수 없습니다.")
 
