@@ -414,7 +414,7 @@
 	        var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
 	        
 	        var xhr = new XMLHttpRequest();
-	        xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
+	        xhr.open('GET', 'updateChartData.jsp?id=' + loggedInUserId + '&selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
 	        xhr.onreadystatechange = function() {
 	            if (xhr.readyState == 4 && xhr.status == 200) {
 	                updateChart(xhr.responseText);

@@ -5,12 +5,8 @@
 <%@ page import="java.util.Map" %>
 
 <%
-String loggedInUserId=request.getParameter("id");
-String selectedDate = request.getParameter("selectedDate");    
-//String selectedDate = request.getParameter("selectedDate");
-	//String loggedInUserId = request.getParameter("id");
-	//String loggedInUserId = (String) session.getAttribute("loggedInUser");
-	System.out.println("%%id : " + loggedInUserId);
+	String loggedInUserId=request.getParameter("id");
+	String selectedDate = request.getParameter("selectedDate");    
 
     String dbUrl = "jdbc:mysql://localhost:3306/ecosmeticbin";
     String dbUsername = "root";
@@ -25,8 +21,6 @@ String selectedDate = request.getParameter("selectedDate");
     try {
         Class.forName("com.mysql.jdbc.Driver");
         connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-
-        System.out.println("id : " + loggedInUserId);
         
         String sql = "SELECT " +
                 "    SUM(CASE WHEN h.recyclingcode = 'plastic' THEN h.recyclingcount ELSE 0 END) AS plasticCount, " +
