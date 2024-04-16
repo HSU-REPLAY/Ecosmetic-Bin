@@ -111,6 +111,9 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
             if (msgString[0] == "0" && msgString[1] == "0" && msgString[2] == "0") {
                 document.getElementById("shadow").style.visibility = "visible";
             }
+			else {
+				document.getElementById("shadow").style.visibility = "hidden";
+			}
 			let lis = document.getElementsByTagName("li");
             for(let i=0; i<lis.length; i++) {
                 lis[i].visibility = "hidden";
