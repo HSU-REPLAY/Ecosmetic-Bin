@@ -9,7 +9,7 @@ MQTT_PORT = 1883
 CHECK_TOPIC = "check"
 PRESENCE_TOPIC = "presence"
 RESULT_TOPIC = "completion"
-token = 'MmFjYzlmZTAtNzU1NS00OTgwLWI5ZDItM2I1OGU3MWQ3YTZjMDBlNjU1MmItYWFh_P0A1_3110228f-f720-43ec-9b4d-e218298566dd'
+token = 'NThmNzkxMjYtMzU2MS00NzI0LWEyMmQtOTUyYzZjYTQ4MGQwMzZmMWFlNjYtMWE3_P0A1_3110228f-f720-43ec-9b4d-e218298566dd'
 
 # 현재 사용자 ID 전역 변수
 current_user_id = None
@@ -78,15 +78,15 @@ def send_data_to_webex(webex_id, plastic_count, can_count, glass_count, mileage)
     room_id = find_or_create_room("Ecostic Bin Recycling Room")
     if room_id:
         message = (
-            "🌍 **Ecostic Bin Recycling Summary** 🌍\n"
+            "🌍 Ecostic Bin Recycling Summary 🌍\n"
             "----------------------------------------\n"
             f"👤 사용자: {webex_id}\n"
             f"♻️ 플라스틱: {plastic_count}개\n"
             f"♻️ 캔: {can_count}개\n"
             f"♻️ 유리: {glass_count}개\n"
-            "========================================\n"
+            "=============================\n"
             f"💳 적립된 마일리지: {mileage}점\n\n"
-            "\"당신의 소중한 노력에 감사드립니다. 지구가 숨 쉬고 있어요! 🌱\""
+            "\"당신의 소중한 노력에 감사드립니다.\n 지구가 숨 쉬고 있어요! 🌱\""
         )
         send_webex_message(room_id, message)
     else:
@@ -95,7 +95,7 @@ def send_data_to_webex(webex_id, plastic_count, can_count, glass_count, mileage)
 
 # 데이터 전송 함수
 def send_data(user_id, webex_id, date, plastic_count, can_count, glass_count):
-    server_result = 'http://192.168.137.41:8080/ecobin/result'
+    server_result = 'http://192.168.137.1:8080/ecobin/result'
     params = {
         'userId': user_id,
         'date': date,
@@ -107,7 +107,7 @@ def send_data(user_id, webex_id, date, plastic_count, can_count, glass_count):
         response = requests.get(server_result, params=params)
         if response.status_code == 200:
             print("Data successfully sent to server.")
-            mileage = (plastic_count*30) + (can_count*20) + (glass_count * 10)
+            mileage = (plastic_count*30) + (can_count*10) + (glass_count * 20)
             print("Mileage:", mileage)  
             send_data_to_webex(webex_id, plastic_count, can_count, glass_count, mileage)
         else:
@@ -118,7 +118,7 @@ def send_data(user_id, webex_id, date, plastic_count, can_count, glass_count):
 
 # 사용자 ID 검증 함수
 def verify_user(user_id):
-    server_check = "http://192.168.137.41:8080/ecobin/check"
+    server_check = "http://192.168.137.1:8080/ecobin/check"
     try:
         response = requests.get(server_check, params={'userId': user_id})
         print("Server response:", response.text)  # 서버 응답 내용 출력
@@ -173,4 +173,5 @@ client.on_message = on_message
 
 client.connect(MQTT_BROKER, MQTT_PORT, 60)
 client.loop_forever()
+
 
