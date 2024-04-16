@@ -58,7 +58,7 @@
 
         #message {
             position: absolute;
-            top: 170px;
+            top: 160px;
             left: 2%;
             color: red;
             font-size: 1vh;
@@ -66,7 +66,7 @@
 
         #success-message {
             position: absolute;
-            top: 180px;
+            top: 160px;
             left: 2%;
             color: #55C595;
             font-size: 1vh;
