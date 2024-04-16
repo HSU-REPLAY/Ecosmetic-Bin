@@ -5,8 +5,12 @@
 <%@ page import="java.util.Map" %>
 
 <%
-    String selectedDate = request.getParameter("selectedDate");
-	String loggedInUserId = request.getParameter("id");
+String loggedInUserId=request.getParameter("id");
+String selectedDate = request.getParameter("selectedDate");    
+//String selectedDate = request.getParameter("selectedDate");
+	//String loggedInUserId = request.getParameter("id");
+	//String loggedInUserId = (String) session.getAttribute("loggedInUser");
+	System.out.println("%%id : " + loggedInUserId);
 
     String dbUrl = "jdbc:mysql://localhost:3306/ecosmeticbin";
     String dbUsername = "root";
@@ -22,6 +26,8 @@
         Class.forName("com.mysql.jdbc.Driver");
         connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
 
+        System.out.println("id : " + loggedInUserId);
+        
         String sql = "SELECT " +
                 "    SUM(CASE WHEN h.recyclingcode = 'plastic' THEN h.recyclingcount ELSE 0 END) AS plasticCount, " +
                 "    SUM(CASE WHEN h.recyclingcode = 'glass' THEN h.recyclingcount ELSE 0 END) AS glassCount, " +
@@ -52,7 +58,7 @@
             responseData.put("glassCount", glassCount);
             responseData.put("canCount", canCount);
             responseData.put("result", totalResult);
-            responseData.put("recyclingCount", recyclingCount);
+            responseData.put("recyclingCount", recyclingCount); 
         } else {
             response.setStatus(404);
             response.getWriter().write("Data not found for selected date");

@@ -189,20 +189,10 @@
 </script>
 
 <%
-    //String loggedInUserId = (String) session.getAttribute("loggedInUser");
+	String loggedInUserId = (String) session.getAttribute("loggedInUser");
 
 	//request 객체를 사용하여 'id' 쿼리 매개변수 값을 읽는다.
-	String loggedInUserId = request.getParameter("id");
-	
-	//이제 loggedInUserId를 사용하여 필요한 작업을 수행할 수 있습니다.
-	if (loggedInUserId != null && !loggedInUserId.isEmpty()) {
-	 // 사용자의 ID가 전달된 경우 이를 처리할 수 있습니다.
-	 System.out.println("전달된 사용자 ID: " + loggedInUserId);
-	 // 데이터베이스에서 사용자의 정보를 검색하거나 다른 작업을 수행합니다.
-	} else {
-	 // 사용자 ID가 전달되지 않은 경우
-	 System.out.println("사용자 ID가 전달되지 않았습니다.");
-	}
+	//String loggedInUserId = request.getParameter("id");
 	
 
     // 데이터베이스 연결 정보
@@ -315,7 +305,7 @@
         var xhr = new XMLHttpRequest();
         var count = 0; // 재활용 횟수를 저장할 변수 초기화
 
-        xhr.open('GET', 'updateChartData.jsp?selectedDate=' + selectedDate, false);
+        xhr.open('GET', 'updateChartData.jsp?id=' + loggedInUserId + '&selectedDate=' + selectedDate, false);
         xhr.send();
 
         if (xhr.readyState === 4 && xhr.status === 200) {

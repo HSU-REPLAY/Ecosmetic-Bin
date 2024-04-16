@@ -10,21 +10,12 @@ import java.net.URL;
 
 public class WebexMessageSender {
 
-    public static void main(String[] args) {
-        String userId = "tmddusyy1115@naver.com";
-        int plasticCount = 10;
-        int canCount = 5;
-        int glassCount = 3;
-        String accessToken = "OTZjNjBhOTctMGUwMy00ZjI0LTgxOTMtNmNlMTE2YjE1MmYwMDkzODcxZTEtMDQ3_P0A1_3110228f-f720-43ec-9b4d-e218298566dd";
-
-        sendDataToWebex(userId, plasticCount, canCount, glassCount, accessToken);
-    }
-
     // 방 찾기/생성 후 메시지 전송
-    private static void sendDataToWebex(String userId, int plasticCount, int canCount, int glassCount, String accessToken) {
+    public void sendDataToWebex(String webexId, int plasticCount, int canCount, int glassCount,
+            String accessToken) {
         String roomId = findOrCreateRoom("Ecostic Bin Recycling Room", accessToken);
         if (roomId != null) {
-            String message = buildMessage(userId, plasticCount, canCount, glassCount);
+            String message = buildMessage(webexId, plasticCount, canCount, glassCount);
             sendWebexMessage(roomId, message, accessToken);
         } else {
             System.out.println("Failed to find or create room.");
@@ -32,7 +23,7 @@ public class WebexMessageSender {
     }
 
     // 메시지 생성
-    private static String buildMessage(String userId, int plasticCount, int canCount, int glassCount) {
+    private static String buildMessage(String webexId, int plasticCount, int canCount, int glassCount) {
         return String.format(
                 "🌍 Ecostic Bin\n" +
                         "--------------------------------\n" +
@@ -41,7 +32,7 @@ public class WebexMessageSender {
                         "캔: %d개\n" +
                         "유리: %d개\n" +
                         "--------------------------------\n",
-                userId, plasticCount, canCount, glassCount);
+                webexId, plasticCount, canCount, glassCount);
     }
 
     // Webex 메시지 전송
@@ -55,14 +46,16 @@ public class WebexMessageSender {
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setDoOutput(true);
 
-            String jsonInputString = String.format("{\"roomId\": \"%s\", \"text\": \"%s\"}", roomId, message.replace("\n", "\\n").replace("\"", "\\\""));
+            String jsonInputString = String.format("{\"roomId\": \"%s\", \"text\": \"%s\"}", roomId,
+                    message.replace("\n", "\\n").replace("\"", "\\\""));
             try (OutputStream os = connection.getOutputStream()) {
                 os.write(jsonInputString.getBytes("UTF-8"));
             }
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
+                try (BufferedReader br = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
                     String line;
                     StringBuilder response = new StringBuilder();
                     while ((line = br.readLine()) != null) {
@@ -114,9 +107,18 @@ public class WebexMessageSender {
             // 방이 존재하지 않을 경우, 새로운 방 생성
             return createRoom(roomTitle, accessToken);
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.err.println("Failed to find or create room: " + e.getMessage());
             e.printStackTrace();
+            
+            // 오류 응답 읽기
+            try {
+                readErrorResponse(connection);
+            } catch (IOException ioException) {
+                System.err.println("Error reading error response: " + ioException.getMessage());
+                ioException.printStackTrace();
+            }
+
             return null;
         } finally {
             if (connection != null) {
@@ -151,7 +153,7 @@ public class WebexMessageSender {
 
                 int idStart = response.indexOf("\"id\":\"") + 6;
                 int idEnd = response.indexOf("\"", idStart);
-                return response.substring(idStart, idEnd);  // 새로 생성된 방의 ID 반환
+                return response.substring(idStart, idEnd); // 새로 생성된 방의 ID 반환
             }
 
         } catch (Exception e) {
@@ -168,7 +170,7 @@ public class WebexMessageSender {
     // HTTP 에러 응답 읽기
     private static void readErrorResponse(HttpURLConnection connection) throws IOException {
         try (InputStream errorStream = connection.getErrorStream();
-             BufferedReader br = new BufferedReader(new InputStreamReader(errorStream, "UTF-8"))) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(errorStream, "UTF-8"))) {
             String line;
             StringBuilder response = new StringBuilder();
             while ((line = br.readLine()) != null) {
