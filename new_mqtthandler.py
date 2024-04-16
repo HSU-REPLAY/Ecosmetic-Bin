@@ -3,7 +3,6 @@ import requests
 from requests.exceptions import RequestException
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import datetime
-import json
 
 MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
@@ -92,6 +91,13 @@ def send_data_to_webex(webex_id, plastic_count, can_count, glass_count, mileage)
     else:
         print("Failed to find or create room.")
 
+# # 데이터 전송 함수(테스트용)
+# def send_data(user_id, date, plastic_count, can_count, glass_count):
+#     print("Assumed data sending to server")
+#     print(f"User ID: {user_id}, Plastic: {plastic_count}, Can: {can_count}, Glass: {glass_count}")
+#     mileage = (plastic_count*30) + (can_count*20) + (glass_count * 10)
+#     print("Mileage:", mileage)  
+#     send_data_to_webex(user_id, plastic_count, can_count, glass_count, mileage)
 
 # 데이터 전송 함수
 def send_data(user_id, webex_id, date, plastic_count, can_count, glass_count):
@@ -115,25 +121,32 @@ def send_data(user_id, webex_id, date, plastic_count, can_count, glass_count):
     except RequestException as e:
         print("Server connection failed:", e)
 
+   
+
+# # 웹 서버에 사용자 ID 검증(테스트용)
+# def verify_user(user_id):
+#     if user_id == "cisco":
+#         return True, "tmddusyy1115@naver.com"
+#     else:
+#         return False, None  # 그 외의 경우 실패로 간주
 
 # 사용자 ID 검증 함수
 def verify_user(user_id):
     server_check = "http://192.168.137.1:8080/ecobin/check"
     try:
         response = requests.get(server_check, params={'userId': user_id})
-        print("Server response:", response.text)  # 서버 응답 내용 출력
         if response.status_code == 200:
-            # 텍스트 응답을 파싱하여 필요한 데이터 추출
-            parts = response.text.split(", ")
-            verified_part = parts[0].split(": ")[1]
-            webex_id_part = parts[1].split(": ")[1]
-            return (verified_part == "true", webex_id_part.strip())
+            data = response.json()
+            return {
+                'verified': data['verified'] == 'true',
+                'webexId': data.get('webexId', None)
+            }
         else:
             print("Error response from web server:", response.status_code)
-            return (False, None)
+            return {'verified': False, 'error': 'Web server responded with an error'}
     except requests.exceptions.RequestException as e:
         print("Exception during web server request:", e)
-        return (False, None)
+        return {'verified': False, 'error': 'Exception during web server request'}
 
 # 메시지 처리 함수    
 def on_message(client, userdata, msg):
@@ -142,24 +155,26 @@ def on_message(client, userdata, msg):
 
     if msg.topic == CHECK_TOPIC:
         user_id = msg.payload.decode()
-        verified, webex_id = verify_user(user_id)  # 튜플 분해
+        verification_result = verify_user(user_id)
+        verified = verification_result['verified']  # 검증 결과
+        webex_id = verification_result['webexId']  # Webex ID 추출
 
-        print(f"사용자 ID : {user_id}, 검증 결과: {'맞음' if verified else '틀림'}, Webex ID: {webex_id if webex_id else '없음'}")
-
+        print(f"사용자 ID : {user_id}, 검증 결과: {'맞음' if verified else '틀림'}, Webex ID: {webex_id}")
+        
         if verified:
-            current_user_id = user_id
-            current_webex_id = webex_id
+            current_user_id = user_id  # 검증된 사용자 ID 저장
+            current_webex_id = webex_id  # 검증된 Webex ID 저장
         else:
-            current_user_id = None
-            current_webex_id = None
-
+            current_user_id = None  # 검증 실패 시 사용자 ID 초기화
+            current_webex_id = None  # 검증 실패 시 Webex ID 초기화
+        
         client.publish(PRESENCE_TOPIC, "true" if verified else "false")
 
     elif msg.topic == RESULT_TOPIC and current_user_id and current_webex_id:
         date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         msg_string = msg.payload.decode().split(",")
         plastic_count, can_count, glass_count = map(int, msg_string)
-        # 함수에 사용자 ID와 Webex ID도 전달
+        # 데이터와 Webex 메시지를 전송하는 함수에 사용자 ID와 Webex ID도 전달
         send_data(current_user_id, current_webex_id, date, plastic_count, can_count, glass_count)
 
 
@@ -173,4 +188,3 @@ client.on_message = on_message
 
 client.connect(MQTT_BROKER, MQTT_PORT, 60)
 client.loop_forever()
-
