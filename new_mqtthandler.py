@@ -9,7 +9,7 @@ MQTT_PORT = 1883
 CHECK_TOPIC = "check"
 PRESENCE_TOPIC = "presence"
 RESULT_TOPIC = "completion"
-token = 'NThmNzkxMjYtMzU2MS00NzI0LWEyMmQtOTUyYzZjYTQ4MGQwMzZmMWFlNjYtMWE3_P0A1_3110228f-f720-43ec-9b4d-e218298566dd'
+token = 'NTIxZDdkZDQtNDQ2Ni00ZDA1LWI0YmEtMDk4MTVkYTYzYTM3ZTZmMTM2M2MtYmE2_P0A1_3110228f-f720-43ec-9b4d-e218298566dd'
 
 # 현재 사용자 ID 전역 변수
 current_user_id = None
@@ -75,10 +75,10 @@ def send_webex_message(room_id, message):
 
 # 데이터 전송 및 Webex 메시지 발송 함수
 def send_data_to_webex(webex_id, plastic_count, can_count, glass_count, mileage):
-    room_id = find_or_create_room("Ecostic Bin Recycling Room")
+    room_id = find_or_create_room("Eco Recycling Room")
     if room_id:
         message = (
-            "🌍 Ecostic Bin Recycling Summary 🌍\n"
+            "🌍 Eco 알림 서비스 🌍\n"
             "----------------------------------------\n"
             f"👤 사용자: {webex_id}\n"
             f"♻️ 플라스틱: {plastic_count}개\n"
