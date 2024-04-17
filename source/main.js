@@ -15,6 +15,6 @@ app.on('ready', () => {
     // 전체 화면: {fullscreen: true}
     // 로드되면 mainWindow 변수에 BrowserWindow 할당
     mainWindow = new BrowserWindow({fullscreen: true});   // 꽉 찬 화면 설정
-    mainWindow.loadURL(`file://${__dirname}/source/index.html`); // index.html 읽기
+    mainWindow.loadURL(`file://${__dirname}/index.html`); // index.html 읽기
     mainWindow.on('closed', () => {mainWindow = null;}); // 애플리케이션 화면을 닫으면 변수를 null로 지정
 });
