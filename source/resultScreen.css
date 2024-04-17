@@ -1,0 +1,67 @@
+.analysisScreen, .homeScreen {
+    visibility: hidden;
+}
+.resultScreen {
+    visibility: visible;
+}
+#logo {
+    width: 654px; 
+    height: 181px; 
+    left: 213px; 
+    top: 114px; 
+    position: absolute;
+}
+#plasticTable {
+    width: 277px; 
+    height: 792px; 
+    left: 84px; 
+    top: 501px; 
+    position: absolute; 
+    border: 3px white solid;
+}
+#glassTable {
+    width: 277px; 
+    height: 792px; 
+    left: 399px; 
+    top: 501px;
+    position: absolute; 
+    border: 3px white solid;
+}
+#canTable {
+    width: 277px; 
+    height: 792px; 
+    left: 714px; 
+    top: 501px; 
+    position: absolute; 
+    border: 3px white solid;
+}
+#plasticLabel {
+    left: 144px; 
+    top: 1506px; 
+    position: absolute; 
+    color: white; 
+    font-size: 50px; 
+    font-weight: 400; 
+    line-height: 65px;
+    word-wrap: break-word;
+}
+#glassLabel {
+    left: 473px; 
+    top: 1506px;
+    position: absolute; 
+    color: white; 
+    font-size: 50px; 
+    font-weight: 400; 
+    line-height: 65px;
+    word-wrap: break-word;
+}
+#canLabel {
+    left: 812px; 
+    top: 1506px;
+    position: absolute; 
+    color: white; 
+    font-size: 50px; 
+    font-weight: 400; 
+    line-height: 65px;
+    word-wrap: break-word;
+}

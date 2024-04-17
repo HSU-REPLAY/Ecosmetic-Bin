@@ -102,7 +102,7 @@ function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지
             drawImage(msg.payloadString);
         } else if (msg.destinationName == "result") {
             document.getElementById("loading").setAttribute('href', '');
-            document.getElementById("screenStyleSheet").setAttribute('href', 'analysisScreen.css');
+            document.getElementById("screenStyleSheet").setAttribute('href', './analysisScreen.css');
             document.getElementById("info").innerHTML = "분류 결과";
             let msgString = msg.payloadString.split(",");
             document.getElementById("plasticCount").innerHTML = parseInt(msgString[0]) + "개";
