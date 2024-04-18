@@ -108,7 +108,8 @@ Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알�
 <br>
 
 ## 🚀 시연 영상
-
+- 밑의 사진을 클릭하면 youtube 주소로 이동합니다.
+[![My YouTube Video Thumbnail](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/ddec290b-4381-4ff5-ae10-004aca85c43c)](https://www.youtube.com/watch?v=CitKeV7mHRE)
 
 
 <br>
