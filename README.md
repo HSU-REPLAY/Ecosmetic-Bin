@@ -85,8 +85,8 @@
 Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알림을 받기 위해 사용됩니다.
 
 <div align="center">
-  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/5a8b3fb1-4924-4202-91af-1734f7a32bb1" style="width: 200; margin-right: 10px;">
-  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/b176ce7e-1f9c-4ed0-8259-2ee22132675b" style="width:200; margin-right: 10px;">
+  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/5a8b3fb1-4924-4202-91af-1734f7a32bb1" style="width: 100; margin-right: 10px;">
+  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/b176ce7e-1f9c-4ed0-8259-2ee22132675b" style="width: 200; margin-right: 10px;">
   <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/be995139-2170-4b52-b6f3-21456bcfff61" style="width: 200;">
 </div>
 
