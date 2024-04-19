@@ -66,7 +66,7 @@
 
 - Cisco의 Meraki camera는 다음과 같은 과정으로 촬영을 진행합니다. 
 
-![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/7d699a54-b61c-43e2-9df9-c792b30c5aaa)
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/f016ff73-78f1-4880-85fb-992be2e0c4d7" width="700"/></p>
 
 - AI 엔진은 먼저 OCR 라이브러리인 PyTesseract를 사용하여 촬영된 이미지로부터 ‘Plastic’, ‘Glass’, ‘Can’이 적힌 용기들을 분류하고 용기의 개수를 세준 후 결과 메시지를 UI에게 전송해 줍니다.
 
