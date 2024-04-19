@@ -57,7 +57,7 @@
 
 - MQTT 통신을 이용한 실시간 스트리밍 과정입니다. OpenCV를 사용하여 JPEG으로 만든 후 각 프레임을 base64로 인코딩 합니다. UI 모듈에서 다시 각 프레임을 base64로 디코딩하여 AI 키오스크에 그리는 방식을 통해 구현했습니다. 
 
-![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/c6868805-cd6b-4869-8ce8-0728342d36ab)
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/05072ce6-dcf9-403a-b8ab-6bc4e5492ef4" width="600"/></p>
 
 - 웹캠을 통한 촬영은 OpenCV의 VideoCapture 객체를 사용해 직접 사진을 촬영하고 이를 파일로 저장합니다. 
 
