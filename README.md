@@ -94,7 +94,7 @@ Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알�
 
 - 로그인에 성공하면 메인페이지로 들어오게 됩니다. 이 곳에서는 사용자가 적립한 총 마일리지, 마일리지를 적립한 날짜를 기록해주는 달력, 어떤 종류의 화장품을 분리 배출했는지 알려주는 도넛 차트가 있습니다.
 
-![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/a7d12fe3-e412-4489-b393-34b6a2416171)
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/984f71d5-21f1-4b25-938e-5873478b8f1f" width="200"/></p>
 
 - Eco 앱에 등록된 사람의 마일리지 랭킹을 알 수 있는 페이지 입니다.
 
