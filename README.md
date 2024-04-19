@@ -49,7 +49,7 @@
 ## 💝 주요 기능
 - AI 키오스크를 사용해서 MQTT 프로토콜을 통해 로그인 과정을 진행합니다. Eco 웹서버의 데이터베이스에서 사용자의 아이디를 찾은 후 로그인을 진행합니다.
 
-![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/a6821d87-cca7-4389-a59a-a6fa92ba10f5)
+![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/09478fc5-7d54-4f23-b2ab-964570e1570d)
 
 
 - 로그인에 성공하고 처음 분류를 시작하는 경우에는, ‘HD Webcam’이 자동으로 선택됩니다. 라즈베리 파이의 USB 포트에 연결된 웹 캠을 통해 촬영된 영상을 AI 키오스크에서 실시간으로 확인할 수 있습니다.
