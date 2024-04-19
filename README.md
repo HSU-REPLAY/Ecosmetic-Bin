@@ -85,9 +85,9 @@
 Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알림을 받기 위해 사용됩니다.
 
 <div align="center">
-  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/5a8b3fb1-4924-4202-91af-1734f7a32bb1" style="width: 100px; margin-right: 10px;">
-  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/b176ce7e-1f9c-4ed0-8259-2ee22132675b" style="width: 200; margin-right: 10px;">
-  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/be995139-2170-4b52-b6f3-21456bcfff61" style="width: 200;">
+  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/5a8b3fb1-4924-4202-91af-1734f7a32bb1" style="width: 200px; margin-right: 10px;">
+  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/b176ce7e-1f9c-4ed0-8259-2ee22132675b" style="width: 200px; margin-right: 10px;">
+  <img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/be995139-2170-4b52-b6f3-21456bcfff61" style="width: 200px;">
 </div>
 
 - 로그인에 성공하면 메인페이지로 들어오게 됩니다. 이 곳에서는 사용자가 적립한 총 마일리지, 마일리지를 적립한 날짜를 기록해주는 달력, 어떤 종류의 화장품을 분리 배출했는지 알려주는 도넛 차트가 있습니다.
