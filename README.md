@@ -79,7 +79,7 @@
 
 - 안드로이드 Eco앱 초기화면
 
-<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/07044b10-3fcc-4cbc-adb3-eeeff94cb99f" width="200"/></p>
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/8569e1a3-ad12-40ae-b284-2af009e00520" width="200"/></p>
 
 - 왼쪽은 회원가입 화면입니다. 사용자는 Eco 웹 서버 ID와 Webex ID를 입력하여 회원으로 가입합니다. Eco 웹 서버는 수신한 사용자 ID와 Webex ID를 user 테이블과 webex 테이블에 기록합니다. <br>
 Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알림을 받기 위해 사용됩니다.
