@@ -98,12 +98,12 @@ Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알�
 
 - Eco 앱에 등록된 사람의 마일리지 랭킹을 알 수 있는 페이지 입니다.
 
-![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/e664c27d-7797-46a6-b3f3-deff96218c86)
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/704e479a-85e7-4434-935e-a9aaeb592a45" width="200"/></p>
 
 
 - 마이 페이지에서는 현재 등급을 확인하고 마일리지 현황을 쉽게 파악할 수 있습니다.
 
-![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/3215db65-5bd6-48b2-95dd-1547fa7486f3)
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/6c3dbe74-0224-42d4-a2a4-d3386eb4b089" width="200"/></p>
 
 
 - 웹엑스 알림 시스템은 사용자가 화장품 용기를 분리 배출을 완료하면 즉각적으로 사용자의 Webex 앱으로 메시지를 전송하는 서비스입니다.
