@@ -98,7 +98,7 @@ Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알�
 
 - Eco 앱에 등록된 사람의 마일리지 랭킹을 알 수 있는 페이지 입니다.
 
-<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/704e479a-85e7-4434-935e-a9aaeb592a45" width="200"/></p>
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/cfa5acdb-8f95-4347-8d38-587f8a46d706" width="200"/></p>
 
 
 - 마이 페이지에서는 현재 등급을 확인하고 마일리지 현황을 쉽게 파악할 수 있습니다.
