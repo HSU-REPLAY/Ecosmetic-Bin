@@ -53,7 +53,7 @@
 
 - 로그인에 성공하고 처음 분류를 시작하는 경우에는, ‘HD Webcam’이 자동으로 선택됩니다. 라즈베리 파이의 USB 포트에 연결된 웹 캠을 통해 촬영된 영상을 AI 키오스크에서 실시간으로 확인할 수 있습니다.
 
-<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/f5ee8a2c-8ed7-4da0-9701-401b80e65f69"/></p>
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/f5ee8a2c-8ed7-4da0-9701-401b80e65f69" width="200"/></p>
 
 - MQTT 통신을 이용한 실시간 스트리밍 과정입니다. OpenCV를 사용하여 JPEG으로 만든 후 각 프레임을 base64로 인코딩 합니다. UI 모듈에서 다시 각 프레임을 base64로 디코딩하여 AI 키오스크에 그리는 방식을 통해 구현했습니다. 
 
