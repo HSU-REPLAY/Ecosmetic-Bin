@@ -108,7 +108,7 @@ Webex ID는 추후 사용자가 키오스크에서 분리 배출을 할 때 알�
 
 - 웹엑스 알림 시스템은 사용자가 화장품 용기를 분리 배출을 완료하면 즉각적으로 사용자의 Webex 앱으로 메시지를 전송하는 서비스입니다.
 
-![image](https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/121416032/ef895a63-3a99-4283-9f3f-6fed4b4c24de)
+<p align="center"><img src="https://github.com/HSU-REPLAY/Ecosmetic-Bin/assets/109191101/e388328e-9c05-4cc3-a21e-305c206534c1" width="200"/></p>
 
 <br>
 
