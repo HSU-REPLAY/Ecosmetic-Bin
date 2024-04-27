@@ -174,7 +174,7 @@
 
     document.getElementById("homeButton").addEventListener("click", function() {
         // home.jsp로 이동하는 코드
-        window.location.href = "home.jsp?id=" + loggedInUserId;
+        window.location.href = "home(center-align version).jsp?id=" + loggedInUserId;
     });
 
     document.getElementById("rankingButton").addEventListener("click", function() {

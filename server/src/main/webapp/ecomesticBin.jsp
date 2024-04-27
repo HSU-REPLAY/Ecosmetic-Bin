@@ -103,7 +103,7 @@
             session.setAttribute("loggedInUser", loggedInUser);
 
             // 서버 측에서 페이지 리다이렉션
-            response.sendRedirect("home.jsp?id=" + loggedInUser);
+            response.sendRedirect("home(center-align version).jsp?id=" + loggedInUser);
             
         } else if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
             
