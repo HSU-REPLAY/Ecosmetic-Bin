@@ -65,7 +65,7 @@
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 1100px;  /* 너비 수정 */
             display : flex;       
             align-items : center;
             margin: 5px;
@@ -73,7 +73,7 @@
         }
         
         .show-mileage {
-            font-size: 20px;
+            font-size: 25px;  /* font size 수정 */
         }
         
         .mileage-calendar-container {
@@ -87,7 +87,7 @@
             border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 95%;
-            max-width: 480px;
+            max-width: 780px;   /* 너비 수정 */
             display : flex;       
             margin: 5px;
             padding-left: 20px;
@@ -272,11 +272,11 @@
 
 
 <div id="user-info" style="display: flex;">
-    <div style="color:#55C595; font-weight: bold; margin-left: 100px; "><%= (loggedInUserId != null ? loggedInUserId + " 님" : "") %></div><div style="font-weight: bold;">&nbsp;안녕하세요!<br></div>
+    <div style="color:#55C595; font-weight: bold; margin-left: 200px; "><%= (loggedInUserId != null ? loggedInUserId + " 님" : "") %></div><div style="font-weight: bold;">&nbsp;안녕하세요!<br></div>
 </div><br>
 
 <div class="show-mileage">
-    <img src="mileage-coin.png" alt="User Image" style="width: 100px; height: 100px; border-radius: 50%; margin-right: 20px;" />
+    <img src="mileage-coin.png" alt="User Image" style="width: 170px; height: 170px; border-radius: 50%; margin-right: 20px;" /> <!-- 이미지 크기 변경 -->
     <div style="display: flex; flex-direction: column;">
         <div style="font-size: 20px; margin-bottom: 10px; ">총 마일리지</div>
         <div style="font-size: 30px; font-weight: bold; color: black;"><%= totalmileage %> M</div>
