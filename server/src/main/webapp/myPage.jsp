@@ -18,7 +18,7 @@
         .level-info, .rest, .logout {
             background-color: white;
             padding: 20px;
-            max-width: 500px;
+            max-width: 900px; /* 너비 수정 */
         }
         .range-bar {
             width: 60%;
