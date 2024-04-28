@@ -21,9 +21,19 @@ def ocr(image_path):
     for token in tokens:
         if "Plastic" in token:
             plastic_cnt += 1
+        elif "P" in token:
+            plastic_cnt += 1
+        elif "p" in token:
+            plastic_cnt += 1   
         elif "Can" in token:
             can_cnt += 1
+        elif "C" in token:
+            can_cnt += 1    
+        elif "c" in token:
+            can_cnt += 1   
         elif "Glass" in token:
+            glass_cnt += 1
+        elif "G" in token:
             glass_cnt += 1
 
     print("Plastic count:", plastic_cnt)
