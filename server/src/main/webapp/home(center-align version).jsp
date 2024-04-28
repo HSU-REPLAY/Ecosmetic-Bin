@@ -40,7 +40,7 @@
 
         #user-info {
             margin-top: 50px;
-            font-size: 25px;
+            font-size: 40px;
             color: #333;
             margin: auto;
             
@@ -52,13 +52,13 @@
         }
         
         #recycling-info {
-        	font-size: 40px;
-        	font-weight: bold;
-        	color: black;
-        	display: flex;
-        	align-items: flex-start;
-        	margin-top: 20px;
-        	justify-content: flex-start;	
+           font-size: 40px;
+           font-weight: bold;
+           color: black;
+           display: flex;
+           align-items: flex-start;
+           margin-top: 20px;
+           justify-content: flex-start;   
         }
         .show-mileage, .mileage-chart {
             background-color: white;
@@ -103,53 +103,53 @@
         }
 
         .mileage-calendar table td {
-		    width: 14.28%;
-		    vertical-align: top;
-		    cursor: pointer;
-		    text-align: center;
-		    padding: 10px 0;
-		    position: relative;
-		}
+          width: 14.28%;
+          vertical-align: top;
+          cursor: pointer;
+          text-align: center;
+          padding: 10px 0;
+          position: relative;
+      }
         
         .mileage-calendar table td.clicked::before {
-		    position: absolute;
-		    width: 20px;
-		    height: 20px;
-		    background-color: black;
-		    border-radius: 50%;
-		    font-size: 16px;
-		    text-align: center;
-		}
-		
-		header {
-		  position: fixed;
-		  bottom: 0;
-		  left: 0;
-		  right: 0;
-		  z-index: 2;
-		  height: 60px;
-		  padding: 1rem;
-		  color: white;
-		  background: #FFFFFF;
-		  font-weight: bold;
-		  display: flex;
-		  justify-content: space-between;
-		  align-items: center;
-		}
-		
-		.clicked::after {
-		    content: '';
-		    display: block;
-		    width: 24px;
-		    height: 24px;
-		    border: 2px solid #55C595;
-		    border-radius: 50%;
-		    position: absolute;
-		    top: 30%;
-		    left: 50%;
-		    transform: translate(-50%, -50%);
-		}
-		
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          background-color: black;
+          border-radius: 50%;
+          font-size: 16px;
+          text-align: center;
+      }
+      
+      header {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        height: 60px;
+        padding: 1rem;
+        color: white;
+        background: #FFFFFF;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .clicked::after {
+          content: '';
+          display: block;
+          width: 24px;
+          height: 24px;
+          border: 2px solid #55C595;
+          border-radius: 50%;
+          position: absolute;
+          top: 30%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+      }
+      
 
         @media only screen and (max-width: 600px) {
             input[type="text"],
@@ -162,15 +162,15 @@
 </head>
 <body>
 <header>
-	<button type="button" id="homeButton" style="background-color: transparent; border: none; margin-left: 50px;">
-	    <img src="homecheck.png" alt="Home" style="width: 20px; height: 35px;">
-	</button>
-	<button type="button" id="rankingButton" style="background-color: transparent; border: none; margin-left: 30px">
-	    <img src="rank.png" alt="ranking" style="width: 35px; height: 35px;">
-	</button>
-	<button type="button" id="myButton" style="background-color: transparent; border: none; margin-left: 10px; margin-right: 50px;">
-	    <img src="my.png" alt="mypage" style="width: 35px; height: 35px;">
-	</button>
+   <button type="button" id="homeButton" style="background-color: transparent; border: none; margin-left: 50px;">
+       <img src="homecheck.png" alt="Home" style="width: 20px; height: 35px;">
+   </button>
+   <button type="button" id="rankingButton" style="background-color: transparent; border: none; margin-left: 30px">
+       <img src="rank.png" alt="ranking" style="width: 35px; height: 35px;">
+   </button>
+   <button type="button" id="myButton" style="background-color: transparent; border: none; margin-left: 10px; margin-right: 50px;">
+       <img src="my.png" alt="mypage" style="width: 35px; height: 35px;">
+   </button>
 </header>
 
 
@@ -179,7 +179,7 @@
 
     document.getElementById("homeButton").addEventListener("click", function() {
         // home.jsp로 이동하는 코드
-        window.location.href = "home.jsp?id=" + loggedInUserId;
+        window.location.href = "home(center-align version).jsp?id=" + loggedInUserId;
     });
 
     document.getElementById("rankingButton").addEventListener("click", function() {
@@ -194,11 +194,11 @@
 </script>
 
 <%
-	String loggedInUserId = (String) session.getAttribute("loggedInUser");
+   String loggedInUserId = (String) session.getAttribute("loggedInUser");
 
-	//request 객체를 사용하여 'id' 쿼리 매개변수 값을 읽는다.
-	//String loggedInUserId = request.getParameter("id");
-	
+   //request 객체를 사용하여 'id' 쿼리 매개변수 값을 읽는다.
+   //String loggedInUserId = request.getParameter("id");
+   
 
     // 데이터베이스 연결 정보
     String url = "jdbc:mysql://localhost:3306/ecosmeticbin";
@@ -272,14 +272,14 @@
 
 
 <div id="user-info" style="display: flex;">
-    <div style="color:#55C595; font-weight: bold; margin-left: 200px; "><%= (loggedInUserId != null ? loggedInUserId + " 님" : "") %></div><div style="font-weight: bold;">&nbsp;안녕하세요!<br></div>
-</div><br>
+    <div style="color:#55C595; font-weight: bold; margin-left: 20px; "><%= (loggedInUserId != null ? loggedInUserId + " 님" : "") %></div><div style="font-weight: bold;">&nbsp;안녕하세요!<br></div>
+</div><br><br>
 
 <div class="show-mileage">
     <img src="mileage-coin.png" alt="User Image" style="width: 170px; height: 170px; border-radius: 50%; margin-right: 20px;" /> <!-- 이미지 크기 변경 -->
     <div style="display: flex; flex-direction: column;">
-        <div style="font-size: 20px; margin-bottom: 10px; ">총 마일리지</div>
-        <div style="font-size: 30px; font-weight: bold; color: black;"><%= totalmileage %> M</div>
+        <div style="font-size: 30px; margin-bottom: 10px; ">총 마일리지</div>
+        <div style="font-size: 40px; font-weight: bold; color: black;"><%= totalmileage %> M</div>
     </div>
 </div><br>
 <div class="mileage-calendar" style="position: relative;">
@@ -292,19 +292,19 @@
             <span id="canCount" style="margin-left: 95px;">0</span>
         </div>
                 <div style="text-align: center; font-size: 15px; font-weight: bold; margin-top: 30px;">
-			        <span id="totalResult"></span>
-			    </div>
+                 <span id="totalResult"></span>
+             </div>
     </div>
 </div>
 <script>
-	var currentDate = new Date(); 
-	var currentYear = currentDate.getFullYear(); 
-	var currentMonth = currentDate.getMonth() + 1;
+   var currentDate = new Date(); 
+   var currentYear = currentDate.getFullYear(); 
+   var currentMonth = currentDate.getMonth() + 1;
 
     function getDaysInMonth(year, month) {
         return new Date(year, month, 0).getDate();
     }
-	
+   
     function getRecyclingCount(year, month, day) {
         var selectedDate = year + "-" + month + "-" + day;
         var xhr = new XMLHttpRequest();
@@ -402,32 +402,32 @@
     }
     
     function refreshCalendar() {
-    	var calendarHTML = generateCalendar(currentYear, currentMonth);
+       var calendarHTML = generateCalendar(currentYear, currentMonth);
         document.querySelector('.mileage-calendar #calendar-container').innerHTML = generateCalendar(currentYear, currentMonth); // 달력을 새로 고칩니다.
         document.getElementById("currentMonthYear").innerHTML = currentMonth + "월 " + currentYear + "년"; // 현재 연도와 월을 업데이트합니다.
     }
 
-	var cells = document.querySelectorAll('.mileage-calendar table td');
-	cells.forEach(function(cell) {
-	    cell.addEventListener('click', function() {
-	        document.querySelectorAll('.clicked').forEach(function(clickedCell) {
-	            clickedCell.classList.remove('clicked');
-	        });
-	
-	        this.classList.add('clicked');
-	        
-	        var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
-	        
-	        var xhr = new XMLHttpRequest();
-	        xhr.open('GET', 'updateChartData.jsp?id=' + loggedInUserId + '&selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
-	        xhr.onreadystatechange = function() {
-	            if (xhr.readyState == 4 && xhr.status == 200) {
-	                updateChart(xhr.responseText);
-	            }
-	        };
-	        xhr.send();
-	    });
-	});
+   var cells = document.querySelectorAll('.mileage-calendar table td');
+   cells.forEach(function(cell) {
+       cell.addEventListener('click', function() {
+           document.querySelectorAll('.clicked').forEach(function(clickedCell) {
+               clickedCell.classList.remove('clicked');
+           });
+   
+           this.classList.add('clicked');
+           
+           var selectedDate = currentYear + '-' + currentMonth + '-' + this.textContent;
+           
+           var xhr = new XMLHttpRequest();
+           xhr.open('GET', 'updateChartData.jsp?id=' + loggedInUserId + '&selectedDate=' + selectedDate, true); // 'selectedDate' 파라미터를 추가하여 날짜를 전달합니다.
+           xhr.onreadystatechange = function() {
+               if (xhr.readyState == 4 && xhr.status == 200) {
+                   updateChart(xhr.responseText);
+               }
+           };
+           xhr.send();
+       });
+   });
 
     function updateChart(responseData) {
         var data = JSON.parse(responseData);
@@ -461,8 +461,8 @@
 </script>
 <br>
 <div class="mileage-chart" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-	<br> <br> <h3>월별 마일리지 내역</h3> <br>
-	<jsp:include page="mileageChart.jsp" />
+   <br> <br> <h3>월별 마일리지 내역</h3> <br>
+   <jsp:include page="mileageChart.jsp" />
 </div>
 <br>
 </body>

@@ -38,7 +38,7 @@
             font-size: 26px;
         }
 
-		input[type="text"].error {
+      input[type="text"].error {
             border-color: red;
         }
 
@@ -132,15 +132,15 @@
         <br><br>
     </div>
     <form action="" method="post">
-	    <div class="search-container">
-	        <input type="text" name="id" placeholder="아이디" class="<%= userId != null && !userId.isEmpty() && request.getMethod().equals("POST") ? "error" : "" %>">
-			<div>
-	        <% 
-	            if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
-	                out.println("<p class='error-message'>아이디를 잘못 입력했습니다.</p>");
-	            }
-	        %>
-	        </div><br>
+       <div class="search-container">
+           <input type="text" name="id" placeholder="아이디" class="<%= userId != null && !userId.isEmpty() && request.getMethod().equals("POST") ? "error" : "" %>">
+         <div>
+           <% 
+               if (userId != null && !userId.isEmpty() && request.getMethod().equals("POST")) {
+                   out.println("<p class='error-message'>아이디를 잘못 입력했습니다.</p>");
+               }
+           %>
+           </div><br>
         <input type="submit" value="로그인">
     </div> 
 </form>

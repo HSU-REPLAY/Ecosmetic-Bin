@@ -10,7 +10,7 @@
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            height: 60vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,19 +23,19 @@
             flex-direction: column;
             position: relative;
             width: 80%;
-            margin: 10vh auto;
+            margin: 20vh auto;
         }
 
         input[type="text"],
         input[type="submit"] {
             width: 90%;
-            max-width: 400px;
-            height: 2.5em;
+            max-width: 600px;
+            height: 3em;
             margin: 5px;
             border-radius: 10px;
             border: 2px solid #55C595;
             padding: 10px;
-            font-size: 20px;
+            font-size: 25px;
         }
         
         input[type="text"].error {
@@ -45,8 +45,8 @@
         input[type="submit"] {
             background-color: #55C595;
             color: white;
-            height: 3em;
-            width: 330px;
+            height: 4em;
+            width: 700px;
         }
         
         .search-container {
@@ -71,11 +71,11 @@
             color: #55C595;
             font-size: 1vh;
         }
-		
-		.success {
-        	color: #55C595;
-    	}
-    	
+      
+      .success {
+           color: #55C595;
+       }
+       
         .error {
             border-color: red;
         }
@@ -118,27 +118,27 @@
             if (rs.next()) {
                 message = "이미 가입된 아이디입니다.";
             } else {
-            	String insertUserSql = "INSERT INTO user (id, totalmileage, level) VALUES (?, 0, 1)";
-            	stmt = conn.prepareStatement(insertUserSql);
-            	stmt.setString(1, id);
-            	int rowsAffected = stmt.executeUpdate();
+               String insertUserSql = "INSERT INTO user (id, totalmileage, level) VALUES (?, 0, 1)";
+               stmt = conn.prepareStatement(insertUserSql);
+               stmt.setString(1, id);
+               int rowsAffected = stmt.executeUpdate();
 
-            	if (rowsAffected > 0) {
-            	    String insertWebexSql = "INSERT INTO webex (id, webex_id) VALUES (?, ?)";
-            	    stmt = conn.prepareStatement(insertWebexSql);
-            	    stmt.setString(1, id);
-            	    stmt.setString(2, webex_id);
+               if (rowsAffected > 0) {
+                   String insertWebexSql = "INSERT INTO webex (id, webex_id) VALUES (?, ?)";
+                   stmt = conn.prepareStatement(insertWebexSql);
+                   stmt.setString(1, id);
+                   stmt.setString(2, webex_id);
 
-            	    int webexRowsAffected = stmt.executeUpdate();
+                   int webexRowsAffected = stmt.executeUpdate();
 
-            	    if (webexRowsAffected > 0) {
-            	        message = "회원가입 성공! 로그인 해주세요";
-            	    } else {
-            	        message = "웹엑스 아이디 저장 실패!";
-            	    }
-            	} else {
-            	    message = "회원가입 실패!";
-            	}
+                   if (webexRowsAffected > 0) {
+                       message = "회원가입 성공! 로그인 해주세요";
+                   } else {
+                       message = "웹엑스 아이디 저장 실패!";
+                   }
+               } else {
+                   message = "회원가입 실패!";
+               }
             }
         }
     } catch (SQLException | ClassNotFoundException e) {
@@ -164,9 +164,9 @@
 %>
 <body class="container">
     <div style="text-align: center;">
-        <p style="font-size: 30px;">Welcome!<br></p>
-        <img src="logo.png" style="width: 200px; height: auto;">
-        <br><p style="font-size: 10px;">회원 서비스 이용을 위해 회원가입을 진행해주세요. </p>
+        <p style="font-size: 50px;">Welcome!<br></p>
+        <img src="logo.png" style="width: 500px; height: auto;">
+        <br><p style="font-size: 37px;">회원 서비스 이용을 위해 회원가입을 진행해주세요. </p>
         <br>
         <form action="" method="post">
     <div class="search-container">
