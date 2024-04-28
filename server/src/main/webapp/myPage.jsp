@@ -22,7 +22,7 @@
         }
         .range-bar {
             width: 60%;
-            height: 5px;
+            height: 13px;
             background-color: #E5E5E5;
             border-radius: 30px;
             margin-bottom: 10px;
@@ -38,8 +38,8 @@
             left: 0;
         }
         .range-label {
-        	font-size: 10px;
-        	top: 5px;
+        	font-size: 18px;
+        	top: 15px;
             position: absolute;
             transform: translateX(2px);
         }
@@ -194,14 +194,14 @@
 	    request.setAttribute("remainingMileage", remainingMileage);
 	%>
 		<div class="rest" style="display: flex; flex-direction: column;">
-		    <span style="font-size: 30px; text-align: center; margin-bottom: 20px;">마이 페이지</span>
+		    <span style="font-size: 38px; text-align: center; margin-bottom: 20px; font-weight: bold;">마이 페이지</span>
 		    <div style="margin-top: 10px;">
-		    <img src="<%= currentLevelImage %>" style="width:50px; height:50px; display: inline-block;" alt="<%= currentLevel %>">
+		    <img src="<%= currentLevelImage %>" style="width:80px; height:80px; display: inline-block;" alt="<%= currentLevel %>">
 		    	<div style="font-weight: bold; font-size: 20px; display: inline-block; margin-left: 10px; margin-bottom: 10px; vertical-align: top;">
-		        	<span style = "font-size: 25px; font-weight: bold;"><%= loggedInUserId %> 님 </span>
+		        	<span style = "font-size:50px; font-weight: bold;"><%= loggedInUserId %> 님 </span>
 		    	</div>
 			</div>
-		<div style="margin-top: 10px; text-align: left; font-size: 20px;">
+		<div style="margin-top: 15px; text-align: left; font-size: 30px;">
 		    <%= nextLevel %> 등급까지 마일리지 <br> <span style="color: #55C595; font-weight: bold;"><%= formattedRemainingMileage %>M </span>남음
 		    <div style="display: flex; align-items: center; margin-top: 10px; position: relative;">
 		        <div class="range-bar" style="flex-grow: 1; position: relative;">
@@ -209,7 +209,7 @@
 		            <div class="range-label" style="left: 0;"><%= (int) (totalmileage - totalmileage % nextLevelMileageThreshold) %>M</div>
 		            <div class="range-label" style="right: 0;"><%= nextLevelMileageThreshold %>M</div>
 		        </div>
-		        <img src="<%= nextLevelImage %>" alt="<%= nextLevel %>" style="width:30px; height:30px; margin-left: 10px;">
+		        <img src="<%= nextLevelImage %>" alt="<%= nextLevel %>" style="width:70px; height:70px; margin-left: 20px;">
 		    </div>
 		</div>
 		</div>
@@ -217,45 +217,45 @@
 		<br>
 
     	<div class ="level-info">
-    	<span style="font-weight: bold; font-size: 25px;">등급 안내</span>
+    	<span style="font-weight: bold; font-size: 35px;">등급 안내</span>
     		<div style="display: flex; align-items: center; margin-top: 30px; margin-right: 30px; margin-bottom: 30px;">
-    			<img src="Bronze.png" alt="브론즈" width="40px" height="40px" style="margin-right: 20px;">
+    			<img src="Bronze.png" alt="브론즈" width="60px" height="60px" style="margin-right: 30px;">
     				<div>
-        	<div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">Bronze</div>
-        	<div style="font-size: 15px; font-weight: bold; color: #888888;">1,000M 미만의 마일리지 적립 시 등급</div>
+        	<div style="font-size: 25px; font-weight: bold; margin-bottom: 5px;">Bronze</div>
+        	<div style="font-size: 20px; font-weight: bold; color: #888888;">1,000M 미만의 마일리지 적립 시 등급</div>
     				</div>
 			</div>
     		<div style="display: flex; align-items: center; margin-right: 30px; margin-bottom: 30px;">
-    			<img src="Silver.png" alt="실버" width="40px" height="40px" style="margin-right: 20px;">
+    			<img src="Silver.png" alt="실버" width="60px" height="60px" style="margin-right: 30px;">
     				<div>
-        	<div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">Silver</div>
-        	<div style="font-size: 15px; font-weight: bold; color: #888888;">5,000M 미만의 마일리지 적립 시 등급</div>
+        	<div style="font-size: 25px; font-weight: bold; margin-bottom: 5px;">Silver</div>
+        	<div style="font-size: 20px; font-weight: bold; color: #888888;">5,000M 미만의 마일리지 적립 시 등급</div>
     				</div>
 			</div>
     		<div style="display: flex; align-items: center; margin-right: 30px; margin-bottom: 30px;">
-    			<img src="Gold.png" alt="골드" width="40px" height="40px" style="margin-right: 20px;">
+    			<img src="Gold.png" alt="골드" width="60px" height="60px" style="margin-right: 30px;">
     				<div>
-        	<div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">Gold</div>
-        	<div style="font-size: 15px; font-weight: bold; color: #888888;">20,000M 미만의 마일리지 적립 시 등급</div>
+        	<div style="font-size: 25px; font-weight: bold; margin-bottom: 5px;">Gold</div>
+        	<div style="font-size: 20px; font-weight: bold; color: #888888;">20,000M 미만의 마일리지 적립 시 등급</div>
     				</div>
 			</div>
     		<div style="display: flex; align-items: center; margin-right: 30px; margin-bottom: 30px;">
-    			<img src="Platinum.png" alt="플레티넘" width="40px" height="40px" style="margin-right: 20px;">
+    			<img src="Platinum.png" alt="플레티넘" width="60px" height="60px" style="margin-right: 30px;">
     				<div>
-        	<div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">Platinum</div>
-        	<div style="font-size: 15px; font-weight: bold; color: #888888;">50,000M 미만의 마일리지 적립 시 등급</div>
+        	<div style="font-size: 25px; font-weight: bold; margin-bottom: 5px;">Platinum</div>
+        	<div style="font-size: 20px; font-weight: bold; color: #888888;">50,000M 미만의 마일리지 적립 시 등급</div>
     				</div>
 			</div>
     		<div style="display: flex; align-items: center; margin-right: 30px; ">
-    			<img src="Diamond.png" alt="다이아몬드" width="40px" height="40px" style="margin-right: 20px;">
+    			<img src="Diamond.png" alt="다이아몬드" width="60px" height="60px" style="margin-right: 30px;">
     				<div>
-        	<div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">Diamond</div>
-        	<div style="font-size: 15px; font-weight: bold; color: #888888;">50,000M 미만의 마일리지 적립 시 등급</div>
+        	<div style="font-size: 25px; font-weight: bold; margin-bottom: 5px;">Diamond</div>
+        	<div style="font-size: 20px; font-weight: bold; color: #888888;">50,000M 미만의 마일리지 적립 시 등급</div>
     				</div>
 			</div>
     	</div> <br>
     	<div class ="logout" style="text-align: center;">
-    	<button type="button" id="logoutButton" style="background-color: transparent; border: none; font-size: 20px; color: #55C595;">
+    	<button type="button" id="logoutButton" style="background-color: transparent; border: none; font-size: 30px; color: #55C595;">
 		    로그아웃
 		</button>
 		<script>

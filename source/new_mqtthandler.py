@@ -9,7 +9,7 @@ MQTT_PORT = 1883
 CHECK_TOPIC = "check"
 PRESENCE_TOPIC = "presence"
 RESULT_TOPIC = "completion"
-token = 'NTIxZDdkZDQtNDQ2Ni00ZDA1LWI0YmEtMDk4MTVkYTYzYTM3ZTZmMTM2M2MtYmE2_P0A1_3110228f-f720-43ec-9b4d-e218298566dd'
+token = 'MTIwZWY3MTQtNmQwOS00NTNkLWFiNmItMDc0YTNkNDFiMDAxMzAxNjdhNGYtZWIx_P0A1_3110228f-f720-43ec-9b4d-e218298566dd'
 
 # 현재 사용자 ID 전역 변수
 current_user_id = None
@@ -95,7 +95,7 @@ def send_data_to_webex(webex_id, plastic_count, can_count, glass_count, mileage)
 
 # 데이터 전송 함수
 def send_data(user_id, webex_id, date, plastic_count, can_count, glass_count):
-    server_result = 'http://192.168.137.1:8080/ecobin/result'
+    server_result = 'http://172.20.10.5:8080/ecobin/result'
     params = {
         'userId': user_id,
         'date': date,
@@ -118,7 +118,7 @@ def send_data(user_id, webex_id, date, plastic_count, can_count, glass_count):
 
 # 사용자 ID 검증 함수
 def verify_user(user_id):
-    server_check = "http://192.168.137.1:8080/ecobin/check"
+    server_check = "http://172.20.10.5:8080/ecobin/check"
     try:
         response = requests.get(server_check, params={'userId': user_id})
         print("Server response:", response.text)  # 서버 응답 내용 출력

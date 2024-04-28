@@ -6,11 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecosmetic Bin</title>
+    <title>Login</title>
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            height: 60vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,19 +23,19 @@
             flex-direction: column;
             position: relative;
             width: 80%;
-            margin: 10vh auto;
+            margin: 20vh auto;
         }
 
         input[type="text"],
         input[type="submit"] {
             width: 90%;
-            max-width: 400px;
-            height: 2.5em;
+            max-width: 600px;
+            height: 3em;
             margin: 5px;
             border-radius: 10px;
             border: 2px solid #55C595;
-            padding: 10px;
-            font-size: 20px;
+            padding: 13px;
+            font-size: 26px;
         }
 
 		input[type="text"].error {
@@ -46,7 +46,7 @@
             background-color: #55C595;
             color: white;
             height: 3em;
-            width: 330px;
+            width: 720px;
         }
 
         .search-container {
@@ -126,9 +126,9 @@
 %>
 <body class="container">
     <div style="text-align: center;">
-        <img src="logo.png" style="width: 200px; height: auto;">
-        <p style="font-size: 25px;">안녕하세요.<br>Ecosmetic Bin 입니다.</p>
-        <p style="font-size: 10px;">회원 서비스 이용을 위해 로그인 해주세요. </p>
+        <img src="logo.png" style="width: 500px; height: auto;">
+        <p style="font-size: 45px;">안녕하세요.<br>Ecosmetic Bin 입니다.</p>
+        <p style="font-size: 30px;">회원 서비스 이용을 위해 로그인 해주세요. </p>
         <br><br>
     </div>
     <form action="" method="post">
